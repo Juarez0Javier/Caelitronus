@@ -138,6 +138,8 @@ class Manifest:
 
     def takeDamage(self, dmg):
         rdDmg = dmg - self._defn
+        if(self._defn > dmg ):
+            rdDmg = 0
         btlMssg = self._name + " recibe " + str(rdDmg) + " de daño."
         #Animacion de recibir daño
         if rdDmg >= self._hp:
@@ -227,8 +229,14 @@ class AtkDmnManifest(Manifest):
     def callAbility(self, opp):
         return super().callAbility(opp)
 
-M1 = HealManifest("Angel Bueno","",1,0,20,0,0,2,4,2,1)
-M2 = LazManifest("Angel Malo","",1,0,20,0,0,2,4,2,2)
+
+#Clases de Jefes
+
+class SpnManifest(Manifest):
+    pass
+
+M1 = HealManifest("Angel Bueno","",1,0,20,0,0,2,4,9,1)
+M2 = LazManifest("Angel Malo","",1,0,40,0,0,1,1,2,2)
 
 i = 0
 while M1.get_hp() > 0 and M2.get_hp() > 0:
