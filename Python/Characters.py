@@ -16,7 +16,7 @@ BASETOLUCK = 10
 CRITMULT = 2
 
 class Manifest:
-    def __init__(self, name, sprite, lv, xp, maxHp, defn, evd, atk, atkDmg, spd, luck):
+    def __init__(self, name, sprite, lv, xp, maxHp, defn, evd, atk, atkDmg, spd, luck, opp):
 
         #Nombre y Sprite
 
@@ -39,6 +39,10 @@ class Manifest:
         self._atkDmg = atkDmg
         self._spd = spd
         self._luck = luck
+
+        #Opponente
+
+        self._opp = opp
 
     ##Funciones de Set y Get
 
@@ -67,16 +71,6 @@ class Manifest:
     def set_hp(self, hp):
         self._hp = hp
 
-    def get_hp(self):
-        return self._hp
-    def set_hp(self, hp):
-        self._hp = hp
-
-    def get_hp(self):
-        return self._hp
-    def set_hp(self, hp):
-        self._hp = hp
-
     def get_maxHp(self):
         return self._maxHp
     def set_maxHp(self, maxHp):
@@ -97,9 +91,9 @@ class Manifest:
     def set_atk(self, atk):
         self._atk = atk
 
-    def get_atk(self):
+    def get_atkDmg(self):
         return self._atkDmg
-    def set_atk(self, atkDmg):
+    def set_atkDmg(self, atkDmg):
         self._atkDmg = atkDmg
 
     def get_spd(self):
@@ -112,61 +106,66 @@ class Manifest:
     def set_luck(self, luck):
         self._luck = luck
 
+    def get_opp(self):
+        return self._opp
+    def set_opp(self, opp):
+        self._opp = opp
+
     ##Funciones de Atacar y Ser Atacado
     ##Las funciones siempre retornan los mensajes de acciones
 
-    def act(self,opp):
-        if random.randrange(self._luck,(BASETOLUCK + 1)) == BASETOLUCK:
-            return self.callAbility(opp)
+    def act(self):
+        if random.randrange(self.get_luck(),(BASETOLUCK + 1)) == BASETOLUCK:
+            return self.callAbility()
         else:
-            return self.attack(opp)
+            return self.attack()
 
-    def attack (self, opp):
-        btlMssg = self._name
+    def attack (self):
+        btlMssg = self.get_name()
         mult = 1
-        if (random.randrange(RANDATKLOW,RANDATKUP) + self._atk) >= (BASETOHIT + opp.get_evd()):
+        if (random.randrange(RANDATKLOW,RANDATKUP) + self.get_atk()) >= (BASETOHIT + self.get_opp().get_evd()):
             #Animacion de Ataque - Golpea
-            btlMssg+= " golpea a " + opp.get_name() + "."
-            if random.randrange(self._luck,(BASETOLUCK + 1)) >= BASETOLUCK:
+            btlMssg+= " golpea a " + self.get_opp().get_name() + "."
+            if random.randrange(self.get_luck(),(BASETOLUCK + 1)) >= BASETOLUCK:
                  mult = CRITMULT
                  btlMssg+= " Ataque Critico!"
-            btlMssg+= "\n" + opp.takeDamage((random.randrange(RANDDMGLOW,RANDDMGUP) + self._atkDmg) * mult)
+            btlMssg+= "\n" + self.get_opp().takeDamage((random.randrange(RANDDMGLOW,RANDDMGUP) + self.get_atkDmg()) * mult)
         else:
             #Animacion de Ataque - Erra
-            btlMssg+= " le erra a " + opp.get_name() + "."
+            btlMssg+= " le erra a " + self.get_name() + "."
         return btlMssg
 
     def takeDamage(self, dmg):
-        rdDmg = dmg - self._defn
-        if(self._defn > dmg ):
+        rdDmg = dmg - self.get_defn()
+        if(self.get_defn() > dmg ):
             rdDmg = 0
-        btlMssg = self._name + " recibe " + str(rdDmg) + " de daño."
+        btlMssg = self.get_name() + " recibe " + str(rdDmg) + " de daño."
         #Animacion de recibir daño
-        if rdDmg >= self._hp:
-            self._hp = 0
+        if rdDmg >= self.get_hp():
+            self.set_hp(0)
             btlMssg+= "\n" + self.death()
         else:
-            self._hp -= rdDmg
+            self.set_hp(self.get_hp() - rdDmg) 
         return btlMssg
         
-    def callAbility(self,opp):
-        return self._name  + " usa su habilidad especial."
+    def callAbility(self):
+        return self.get_name()  + " usa su habilidad especial."
     
     def heal(self,heal):
-        btlMssg = self._name + " se cura "
-        effHeal = self._maxHp - self._hp
+        btlMssg = self.get_name() + " se cura "
+        effHeal = self.get_maxHp() - self.get_hp()
         if heal >= effHeal:
-            self._hp += effHeal
+            self.set_hp(self.get_hp() + effHeal)
             btlMssg += str(effHeal)
         else:
-            self._hp += heal
+            self.set_hp(self.get_hp() + heal)
             btlMssg += str(heal)
         btlMssg += " de vida."
         return btlMssg
 
     def death(self):
         #Animacion Muerte
-        return self._name + " muere."
+        return self.get_name() + " muere."
     
     def xpUp(self):
         #Evento en caso de ganar experiencia.
@@ -180,23 +179,23 @@ class Manifest:
 
 class HealManifest (Manifest):
 
-    def act(self, opp):
-        btlMssg = self.attack(opp)
-        if random.randrange(self._luck,(BASETOLUCK + 1)) == BASETOLUCK:
+    def act(self):
+        btlMssg = self.attack()
+        if random.randrange(self.get_luck(),(BASETOLUCK + 1)) == BASETOLUCK:
             btlMssg += "\n" + self.callAbility()
         return btlMssg 
 
     def callAbility(self):
-        heal = int(self._maxHp * 0.25)
-        return self._name  + " usa su habilidad especial." + "\n" +  self.heal(heal)
+        heal = int(self.get_maxHp() * 0.25)
+        return self.get_name()  + " usa su habilidad especial." + "\n" +  self.heal(heal)
     
 class DrainManifest (Manifest):
 
-    def callAbility(self,opp):
-        drainDmg = int (random.randrange(RANDDMGLOW,RANDDMGUP) * 2 + self._atkDmg)
-        btlMssg = self._name  + " usa su habilidad especial." + "\n"
-        btlMssg += self._name + " le absorbe vida a " + opp.get_name() + "."
-        btlMssg += "\n" + opp.takeDamage(drainDmg)
+    def callAbility(self):
+        drainDmg = int (random.randrange(RANDDMGLOW,RANDDMGUP) * 2 + self.get_atkDmg())
+        btlMssg = self.get_name()  + " usa su habilidad especial." + "\n"
+        btlMssg += self.get_name() + " le absorbe vida a " + self.get_opp().get_name() + "."
+        btlMssg += "\n" + self.get_opp().takeDamage(drainDmg)
         btlMssg += "\n" + self.heal(int(drainDmg * 0.5))
         return btlMssg
 
@@ -204,11 +203,11 @@ class LazManifest (Manifest):
 
     _abilityUse = 1
 
-    def act(self, opp):
-        return self.attack(opp)
+    def act(self):
+        return self.attack()
     
     def death(self):
-        btlMssg = self._name + " muere."
+        btlMssg = self.get_name() + " muere."
         if self._abilityUse > 0:
             self._abilityUse -= 1
             btlMssg += "\n" + self.callAbility()
@@ -216,9 +215,9 @@ class LazManifest (Manifest):
     
     def callAbility(self):
         btlMssg = ""
-        rvHeal = int(random.randrange(self._luck,(BASETOLUCK + 1)) * 0.1 *self._maxHp)
-        btlMssg = self._name  + " usa su habilidad especial." + "\n"
-        btlMssg += self._name  + " revive!" + "\n"
+        rvHeal = int(random.randrange(self.get_luck(),(BASETOLUCK + 1)) * 0.1 * self.get_maxHp())
+        btlMssg = self.get_name()  + " usa su habilidad especial." + "\n"
+        btlMssg += self.get_name()  + " revive!" + "\n"
         btlMssg += self.heal(rvHeal)
         return btlMssg
 
@@ -232,20 +231,78 @@ class AtkDmnManifest(Manifest):
 
 #Clases de Jefes
 
-class SpnManifest(Manifest):
+class SpnBossManifest(Manifest):
     pass
+    def act(self):
+        return self.attack()
 
-M1 = HealManifest("Angel Bueno","",1,0,20,0,0,2,4,9,1)
-M2 = LazManifest("Angel Malo","",1,0,40,0,0,1,1,2,2)
+    def takeDamage(self, dmg):
+        rdDmg = dmg - self.get_defn()
+        if(self.get_defn() > dmg ):
+            rdDmg = 0
+        btlMssg = self.get_name() + " recibe " + str(rdDmg) + " de daño."
+        #Animacion de recibir daño
+        if rdDmg >= self.get_hp():
+            self.set_hp(0)
+            btlMssg+= "\n" + self.death()
+        else:
+            self.set_hp(self.get_hp() - rdDmg) 
+            if random.randrange(self.get_luck(),(BASETOLUCK + 1)) == BASETOLUCK:
+                btlMssg += "\n" + self.callAbility()
+        return btlMssg
+
+    def callAbility (self):
+        counterDmg = int (random.randrange(RANDDMGLOW,RANDDMGUP) * 2 + self.get_atkDmg())
+        btlMssg = self.get_name()  + " usa su habilidad especial." + "\n"
+        btlMssg += self.get_name() + " contrataca!"
+        btlMssg += "\n" + self.get_opp().takeDamage(counterDmg)
+        return btlMssg
+
+M1Dicc = {
+    "Name": "Angel Bueno",
+    "Sprite": None,
+    "Level": 1,
+    "Exp": 0,
+    "Health": 20,
+    "Defense": 0,
+    "Evade": 0,
+    "Attack": 4,
+    "Damage": 2,
+    "Speed": 5,
+    "Luck": 5,
+    "Opponent": None
+}
+
+M2Dicc = {
+    "Name": "Espina",
+    "Sprite": None,
+    "Level": 1,
+    "Exp": 0,
+    "Health": 30,
+    "Defense": 0,
+    "Evade": 0,
+    "Attack": 1,
+    "Damage": 3,
+    "Speed": 6,
+    "Luck": 2,
+    "Opponent": None
+}
+
+M1 = HealManifest(*list(M1Dicc.values()))
+M2 = SpnBossManifest(*list(M2Dicc.values()))
+
+M1.set_opp(M2)
+M2.set_opp(M1)
 
 i = 0
 while M1.get_hp() > 0 and M2.get_hp() > 0:
     print("##################################")
-    print(M1.act(M2))
+    print(M1.act())
     print("----------------------------------")
-    print(M2.act(M1))
+    print(M2.act())
     print("----------------------------------")
     print(M1.get_name() + " le queda " + str(M1.get_hp()) + " de vida.")
     print(M2.get_name() + " le queda " + str(M2.get_hp()) + " de vida.")
     i+=1
 print("Turnos Totales: " + str(i))
+
