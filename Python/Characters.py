@@ -228,6 +228,11 @@ class AtkDmnManifest(Manifest):
     def callAbility(self, opp):
         return super().callAbility(opp)
 
+class DefDmnManifest(Manifest):
+    pass  
+
+class LckDmnManifest(Manifest):
+    pass
 
 #Clases de Jefes
 
@@ -257,6 +262,16 @@ class SpnBossManifest(Manifest):
         btlMssg += self.get_name() + " contrataca!"
         btlMssg += "\n" + self.get_opp().takeDamage(counterDmg)
         return btlMssg
+
+class FnBossManifest(Manifest):
+    pass
+
+class PssBossDmnManifest(Manifest):
+    pass
+
+class FnBossDmnManifest(Manifest):
+    pass
+
 
 M1Dicc = {
     "Name": "Angel Bueno",
