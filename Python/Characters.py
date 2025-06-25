@@ -132,7 +132,7 @@ class Manifest:
             btlMssg+= "\n" + self.get_opp().takeDamage((random.randrange(RANDDMGLOW,RANDDMGUP) + self.get_atkDmg()) * mult)
         else:
             #Animacion de Ataque - Erra
-            btlMssg+= " le erra a " + self.get_name() + "."
+            btlMssg+= " le erra a " + self.get_opp().get_name() + "."
         return btlMssg
 
     def takeDamage(self, dmg):
