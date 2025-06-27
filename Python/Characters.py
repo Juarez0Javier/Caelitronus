@@ -303,21 +303,21 @@ M2Dicc = {
     "Opponent": None
 }
 
-M1 = HealManifest(*list(M1Dicc.values()))
-M2 = SpnBossManifest(*list(M2Dicc.values()))
-
-M1.set_opp(M2)
-M2.set_opp(M1)
-
-i = 0
-while M1.get_hp() > 0 and M2.get_hp() > 0:
-    print("##################################")
-    print(M1.act())
-    print("----------------------------------")
-    print(M2.act())
-    print("----------------------------------")
-    print(M1.get_name() + " le queda " + str(M1.get_hp()) + " de vida.")
-    print(M2.get_name() + " le queda " + str(M2.get_hp()) + " de vida.")
-    i+=1
-print("Turnos Totales: " + str(i))
+# M1 = HealManifest(*list(M1Dicc.values()))
+# M2 = SpnBossManifest(*list(M2Dicc.values()))
+#
+# M1.set_opp(M2)
+# M2.set_opp(M1)
+#
+# i = 0
+# while M1.get_hp() > 0 and M2.get_hp() > 0:
+#     print("##################################")
+#     print(M1.act())
+#     print("----------------------------------")
+#     print(M2.act())
+#     print("----------------------------------")
+#     print(M1.get_name() + " le queda " + str(M1.get_hp()) + " de vida.")
+#     print(M2.get_name() + " le queda " + str(M2.get_hp()) + " de vida.")
+#     i+=1
+# print("Turnos Totales: " + str(i))
 

@@ -1,3 +1,11 @@
+#
+#   Esto lo dejo por ahora por si rompo algo así tengo la versión funcional, pero va a quedar fuera
+#
+#   El nuevo Battle es la clase Battle.py
+#
+#   En run .py hay un ejemplo de como se lanza una batalla
+#
+
 from asyncio import wait_for
 from time import sleep
 
@@ -37,12 +45,12 @@ vida2 = 100
 velocidad1 = 2.5
 velocidad2 = 3
 
-def calcularCritico(danio):
-    if (rnd.randint(0, 5) == 5):
-        danioNuevo = [danio * 2, "CRITICO"]
-    else:
-        danioNuevo = [danio, ""]
-    return danioNuevo
+# def calcularCritico(danio):
+#     if (rnd.randint(0, 5) == 5):
+#         danioNuevo = [danio * 2, "CRITICO"]
+#     else:
+#         danioNuevo = [danio, ""]
+#     return danioNuevo
 
 #####################################
 
