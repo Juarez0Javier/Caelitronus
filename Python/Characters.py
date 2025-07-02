@@ -281,7 +281,7 @@ class Manifest:
 class HealManifest (Manifest):
 
     _name = "Angel Sagrado"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\AnSag.gif"
 
     _lvBp = HEALANG_LV
 
@@ -298,7 +298,7 @@ class HealManifest (Manifest):
 class DrainManifest (Manifest):
 
     _name = "Angel Oscuro"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\AnOsc.gif"
 
     _lvBp = DRAINANG_LV
 
@@ -312,8 +312,8 @@ class DrainManifest (Manifest):
 
 class LazManifest (Manifest):
 
-    _name = "Angel Lazar"
-    _sprite =""
+    _name = "Angel Lázaro"
+    _sprite ="Assets\BttlSprit\AnLaz.gif"
 
     _lvBp = LAZANG_LV
     
@@ -341,7 +341,7 @@ class LazManifest (Manifest):
 
 class AtkDmnManifest(Manifest):
     _name = "Fauste de Fe"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\Fause.gif"
 
     _lvBp = ATKDMN_LV
 
@@ -350,13 +350,13 @@ class AtkDmnManifest(Manifest):
 
 class DefDmnManifest(Manifest):
     _name = "Fauste de Fe"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\Fause.gif"
 
     _lvBp = DEFDMN_LV
 
 class LckDmnManifest(Manifest):
     _name = "Fauste de Fe"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\Fause.gif"
 
     _lvBp = LCKDMN_LV
 
@@ -364,7 +364,7 @@ class LckDmnManifest(Manifest):
 
 class SpnBossManifest(Manifest):
     _name = "Kamathra"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\Fause.gif"
 
     _lvBp = SPNBOSS_LV
 
@@ -395,23 +395,23 @@ class SpnBossManifest(Manifest):
 
 class FnBossManifest(Manifest):
     _name = "Vahruksha"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\Fause.gif"
 
     _lvBp = FNBOSS_LV
 
 class PssBossDmnManifest(Manifest):
     _name = "Nzolukaya"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\Fause.gif"
 
     _lvBp = PSSBOSS_LV
 
 class FnlBossDmnManifest(Manifest):
     _name = "Eliadran"
-    _sprite =""
+    _sprite ="Assets\BttlSprit\Fause.gif"
 
     _lvBp = FNLBOSS_LV
 
-
+'''
 M1 = AtkDmnManifest(5)
 M2 = FnlBossDmnManifest(6)
 
@@ -429,3 +429,4 @@ while M1.get_hp() > 0 and M2.get_hp() > 0:
     print(M2.get_name() + " le queda " + str(M2.get_hp()) + " de vida.")
     i+=1
 print("Turnos Totales: " + str(i))
+'''

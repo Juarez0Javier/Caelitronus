@@ -21,8 +21,11 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+
+
 # Seteamos Stats de los personajes y los asignamos
 
+'''
 M1Dicc = {
     "Name": "Angel Bueno",
     "Sprite": "../diseños/enemigos/monaquillos/alma normal/mininormal.png",
@@ -55,6 +58,10 @@ M2Dicc = {
 
 M1 = Characters.HealManifest(*list(M1Dicc.values()))
 M2 = Characters.SpnBossManifest(*list(M2Dicc.values()))
+'''
+
+M1 = Characters.AtkDmnManifest(1)
+M2 = Characters.HealManifest(1)
 
 M1.set_opp(M2)
 M2.set_opp(M1)

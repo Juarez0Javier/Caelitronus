@@ -3,7 +3,7 @@ from time import sleep
 import pygame
 import random as rnd
 
-from pygame.examples.go_over_there import MIN_SPEED
+##from pygame.examples.go_over_there import MIN_SPEED
 
 import Characters
 
@@ -49,14 +49,17 @@ class Battle:
         return self._battler1
     def get_battler2(self):
         return self._battler2
+    
     def get_tiempoEvent1(self):
         return self._tiempoEvent1
     def get_tiempoEvent2(self):
         return self._tiempoEvent2
+    
     def get_imagen1(self):
         return self._imagen1
     def get_imagen2(self):
         return self._imagen2
+    
     def get_screen(self):
         return self._screen
 
@@ -68,19 +71,31 @@ class Battle:
     def doBattle(self):
 
         if pygame.time.get_ticks() / 1000 >= self.get_tiempoEvent1() + (MIN_SPEED - (self.get_battler1().get_spd() * 0.5)):
+
             btlMsg1 = str(self.get_battler1().act())
+
             self.set_tiempoEvent1(pygame.time.get_ticks() / 1000)
+
             print("Ataque de PJ 1")
+
             # textos.append(font.render(f"PJ 1 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
+
             textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK))
+
             # textos.append(font.render("PJ 1 ataca", True, BLACK))
 
         if pygame.time.get_ticks() / 1000 >= self.get_tiempoEvent2() + (MIN_SPEED - (self.get_battler2().get_spd() * 0.5)):
+            
             btlMsg2 = str(self.get_battler2().act())
+
             self.set_tiempoEvent2(pygame.time.get_ticks() / 1000)
+
             print("Ataque de PJ 2")
+
             # textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
+           
             textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK))
+            
             # textos.append(font.render("PJ 2 ataca", True, BLACK))
 
         ##############
@@ -104,6 +119,7 @@ class Battle:
 
         self.get_screen().blit(self.get_imagen1(), (20, 200))
         self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), 200))
+
         # screen.blit(img2, (screen.get_width() - (img1.get_width() + 20), 200))
 
         # for event in pygame.event.get():
