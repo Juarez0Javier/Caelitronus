@@ -76,7 +76,7 @@ class Battle:
 
             self.set_tiempoEvent1(pygame.time.get_ticks() / 1000)
 
-            print("Ataque de PJ 1")
+            print("Ataque de PJ 1" + btlMsg1)
 
             # textos.append(font.render(f"PJ 1 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
 
@@ -90,7 +90,7 @@ class Battle:
 
             self.set_tiempoEvent2(pygame.time.get_ticks() / 1000)
 
-            print("Ataque de PJ 2")
+            print("Ataque de PJ 2" + btlMsg2)
 
             # textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
            
@@ -110,12 +110,12 @@ class Battle:
 
         ##############
 
-        if len(textos) > 6:
+        if len(textos) > 7:
             textos.remove(textos[0])
 
         for i, texto in enumerate(textos):
             if texto.get_alpha() > 1:
-                self.get_screen().blit(texto, (260, 50 + i * 80))
+                self.get_screen().blit(texto, (300, 50 + i * 80))
 
         self.get_screen().blit(self.get_imagen1(), (20, 200))
         self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), 200))

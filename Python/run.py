@@ -14,7 +14,7 @@ import Battle
 
 battle1_path = "../Sound/Music/Battle1.wav"
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 920, 750
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Prueba de Batalla")
 RED = (255, 0, 0)
