@@ -3,18 +3,16 @@ from time import sleep
 import pygame
 import random as rnd
 
-##from pygame.examples.go_over_there import MIN_SPEED
-
 import Characters
 
-battle1_path = "../Sound/Music/Battle1.wav"
+battle1_path = r"Assets\Music\Testy1.wav"
 
 # WIDTH, HEIGHT = 800, 600
 # screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # pygame.display.set_caption("Prueba de Ticks")
 
 # clock = pygame.time.Clock()
-font = pygame.font.Font(None, 16)
+
 textos = []
 
 RED = (255, 0, 0)
@@ -24,9 +22,12 @@ BLACK = (0, 0, 0)
 
 MIN_SPEED = 5
 
+font = pygame.font.Font(None, 16)
+
 
 class Battle:
     def __init__(self, battler1: Characters, battler2: Characters, screen):
+
 
         #Recibe los combatientes
         self._battler1 = battler1
@@ -36,6 +37,9 @@ class Battle:
 
         self._tiempoEvent1 = pygame.time.get_ticks()/1000
         self._tiempoEvent2 = pygame.time.get_ticks()/1000
+
+        #self._tiempoBuff1 = pygame.time.get_ticks()/1000
+        #self._tiempoBuff2 = pygame.time.get_ticks()/1000
 
         #Se obtiene la imagen original del battler
         self._img1_imp = pygame.image.load(battler1.get_sprite())
@@ -70,7 +74,9 @@ class Battle:
 
     def doBattle(self):
 
-        if pygame.time.get_ticks() / 1000 >= self.get_tiempoEvent1() + (MIN_SPEED - (self.get_battler1().get_spd() * 0.5)):
+        #Dado a Cambios en los stats, la velocidad de las Manifestaciones se debe dividir adicionalemnte por 0,1
+
+        if pygame.time.get_ticks() / 1000 >= self.get_tiempoEvent1() + (MIN_SPEED - (self.get_battler1().get_spd() * 0.5 * 0.1)):
 
             btlMsg1 = str(self.get_battler1().act())
 
@@ -84,7 +90,7 @@ class Battle:
 
             # textos.append(font.render("PJ 1 ataca", True, BLACK))
 
-        if pygame.time.get_ticks() / 1000 >= self.get_tiempoEvent2() + (MIN_SPEED - (self.get_battler2().get_spd() * 0.5)):
+        if pygame.time.get_ticks() / 1000 >= self.get_tiempoEvent2() + (MIN_SPEED - (self.get_battler2().get_spd() * 0.5 * 0.1)):
             
             btlMsg2 = str(self.get_battler2().act())
 
@@ -100,13 +106,21 @@ class Battle:
 
         ##############
 
+        #Chequeamos si existe Buff, y si se tiene que deshabilitar
+        '''
+        if self.get_battler2().getactvBuff()[1] == True:
+            if
+        '''
+
+        ##############
+
         self.get_screen().fill(WHITE)
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 250, 100, self.get_battler1().get_maxHp() * 3, 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 250, 100, self.get_battler1().get_hp() * 3, 15))
+        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 250, 100, (self.get_battler1().get_maxHp() / 2) * 3, 15))
+        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 250, 100, (self.get_battler1().get_hp() / 2) * 3, 15))
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(50, 100, self.get_battler2().get_maxHp() * 3, 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(50, 100, self.get_battler2().get_hp() * 3, 15))
+        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(50, 100, (self.get_battler2().get_maxHp() / 2) * 3, 15))
+        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(50, 100, (self.get_battler2().get_hp() / 2) * 3, 15))
 
         ##############
 
