@@ -3,16 +3,19 @@ from time import sleep
 import pygame
 import random as rnd
 
+##from pygame.examples.go_over_there import MIN_SPEED
+
 import Characters
 
-battle1_path = r"Assets\Music\Testy1.wav"
+battle1_path = "../Sound/Music/Battle1.wav"
 
 # WIDTH, HEIGHT = 800, 600
 # screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # pygame.display.set_caption("Prueba de Ticks")
 
 # clock = pygame.time.Clock()
-
+font = pygame.font.Font(None, 16)
+fontStats = pygame.font.Font(None, 30)
 textos = []
 
 RED = (255, 0, 0)
@@ -22,12 +25,9 @@ BLACK = (0, 0, 0)
 
 MIN_SPEED = 5
 
-font = pygame.font.Font(None, 16)
-
 
 class Battle:
     def __init__(self, battler1: Characters, battler2: Characters, screen):
-
 
         #Recibe los combatientes
         self._battler1 = battler1
@@ -38,16 +38,13 @@ class Battle:
         self._tiempoEvent1 = pygame.time.get_ticks()/1000
         self._tiempoEvent2 = pygame.time.get_ticks()/1000
 
-        #self._tiempoBuff1 = pygame.time.get_ticks()/1000
-        #self._tiempoBuff2 = pygame.time.get_ticks()/1000
-
         #Se obtiene la imagen original del battler
         self._img1_imp = pygame.image.load(battler1.get_sprite())
         self._img2_imp = pygame.image.load(battler2.get_sprite())
 
         #Se resizea para que tenga el tamaño correcto
-        self._imagen1 = pygame.transform.scale(self._img1_imp, (self._img1_imp.get_width() / 4, self._img1_imp.get_height() / 4))
-        self._imagen2 = pygame.transform.scale(self._img2_imp, (self._img2_imp.get_width() / 4, self._img2_imp.get_height() / 4))
+        self._imagen1 = pygame.transform.scale(self._img1_imp, (self._img1_imp.get_width() / 2, self._img1_imp.get_height() / 2))
+        self._imagen2 = pygame.transform.scale(self._img2_imp, (self._img2_imp.get_width() / 2, self._img2_imp.get_height() / 2))
 
     def get_battler1(self):
         return self._battler1
@@ -72,9 +69,13 @@ class Battle:
     def set_tiempoEvent2(self, tiempoEvent2):
         self._tiempoEvent2 = tiempoEvent2
 
-    def doBattle(self):
+    def printStats(self, battler: Characters):
+        stat = "ATQ: " + str(battler.get_atk()) + "  DAN:" + str(battler.get_atkDmg()) + "  VLC:" + str(battler.get_spd())
+        stat += "\nDEF: " + str(battler.get_defn()) + "  ESQ:" + str(battler.get_evd()) + "  SRT:" + str(battler.get_luck())
 
-        #Dado a Cambios en los stats, la velocidad de las Manifestaciones se debe dividir adicionalemnte por 0,1
+        return stat
+
+    def doBattle(self):
 
         if pygame.time.get_ticks() / 1000 >= self.get_tiempoEvent1() + (MIN_SPEED - (self.get_battler1().get_spd() * 0.5 * 0.1)):
 
@@ -82,11 +83,15 @@ class Battle:
 
             self.set_tiempoEvent1(pygame.time.get_ticks() / 1000)
 
-            print(btlMsg1)
+            print("Ataque de PJ 1" + btlMsg1)
+
+            # Prueba de checks
+
+            print(str(pygame.time.get_ticks() / 1000) + " - " + str(self.get_tiempoEvent1()))
 
             # textos.append(font.render(f"PJ 1 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
 
-            textos.append(font.render(f"{btlMsg1}", True, BLACK))
+            textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK, None, 256))
 
             # textos.append(font.render("PJ 1 ataca", True, BLACK))
 
@@ -96,34 +101,34 @@ class Battle:
 
             self.set_tiempoEvent2(pygame.time.get_ticks() / 1000)
 
-            print(btlMsg2)
+            print("Ataque de PJ 2" + btlMsg2)
 
             # textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
            
-            textos.append(font.render(f"{btlMsg2}", True, BLACK))
+            textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK, None, 256))
             
             # textos.append(font.render("PJ 2 ataca", True, BLACK))
 
         ##############
 
-        #Chequeamos si existe Buff, y si se tiene que deshabilitar
-        '''
-        if self.get_battler2().getactvBuff()[1] == True:
-            if
-        '''
-
-        ##############
-
         self.get_screen().fill(WHITE)
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 250, 100, (self.get_battler1().get_maxHp() / 2) * 3, 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 250, 100, (self.get_battler1().get_hp() / 2) * 3, 15))
+        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 250, 100, self.get_battler2().get_maxHp(), 15))
+        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 250, 100, self.get_battler2().get_hp(), 15))
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(50, 100, (self.get_battler2().get_maxHp() / 2) * 3, 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(50, 100, (self.get_battler2().get_hp() / 2) * 3, 15))
+        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(50, 100, self.get_battler1().get_maxHp(), 15))
+        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(50, 100, self.get_battler1().get_hp(), 15))
 
         ##############
+        ############## Dibujar Stats
 
+        HUD1 = fontStats.render(self.printStats(self.get_battler1()), True, BLACK)
+        HUD2 = fontStats.render(self.printStats(self.get_battler2()), True, BLACK)
+
+        self.get_screen().blit(HUD1, (50, 600))
+        self.get_screen().blit(HUD2, (670, 600))
+
+        ################
         if len(textos) > 7:
             textos.remove(textos[0])
 
@@ -131,7 +136,7 @@ class Battle:
             if texto.get_alpha() > 1:
                 self.get_screen().blit(texto, (300, 50 + i * 80))
 
-        self.get_screen().blit(self.get_imagen1(), (20, 200))
+        self.get_screen().blit(self.get_imagen1(), (0, 200))
         self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), 200))
 
         # screen.blit(img2, (screen.get_width() - (img1.get_width() + 20), 200))
@@ -142,7 +147,7 @@ class Battle:
 
         # pygame.display.flip()
         # clock.tick(30)
-
+        pygame.display.flip()
         if self.get_battler1().get_hp() <= 0 or self.get_battler2().get_hp() <= 0:
             pygame.mixer.music.fadeout(1000)
             sleep(3)
