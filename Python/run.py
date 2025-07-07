@@ -1,14 +1,12 @@
-from asyncio import wait_for
-from time import sleep
 import pygame
 import os
 
 pygame.init()
 clock = pygame.time.Clock()
 clock.tick(30)
-import random as rnd
+
 import Characters
-import Battle
+import Levels
 
 
 # Seteo valores de la screen
@@ -28,22 +26,18 @@ BLACK = (0, 0, 0)
 print (os.getcwd())
 
 M1 = Characters.AtkDmnManifest(1)
-M2 = Characters.HealManifest(1)
-
-M1.set_opp(M2)
-M2.set_opp(M1)
-
-# Creamos una nueva batalla
-
-battleScreen = Battle.Battle(M1, M2, screen)
 
 pygame.mixer.music.load(battle1_path)
 pygame.mixer.music.play()
 
+#Definimos un Nuevo Nivel
+
+L1 = Levels.Level(M1,0,"Spn")
+
 run = True
 
 while run:
-    run = battleScreen.doBattle()
+    run = L1.runLvSq()
     pygame.display.flip()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

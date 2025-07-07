@@ -45,6 +45,7 @@ class Level:
             self._M1.set_opp(M2)
             M2.set_opp(self._M1)
 
+            # Creamos una nueva batalla
             battleScreen = Battle.Battle(self._M1, M2, screen)
 
             run = True
@@ -56,7 +57,6 @@ class Level:
             if self._M1.get_hp() == 0:
                 #Pantalla de Perdida
                 return False
-                break
             else:
                 run = True
                 #Pantalla de Siguiente o Subida de Nivel
@@ -76,8 +76,13 @@ class Level:
 
         return AngL[0]
 
+'''
 MainC = Characters.AtkDmnManifest(1)
 
 LV1 = Level(MainC,0,"Spn")
 
-LV1.runLvSq()
+run =  True
+
+while run:
+    run = LV1.runLvSq()
+'''
