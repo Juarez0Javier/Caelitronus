@@ -14,12 +14,11 @@ BASETOLUCK = 100
 
 #Multiplicadores
 CRITMULT = 2
-XPMULTPERLV = 10
 
 #Blueprints de Niveles de Manifestacion
 ATKDMN_LV = [
 {"StartLv": 1, "EndLv":5},
-{"MaxHP": 150, "DEF": 0, "EVS": 10, "ATK": 40, "DAN": 30, "VLC": 10, "SRT": 0},
+{"MaxHP": 150, "DEF": 0, "EVS": 10, "ATK": 40, "DAN": 30, "VLC": 10, "SRT": 10},
 {"MaxHP": 50, "DEF": 0, "EVS": 0, "ATK": 10, "DAN": 00, "VLC": 0, "SRT": 10},
 {"MaxHP": 00, "DEF": 0, "EVS": 0, "ATK": 10, "DAN": 10, "VLC": 10, "SRT": 0},
 {"MaxHP": 50, "DEF": 0, "EVS": 10, "ATK": 10, "DAN": 0, "VLC": 0, "SRT": 0},
@@ -84,8 +83,10 @@ FNLBOSS_LV = [
 {"MaxHP": 350, "DEF": 30, "EVS": 40, "ATK": 40, "DAN": 50, "VLC": 30, "SRT": 30}
 ]
 
-class Manifest:
+#Bluprint de Experiencia para Subir de Nivel
+XPPROG = [10,30,60,100]
 
+class Manifest:
     #Nombre y Sprite
     _name = None
     _sprite = None
@@ -97,8 +98,9 @@ class Manifest:
     #Opponente
     _opp = None
 
-    #Blueprint de Nivel
+    #Blueprint de Nivel Y Exp
     _lvBp = None 
+    _xpBp = XPPROG
 
     #Variables de Abilidad
     _abilityUse = 1
@@ -107,11 +109,9 @@ class Manifest:
     def __init__(self,lv):
         
         #Definiendo Nivel
-
-        self._lv = self._lvBp[0]['StartLv']
+        self._lv = self._lvBp[0]["StartLv"]
 
         #Definiendo Stats Base
-
         self._hp = self._lvBp[1]['MaxHP']
         self._maxHp = self._lvBp[1]['MaxHP']
         self._defnBs = self._lvBp[1]['DEF']
@@ -226,9 +226,10 @@ class Manifest:
 
     def act(self):
         Mss = ""
-        if (random.randrange(1,BASETOLUCK) + self._luck >= BASETOLUCK) and (self._actvBuff[1] == True):  
-            Mss = self.callAbility()
-        Mss += self.attack()
+        if (random.randrange(1,BASETOLUCK) + self._luck >= BASETOLUCK) and (self._actvBuff[1] == False):  
+            Mss = self.callAbility() + "\n" + self.attack()
+        else:
+            Mss = self.attack()
         return Mss
 
     def attack (self):
@@ -293,25 +294,19 @@ class Manifest:
 
     def xpUp(self,xp):
         Mss = self.get_name() 
-        if self._lv == self._lvBp[0]['EndLv']:
-
-            Mss += "no puede ganar ams experiencia." 
-            
+        if self._xp == self._xpBp[-1]:
+            Mss += "no puede ganar mas experiencia."   
         else:
             Mss += " gana " + str(xp) + " puntos de experiencia."
-            
-            xpToLv = self.get_lv() * XPMULTPERLV
-
             self.set_xp(self.get_xp() + xp)
-
-            if self.get_xp() >= xpToLv:
-                if self._lv == self._lvBp[0]['EndLv'] - 1:
-                    self.set_xp(0)
-                else:
-                    self.set_xp(self.get_xp() - xpToLv)
-                Mss += self.lvUp()
-
         return Mss
+    
+    def checkXp (self):
+        if self._lv <= len(self._xpBp):
+            if self._xp >= self._xpBp[self._lv - 1]:
+                return True
+        return False
+
 
     def lvUp(self):
         self.set_lv(self.get_lv() + 1)
@@ -323,7 +318,7 @@ class Manifest:
 
         self._defnBs += self._lvBp[Offset]['DEF']
         self._evdBs += self._lvBp[Offset]['EVS']
-        self._arkBs += self._lvBp[Offset]['ATK']
+        self._atkBs += self._lvBp[Offset]['ATK']
         self._atkDmgBs += self._lvBp[Offset]['DAN']
         self._spdBs += self._lvBp[Offset]['VLC']
         self._luckBs += self._lvBp[Offset]['SRT']
@@ -333,22 +328,24 @@ class Manifest:
 #Clases de Angeles
 
 class HealManifest (Manifest):
+    def __init__(self, lv):
+        self._name = "Angel Sagrado"
+        self._sprite =r"Assets\BttlSprit\AnSag.gif"
+        self. _lvBp = HEALANG_LV
 
-    _name = "Angel Sagrado"
-    _sprite =r"Assets\BttlSprit\AnSag.gif"
-
-    _lvBp = HEALANG_LV
-
+        super().__init__(lv)
+           
     def callAbility(self):
         heal = int(self.get_maxHp() * 0.25)
         return self.get_name()  + " usa su habilidad especial." + "\n" +  self.heal(heal)
     
 class DrainManifest (Manifest):
+    def __init__(self, lv):
+        self._name = "Angel Oscuro"
+        self._sprite =r"Assets\BttlSprit\AnOsc.gif"
+        self._lvBp = DRAINANG_LV
 
-    _name = "Angel Oscuro"
-    _sprite =r"Assets\BttlSprit\AnOsc.gif"
-
-    _lvBp = DRAINANG_LV
+        super().__init__(lv)        
 
     def act(self):
         Mss = None
@@ -367,12 +364,13 @@ class DrainManifest (Manifest):
         return Mss
 
 class LazManifest (Manifest):
+    def __init__(self, lv):
+        self._name = "Angel Lázaro"
+        self._sprite =r"Assets\BttlSprit\AnLaz.gif"
+        self._lvBp = LAZANG_LV
 
-    _name = "Angel Lázaro"
-    _sprite =r"Assets\BttlSprit\AnLaz.gif"
-
-    _lvBp = LAZANG_LV
-
+        super().__init__(lv)
+        
     def act(self):
         return self.attack()
     
@@ -394,10 +392,12 @@ class LazManifest (Manifest):
 #Clases de Demonio Principal
 
 class AtkDmnManifest(Manifest):
-    _name = "Fauste de Fe"
-    _sprite =r"Assets\BttlSprit\Fause.png"
+    def __init__(self, lv):
+        self._name = "Fauste de Fe"
+        self._sprite =r"Assets\BttlSprit\Fause.png"
+        self._lvBp = ATKDMN_LV
 
-    _lvBp = ATKDMN_LV
+        super().__init__(lv)    
 
     def callAbility(self):
         Mss = self.get_name()  + " usa su habilidad especial."
@@ -412,10 +412,12 @@ class AtkDmnManifest(Manifest):
         return Mss
 
 class DefDmnManifest(Manifest):
-    _name = "Fauste de Fe"
-    _sprite =r"Assets\BttlSprit\Fause.gif"
+    def __init__(self, lv):
+        self._name = "Fauste de Fe"
+        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._lvBp = DEFDMN_LV
 
-    _lvBp = DEFDMN_LV
+        super().__init__(lv)     
 
     def callAbility(self):
         Mss = self.get_name()  + " usa su habilidad especial."
@@ -430,10 +432,12 @@ class DefDmnManifest(Manifest):
         return Mss
 
 class LckDmnManifest(Manifest):
-    _name = "Fauste de Fe"
-    _sprite =r"Assets\BttlSprit\Fause.gif"
+    def __init__(self, lv):
+        self._name = "Fauste de Fe"
+        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._lvBp = LCKDMN_LV
 
-    _lvBp = LCKDMN_LV
+        super().__init__(lv)  
 
     def callAbility(self):
         Mss = self.get_name()  + " usa su habilidad especial."
@@ -451,11 +455,13 @@ class LckDmnManifest(Manifest):
 #Clases de Jefes
 
 class SpnBossManifest(Manifest):
-    _name = "Kamathra"
-    _sprite =r"Assets\BttlSprit\Fause.gif"
+    def __init__(self, lv):
+        self. _name = "Kamathra"
+        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._lvBp = SPNBOSS_LV
 
-    _lvBp = SPNBOSS_LV
-
+        super().__init__(lv)
+        
     def act(self):
         return self.attack()
 
@@ -482,10 +488,12 @@ class SpnBossManifest(Manifest):
         return Mss
 
 class FnBossManifest(Manifest):
-    _name = "Vahruksha"
-    _sprite =r"Assets\BttlSprit\Fause.gif"
+    def __init__(self, lv):
+        self._name = "Vahruksha"
+        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._lvBp = FNBOSS_LV
 
-    _lvBp = FNBOSS_LV
+        super().__init__(lv)       
 
     def callAbility(self):
         Mss = self.get_name()  + " usa su habilidad especial."
@@ -500,10 +508,12 @@ class FnBossManifest(Manifest):
         return Mss
 
 class PssBossDmnManifest(Manifest):
-    _name = "Nzolukaya"
-    _sprite =r"Assets\BttlSprit\Fause.gif"
+    def __init__(self, lv):
+        self._name = "Nzolukaya"
+        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._lvBp = PSSBOSS_LV
 
-    _lvBp = PSSBOSS_LV
+        super().__init__(lv)       
 
     def act(self):
         Mss = None
@@ -524,12 +534,14 @@ class PssBossDmnManifest(Manifest):
         return Mss
 
 class FnlBossDmnManifest(Manifest):
-    _name = "Eliadran"
-    _sprite =r"Assets\BttlSprit\Fause.gif"
-
-    _lvBp = FNLBOSS_LV
-
-    _abilityUse = 5
+    def __init__(self, lv):
+        self._name = "Eliadran"
+        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._lvBp = FNLBOSS_LV
+        
+        super().__init__(lv)
+        
+        self._abilityUse = 5
 
     def act(self):
         Mss = ""
@@ -560,11 +572,14 @@ class FnlBossDmnManifest(Manifest):
 
 
 '''
-M1 = AtkDmnManifest(1)
+M1 = AtkDmnManifest(5)
 M2 = DefDmnManifest(1)
 
 M1.set_opp(M2)
 M2.set_opp(M1)
 
-print(M1.act())
+print(M1.xpUp(100))
+print(M1.xpUp(100))
+print(M1.get_xp())
+print(M1.checkXp())
 '''

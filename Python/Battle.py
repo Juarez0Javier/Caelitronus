@@ -82,11 +82,11 @@ class Battle:
 
             self.set_tiempoEvent1(pygame.time.get_ticks() / 1000)
 
-            print("Ataque de PJ 1" + btlMsg1)
+            print(btlMsg1)
 
             # textos.append(font.render(f"PJ 1 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
 
-            textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK))
+            textos.append(font.render(f"{btlMsg1}", True, BLACK))
 
             # textos.append(font.render("PJ 1 ataca", True, BLACK))
 
@@ -96,11 +96,11 @@ class Battle:
 
             self.set_tiempoEvent2(pygame.time.get_ticks() / 1000)
 
-            print("Ataque de PJ 2" + btlMsg2)
+            print(btlMsg2)
 
             # textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
            
-            textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK))
+            textos.append(font.render(f"{btlMsg2}", True, BLACK))
             
             # textos.append(font.render("PJ 2 ataca", True, BLACK))
 
