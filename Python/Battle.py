@@ -3,6 +3,8 @@ from time import sleep
 import pygame
 import random as rnd
 
+from PIL.ImageChops import offset
+
 ##from pygame.examples.go_over_there import MIN_SPEED
 
 import Characters
@@ -22,6 +24,12 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GREY = (127, 127, 127)
+PURPLE = (127, 0, 127)
+TOPY = 50
+
+offset1 = 0
+offset2 = 0
 
 MIN_SPEED = 5
 
@@ -40,6 +48,11 @@ class Battle:
 
         self._tiempoBuff1 = 0
         self._tiempoBuff2 = 0
+
+        self._offset1 = 0
+        self._offset2 = 0
+
+        self._battleEnd = False
 
         #Se obtiene la imagen original del battler
         self._img1_imp = pygame.image.load(battler1.get_sprite())
@@ -90,69 +103,88 @@ class Battle:
 
     def doBattle(self):
 
+
         actualTick = pygame.time.get_ticks() / 1000
 
-        if actualTick >= self.get_tiempoEvent1() + (MIN_SPEED - (self.get_battler1().get_spd() * 0.5 * 0.1)):
+        if not self._battleEnd:
 
-            btlMsg1 = str(self.get_battler1().act())
+            if actualTick >= self.get_tiempoEvent1() + (MIN_SPEED - (self.get_battler1().get_spd() * 0.5 * 0.1)):
 
-            self.set_tiempoEvent1(pygame.time.get_ticks() / 1000)
+                btlMsg1 = str(self.get_battler1().act())
 
-            print("Ataque de PJ 1" + btlMsg1)
+                #self._offset2 = 30
 
-            # Prueba de checks
+                self.set_tiempoEvent1(pygame.time.get_ticks() / 1000)
 
-            print(str(actualTick) + " - " + str(self.get_tiempoEvent1()))
+                print("Ataque de PJ 1" + btlMsg1)
 
-            # textos.append(font.render(f"PJ 1 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
+                # Prueba de checks
 
-            textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK, None, 256))
+                print(str(actualTick) + " - " + str(self.get_tiempoEvent1()))
 
-            # textos.append(font.render("PJ 1 ataca", True, BLACK))
+                textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK, None, 256))
 
-        if actualTick >= self.get_tiempoEvent2() + (MIN_SPEED - (self.get_battler2().get_spd() * 0.5 * 0.1)):
-            
-            btlMsg2 = str(self.get_battler2().act())
+                if self.get_battler2().get_hp() <= 0:
+                    expGainMsg = self.get_battler1().xpUp(5)
+                    textos.append(font.render(f"PJ 1: {expGainMsg}", True, BLACK, None, 256))
 
-            self.set_tiempoEvent2(actualTick)
+                # textos.append(font.render("PJ 1 ataca", True, BLACK))
 
-            print("Ataque de PJ 2" + btlMsg2)
+            if actualTick >= self.get_tiempoEvent2() + (MIN_SPEED - (self.get_battler2().get_spd() * 0.5 * 0.1)) and self.get_battler2().get_hp() > 0:
 
-            # textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
-           
-            textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK, None, 256))
-            
-            # textos.append(font.render("PJ 2 ataca", True, BLACK))
+                btlMsg2 = str(self.get_battler2().act())
 
-        if self.get_battler1().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
-            self.set_tiempoBuff1(actualTick)
-            print("Ataque actual con buff: " + str(self.get_battler1().get_atk()) + "\n" + str(self.get_tiempoBuff1()) + " - " + str(self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]))
+                self.set_tiempoEvent2(actualTick)
 
-        if self.get_battler1().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]:
-            endBuffmsg = self.get_battler1().endBuff()
-            textos.append(font.render(f"PJ 1: {endBuffmsg}", True, BLACK, None, 256))
-            self.set_tiempoBuff1(0)
-            print("Ataque actual sin buff: " + str(self.get_battler1().get_atk()))
+                print("Ataque de PJ 2" + btlMsg2)
 
-        if self.get_battler2().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
-            self.set_tiempoBuff2(actualTick)
-            print("Ataque actual con buff: " + str(self.get_battler1().get_atk()) + "\n" + str(self.get_tiempoBuff2()) + " - " + str(self.get_tiempoBuff2() + self.get_battler2().get_actvBuff()[0]))
+                # textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
 
-        if self.get_battler2().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler2().get_actvBuff()[0]:
-            endBuffmsg = self.get_battler2().endBuff()
-            textos.append(font.render(f"PJ 2: {endBuffmsg}", True, BLACK, None, 256))
-            self.set_tiempoBuff2(0)
-            print("Ataque actual sin buff: " + str(self.get_battler2().get_atk()))
+                textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK, None, 256))
+
+                # textos.append(font.render("PJ 2 ataca", True, BLACK))
+
+            if self.get_battler1().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
+                self.set_tiempoBuff1(actualTick)
+                print("Ataque actual con buff: " + str(self.get_battler1().get_atk()) + "\n" + str(self.get_tiempoBuff1()) + " - " + str(self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]))
+
+            if self.get_battler1().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]:
+                endBuffmsg = self.get_battler1().endBuff()
+                textos.append(font.render(f"PJ 1: {endBuffmsg}", True, BLACK, None, 256))
+                self.set_tiempoBuff1(0)
+                print("Ataque actual sin buff: " + str(self.get_battler1().get_atk()))
+
+            if self.get_battler2().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
+                self.set_tiempoBuff2(actualTick)
+                print("Ataque actual con buff: " + str(self.get_battler1().get_atk()) + "\n" + str(self.get_tiempoBuff2()) + " - " + str(self.get_tiempoBuff2() + self.get_battler2().get_actvBuff()[0]))
+
+            if self.get_battler2().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler2().get_actvBuff()[0]:
+                endBuffmsg = self.get_battler2().endBuff()
+                textos.append(font.render(f"PJ 2: {endBuffmsg}", True, BLACK, None, 256))
+                self.set_tiempoBuff2(0)
+                print("Ataque actual sin buff: " + str(self.get_battler2().get_atk()))
 
         ##############
 
+        #Calcular offset
+
+        # if self._offset2 > 0:
+        #     offset_x2 = rnd.randint(-10, 10)
+        #     offset_y2 = rnd.randint(-10, 10)
+        #     self._offset2 -= 1
+        # else:
+        #     offset_x2 = 0
+        #     offset_y2 = 0
+
+
+        ##############
         self.get_screen().fill(WHITE)
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 300, 100, self.get_battler2().get_maxHp(), 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 300, 100, self.get_battler2().get_hp(), 15))
+        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_maxHp(), 15))
+        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_hp(), 15))
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(25, 100, self.get_battler1().get_maxHp(), 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(25, 100, self.get_battler1().get_hp(), 15))
+        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(25, TOPY + 25, self.get_battler1().get_maxHp(), 15))
+        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(25, TOPY + 25, self.get_battler1().get_hp(), 15))
 
         ##############
         ############## Dibujar Stats
@@ -163,52 +195,56 @@ class Battle:
         LIFE1 = fontStats.render(str(self.get_battler1().get_hp()) + "/" + str(self.get_battler1().get_maxHp()), True, BLACK)
         LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()), True, BLACK)
 
-        self.get_screen().blit(LIFE1, (25, 75))
-        self.get_screen().blit(LIFE2, (self.get_screen().get_width() - 300, 75))
+        self.get_screen().blit(LIFE1, (25, TOPY))
+        self.get_screen().blit(LIFE2, (self.get_screen().get_width() - 300, TOPY))
 
-        self.get_screen().blit(HUD1, (25, 625))
-        self.get_screen().blit(HUD2, (self.get_screen().get_width() - 300, 625))
-
-        ################
-
-        # DIBUJAR BOTON
-
-        # boton_rect = pygame.Rect(450, 700, 200, 100)
-        # fuenteBoton = pygame.font.SysFont('Arial', 24)
-        # textoBoton = fuenteBoton.render("JUGAR", True, WHITE)  # Texto blanco
-        # texto_rect = textoBoton.get_rect(center=boton_rect.center)
-        # pygame.draw.rect(self.get_screen(), (0, 128, 255), boton_rect)  # Botón azul
-        # self.get_screen().blit(textoBoton, texto_rect)
-        #
-        # for evento in pygame.event.get():
-        #     if evento.type == pygame.MOUSEBUTTONDOWN:
-        #         if boton_rect.collidepoint(evento.pos):
-        #             print("¡Botón presionado!")
+        self.get_screen().blit(HUD1, (25, 600))
+        self.get_screen().blit(HUD2, (self.get_screen().get_width() - 300, 600))
 
         ################
-        if len(textos) > 7:
+
+        ################
+        while len(textos) > 7:
             textos.remove(textos[0])
 
         for i, texto in enumerate(textos):
             if texto.get_alpha() > 1:
-                self.get_screen().blit(texto, (300, 100 + i * 80))
+                self.get_screen().blit(texto, (300, TOPY + i * 80))
 
-        self.get_screen().blit(self.get_imagen1(), (0, 200))
-        self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), 200))
+        self.get_screen().blit(self.get_imagen1(), (0, TOPY + 75))
+        self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), TOPY + 75))
 
-        # screen.blit(img2, (screen.get_width() - (img1.get_width() + 20), 200))
+        # self.get_screen().blit(self.get_imagen1(), (0, TOPY + 75))
+        # self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20 + offset_x2), TOPY + 75 + offset_y2))
 
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         run = False
-
-        # pygame.display.flip()
-        # clock.tick(30)
-        pygame.display.flip()
-        if self.get_battler1().get_hp() <= 0 or self.get_battler2().get_hp() <= 0:
+        if self.get_battler1().get_hp() <= 0 or self.get_battler2().get_hp() <= 0 and not self._battleEnd:
             pygame.mixer.music.fadeout(1000)
-            sleep(3)
-            return False
+            sleep(1)
+            self._battleEnd = True
+
+        if self._battleEnd:
+            boton_rect1 = pygame.Rect(300, 600, 120, 75)
+            boton_rect2 = pygame.Rect(430, 600, 120, 75)
+            fuenteBoton = pygame.font.SysFont(None, 16)
+            textoBoton = fuenteBoton.render("SUBIR DE NIVEL", True, WHITE, None, 120)  # Texto blanco
+            texto_rect = textoBoton.get_rect(center=boton_rect1.center)
+            if self.get_battler1().checkXp():
+                pygame.draw.rect(self.get_screen(), GREY, boton_rect1)
+            self.get_screen().blit(textoBoton, texto_rect)
+            textoBoton2 = fuenteBoton.render("SIGUIENTE BATALLA", True, WHITE, None, 120)  # Texto blanco
+            texto_rect2 = textoBoton2.get_rect(center=boton_rect2.center)
+            pygame.draw.rect(self.get_screen(), GREY, boton_rect2)
+            self.get_screen().blit(textoBoton2, texto_rect2)
+
+            for evento in pygame.event.get():
+                if evento.type == pygame.MOUSEBUTTONDOWN:
+                    if self.get_battler1().checkXp():
+                        if boton_rect1.collidepoint(evento.pos):
+                            print("¡Botón Subir de Nivel!")
+                    if boton_rect2.collidepoint(evento.pos):
+                        print("¡Botón Continuar!")
+
+        pygame.display.flip()
 
         return True
 
