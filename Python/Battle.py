@@ -247,6 +247,11 @@ class Battle:
                     if boton_rect2.collidepoint(evento.pos):
                         print("¡Botón Continuar!")
         '''
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        
         pygame.display.flip()
         return True
 
