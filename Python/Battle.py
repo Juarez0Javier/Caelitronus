@@ -10,7 +10,11 @@ from PIL.ImageChops import offset
 import Characters
 
 battle1_path = "../Sound/Music/Battle1.wav"
+lifeGauge_path = "../Assets/ui/lifeGaugeAlpha.png"
+lifeGauge = pygame.image.load(lifeGauge_path)
 
+lifeGauge_offsetX = 18
+lifeGauge_offsetY = 13
 # WIDTH, HEIGHT = 800, 600
 # screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # pygame.display.set_caption("Prueba de Ticks")
@@ -26,6 +30,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (127, 127, 127)
 PURPLE = (127, 0, 127)
+YELLOW = (255, 200, 0)
 TOPY = 50
 
 offset1 = 0
@@ -100,6 +105,20 @@ class Battle:
         stat += "\nDEF: " + str(battler.get_defn()) + "  ESQ:" + str(battler.get_evd()) + "  SRT:" + str(battler.get_luck())
 
         return stat
+
+    def textReset(self):
+        textos = []
+
+    def colorCalculation(self, actualHp, maxHp):
+        if actualHp > (maxHp / 2):
+            return GREEN
+        elif actualHp <= maxHp / 2 and actualHp > maxHp / 4:
+            return YELLOW
+        else:
+            return RED
+
+    def fractionCalculation(self, actualHp, maxHp):
+        return actualHp / maxHp
 
     def doBattle(self):
 
@@ -180,11 +199,14 @@ class Battle:
         ##############
         self.get_screen().fill(WHITE)
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_maxHp(), 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_hp(), 15))
+        #pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_maxHp(), 15))
+        #pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_hp(), 15))
+        pygame.draw.rect(self.get_screen(), self.colorCalculation(self.get_battler2().get_hp(), self.get_battler2().get_maxHp()), pygame.Rect(self.get_screen().get_width() - 300 + lifeGauge_offsetX, TOPY + 25 + lifeGauge_offsetY, 205 * self.fractionCalculation(self.get_battler2().get_hp(), self.get_battler2().get_maxHp()), 17))
+        self.get_screen().blit(lifeGauge, (self.get_screen().get_width() - 300, TOPY + 25))
 
-        pygame.draw.rect(self.get_screen(), RED, pygame.Rect(25, TOPY + 25, self.get_battler1().get_maxHp(), 15))
-        pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(25, TOPY + 25, self.get_battler1().get_hp(), 15))
+        #pygame.draw.rect(self.get_screen(), RED, pygame.Rect(25, TOPY + 25, self.get_battler1().get_maxHp(), 15))
+        pygame.draw.rect(self.get_screen(), self.colorCalculation(self.get_battler1().get_hp(), self.get_battler1().get_maxHp()), pygame.Rect(25 + lifeGauge_offsetX, TOPY + 25 + lifeGauge_offsetY, 205 * self.fractionCalculation(self.get_battler1().get_hp(), self.get_battler1().get_maxHp()), 17))
+        self.get_screen().blit(lifeGauge, (25, TOPY + 25))
 
         ##############
         ############## Dibujar Stats
@@ -204,15 +226,15 @@ class Battle:
         ################
 
         ################
-        while len(textos) > 7:
+        while len(textos) > 6:
             textos.remove(textos[0])
 
         for i, texto in enumerate(textos):
             if texto.get_alpha() > 1:
                 self.get_screen().blit(texto, (300, TOPY + i * 80))
 
-        self.get_screen().blit(self.get_imagen1(), (0, TOPY + 75))
-        self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), TOPY + 75))
+        self.get_screen().blit(self.get_imagen1(), (0, TOPY + 100))
+        self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), TOPY + 100))
 
         # self.get_screen().blit(self.get_imagen1(), (0, TOPY + 75))
         # self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20 + offset_x2), TOPY + 75 + offset_y2))
