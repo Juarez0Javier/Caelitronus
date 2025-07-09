@@ -1,4 +1,5 @@
-import pygame 
+FileName: MultipleFiles/main.py
+FileContents: import pygame
 import sys
 import json
 import os
@@ -8,13 +9,13 @@ from moviepy.editor import VideoFileClip
 
 pygame.init()
 
-#Configuración Global
-WIDTH, HEIGHT = 1020, 750  #Tamaño de la ventana
-screen = pygame.display.set_mode((WIDTH, HEIGHT))  
-pygame.display.set_caption("Caeltronos")  
-clock = pygame.time.Clock() 
+# Configuración Global
+WIDTH, HEIGHT = 1020, 750  # Tamaño de la ventana
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Caeltronos")
+clock = pygame.time.Clock()
 
-#Colores usados en la interfaz
+# Colores usados en la interfaz
 COLOR_NORMAL = (200, 190, 175)
 COLOR_SELECCIONADO = (160, 150, 135)
 SLIDER_COLOR = (180, 180, 180)
@@ -23,13 +24,13 @@ TEXT_COLOR = COLOR_NORMAL
 COLOR_FONDO_POPUP = (50, 50, 50)
 BLACK = (0, 0, 0)
 
-#Fuentes utilizadas
+# Fuentes utilizadas
 font_mono_30 = pygame.font.Font("matrix mono.ttf", 30)
 font_mono_24 = pygame.font.Font("matrix mono.ttf", 24)
 font_mono_20 = pygame.font.Font("matrix mono.ttf", 20)
 font_mono_36 = pygame.font.Font("matrix mono.ttf", 36)
 
-#Carga fondo y música
+# Carga fondo y música
 try:
     background_image = pygame.image.load("font.png").convert()
     background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
@@ -38,7 +39,7 @@ except pygame.error as e:
     print(f"Error cargando recursos: {e}")
     sys.exit()
 
-#Función para cargar configuración guardada (volumen)
+# Función para cargar configuración guardada (volumen)
 def cargar_config():
     if os.path.exists("config.json"):
         with open("config.json", "r") as f:
@@ -49,12 +50,12 @@ def guardar_config(musica, efectos):
     with open("config.json", "w") as f:
         json.dump({"musica": round(musica, 2), "efectos": round(efectos, 2)}, f)
 
-#Cargar configuración actual y aplicar volumen a la música
+# Cargar configuración actual y aplicar volumen a la música
 config = cargar_config()
 pygame.mixer.music.set_volume(config["musica"])
-pygame.mixer.music.play(-1)  #Reproducir música en bucle
+pygame.mixer.music.play(-1)  # Reproducir música en bucle
 
-#Clase para fuente animada que cambia tamaño al pasar el mouse
+# Clase para fuente animada que cambia tamaño al pasar el mouse
 class MatrixFont:
     def __init__(self, font_path, base_size, hover_size):
         self.font_path = font_path
@@ -67,17 +68,17 @@ class MatrixFont:
         color = COLOR_SELECCIONADO if selected else COLOR_NORMAL
         return font.render(text, True, color)
 
-#Instancia para renderizar fuente animada del menú
+# Instancia para renderizar fuente animada del menú
 font_renderer_menu = MatrixFont("matrix mono.ttf", 30, 24)
 
-#Función para desenfocar una imagen superficial
+# Función para desenfocar una imagen superficial
 def get_blurred_surface(surface, blur_amount=5):
     if blur_amount <= 1:
         return surface
     small = pygame.transform.scale(surface, (surface.get_width() // blur_amount, surface.get_height() // blur_amount))
     return pygame.transform.scale(small, surface.get_size())
 
-#Función para dividir y renderizar texto largo en varias líneas
+# Función para dividir y renderizar texto largo en varias líneas
 def render_multiline_text(text, font, color, max_width):
     words = text.split(' ')
     lines, current = [], ""
@@ -91,9 +92,9 @@ def render_multiline_text(text, font, color, max_width):
     if current: lines.append(current)
     return [font.render(line, True, color) for line in lines]
 
-#Reproduce video introductorio y luego ejecuta el juego principal
+# Reproduce video introductorio y luego ejecuta el juego principal
 def reproducir_cinematica_y_ejecutar_juego():
-    pygame.mixer.music.stop()  #Detiene la música
+    pygame.mixer.music.stop()  # Detiene la música
 
     try:
         clip = VideoFileClip("prologo.mp4").resize((WIDTH, HEIGHT))
@@ -119,7 +120,7 @@ def reproducir_cinematica_y_ejecutar_juego():
         pygame.display.flip()
         pygame.time.wait(2000)
 
-        subprocess.run([sys.executable, "juego.py"], check=True) #Remplasar juego.py por el archivo que siga
+        subprocess.run([sys.executable, "juego.py"], check=True) # Reemplazar juego.py por el archivo que siga
 
     except Exception as e:
         print(f"Error al reproducir video: {e}")
@@ -127,165 +128,235 @@ def reproducir_cinematica_y_ejecutar_juego():
 
     return "MENU"
 
-#Pantalla principal del menú
-def menu_screen():
-    opciones = ["COMENZAR PARTIDA", "AJUSTES", "CREDITOS", "SALIR"]
-    selected = -1
+# Clase para los elementos del menú
+class MenuItem:
+    def __init__(self, text, action, y_offset, font_renderer):
+        self.text = text
+        self.action = action
+        self.y_offset = y_offset
+        self.font_renderer = font_renderer
+        self.rect = None # Se inicializará en el método draw
 
-    while True:
+    def draw(self, surface, mouse_pos):
+        selected = self.is_hovered(mouse_pos)
+        rendered_text = self.font_renderer.render(self.text, selected)
+        self.rect = rendered_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + self.y_offset))
+        surface.blit(rendered_text, self.rect)
+
+    def is_hovered(self, mouse_pos):
+        if self.rect:
+            return self.rect.collidepoint(mouse_pos)
+        return False
+
+# Clase base para las pantallas del juego
+class GameScreen:
+    def __init__(self, screen, clock, background_image):
+        self.screen = screen
+        self.clock = clock
+        self.background_image = background_image
+        self.next_screen = None
+
+    def handle_event(self, event):
+        pass
+
+    def update(self):
+        pass
+
+    def draw(self):
+        self.screen.blit(self.background_image, (0, 0))
+
+# Clase para la pantalla principal del menú
+class MenuScreen(GameScreen):
+    def __init__(self, screen, clock, background_image):
+        super().__init__(screen, clock, background_image)
+        menu_items_data = [
+            ("COMENZAR PARTIDA", "CINEMATICA_VIDEO", 0),
+            ("AJUSTES", "AJUSTES", 60),
+            ("CREDITOS", "CREDITOS", 120),
+            ("SALIR", "CONFIRM_QUIT", 180)
+        ]
+        self.menu_items = []
+        for text, action, y_offset in menu_items_data:
+            self.menu_items.append(MenuItem(text, action, y_offset, font_renderer_menu))
+
+    def handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self.next_screen = "QUIT"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            self.next_screen = "QUIT"
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = pygame.mouse.get_pos()
+            for item in self.menu_items:
+                if item.is_hovered(mouse_pos):
+                    self.next_screen = item.action
+
+    def draw(self):
+        super().draw()
         mouse_pos = pygame.mouse.get_pos()
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT: return "QUIT"
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE: return "QUIT"
-            if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1 and selected != -1:
-                return ["CINEMATICA_VIDEO", "AJUSTES", "CREDITOS", "CONFIRM_QUIT"][selected]
-
-        selected = -1
-        for i, op in enumerate(opciones):
-            if font_renderer_menu.render(op, False).get_rect(center=(WIDTH//2, HEIGHT//2 + i*60)).collidepoint(mouse_pos):
-                selected = i
-
-        screen.blit(background_image, (0, 0))
-        for i, op in enumerate(opciones):
-            surface = font_renderer_menu.render(op, selected == i)
-            rect = surface.get_rect(center=(WIDTH//2, HEIGHT//2 + i*60))
-            screen.blit(surface, rect)
+        for item in self.menu_items:
+            item.draw(self.screen, mouse_pos)
         pygame.display.flip()
-        clock.tick(60)
 
-#Pantalla de configuración de volumen
-def ajustes_screen():
-    global config
-    sliders = {
-        "Música": {"x": 300, "y": 300, "value": config["musica"]},
-        "Efectos": {"x": 300, "y": 400, "value": config["efectos"]}
-    }
-    arrastrando = None
+# Clase para la pantalla de configuración de volumen
+class AjustesScreen(GameScreen):
+    def __init__(self, screen, clock, background_image, current_config):
+        super().__init__(screen, clock, background_image)
+        self.config = current_config
+        self.sliders = {
+            "Música": {"x": 300, "y": 300, "value": self.config["musica"]},
+            "Efectos": {"x": 300, "y": 400, "value": self.config["efectos"]}
+        }
+        self.arrastrando = None
+        self.volver_rect = None
 
-    def draw_back_arrow():
-        #Flecha para volver
+    def _draw_back_arrow(self):
         mouse_pos = pygame.mouse.get_pos()
         x, y, base, hover = 40, 40, 30, 40
         size, color = (hover if pygame.Rect(x-hover//2, y-hover//2, hover, hover).collidepoint(mouse_pos) else base), COLOR_NORMAL
         if size == hover: color = COLOR_SELECCIONADO
         points = [(x + size//2, y - size//2), (x - size//2, y), (x + size//2, y + size//2)]
-        pygame.draw.polygon(screen, color, points)
+        pygame.draw.polygon(self.screen, color, points)
         return pygame.Rect(x-hover//2, y-hover//2, hover, hover)
 
-    def detectar_slider(mx, my):
-        #Detecta si se está clickeando un slider
-        for nombre, data in sliders.items():
+    def _detectar_slider(self, mx, my):
+        for nombre, data in self.sliders.items():
             if pygame.Rect(data['x'], data['y'] - 10, 300, 30).collidepoint(mx, my):
                 return nombre
         return None
 
-    def draw_slider(nombre, data):
-        #Dibuja un slider
+    def _draw_slider(self, nombre, data):
         text = font_mono_30.render(f"{nombre}: {int(data['value']*100)}%", True, TEXT_COLOR)
-        screen.blit(text, (data['x'], data['y'] - 40))
-        pygame.draw.rect(screen, SLIDER_COLOR, (data['x'], data['y'], 300, 10))
-        pygame.draw.circle(screen, HANDLE_COLOR, (int(data['x'] + data['value']*300), data['y'] + 5), 10)
+        self.screen.blit(text, (data['x'], data['y'] - 40))
+        pygame.draw.rect(self.screen, SLIDER_COLOR, (data['x'], data['y'], 300, 10))
+        pygame.draw.circle(self.screen, HANDLE_COLOR, (int(data['x'] + data['value']*300), data['y'] + 5), 10)
 
-    while True:
-        mouse_pos = pygame.mouse.get_pos()
-        volver_rect = draw_back_arrow()
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT: return "QUIT"
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                guardar_config(sliders["Música"]["value"], sliders["Efectos"]["value"])
-                config = cargar_config()
-                return "MENU"
-            if e.type == pygame.MOUSEBUTTONDOWN:
-                if volver_rect.collidepoint(e.pos):
-                    guardar_config(sliders["Música"]["value"], sliders["Efectos"]["value"])
-                    config = cargar_config()
-                    return "MENU"
-                arrastrando = detectar_slider(*e.pos)
-            if e.type == pygame.MOUSEBUTTONUP:
-                arrastrando = None
-            if e.type == pygame.MOUSEMOTION and arrastrando:
-                rel_x = max(0, min(300, e.pos[0] - sliders[arrastrando]["x"]))
-                sliders[arrastrando]["value"] = rel_x / 300
-                pygame.mixer.music.set_volume(sliders["Música"]["value"])
+    def handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self.next_screen = "QUIT"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            guardar_config(self.sliders["Música"]["value"], self.sliders["Efectos"]["value"])
+            self.config = cargar_config() # Recargar la configuración global
+            self.next_screen = "MENU"
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if self.volver_rect and self.volver_rect.collidepoint(event.pos):
+                guardar_config(self.sliders["Música"]["value"], self.sliders["Efectos"]["value"])
+                self.config = cargar_config() # Recargar la configuración global
+                self.next_screen = "MENU"
+            self.arrastrando = self._detectar_slider(*event.pos)
+        elif event.type == pygame.MOUSEBUTTONUP:
+            self.arrastrando = None
+        elif event.type == pygame.MOUSEMOTION and self.arrastrando:
+            rel_x = max(0, min(300, event.pos[0] - self.sliders[self.arrastrando]["x"]))
+            self.sliders[self.arrastrando]["value"] = rel_x / 300
+            if self.arrastrando == "Música":
+                pygame.mixer.music.set_volume(self.sliders["Música"]["value"])
 
-        screen.blit(background_image, (0, 0))
-        for nombre, data in sliders.items():
-            draw_slider(nombre, data)
-        draw_back_arrow()
+    def draw(self):
+        super().draw()
+        for nombre, data in self.sliders.items():
+            self._draw_slider(nombre, data)
+        self.volver_rect = self._draw_back_arrow()
         pygame.display.flip()
-        clock.tick(60)
 
-#Pantalla para confirmar si el jugador quiere salir
-def confirm_quit_screen(previous_surface):
-    msg = "Estas seguro?"
-    options = ["Si", "NO"]
-    selected = -1
-    final_msg = None
-    start_time = None
-    fondo = get_blurred_surface(previous_surface, 10)
-    popup = pygame.Rect(140, 150, 640, 400)
+# Clase para la pantalla de confirmación de salida
+class ConfirmQuitScreen(GameScreen):
+    def __init__(self, screen, clock, previous_surface):
+        super().__init__(screen, clock, None) # No usa background_image directamente
+        self.msg = "Estas seguro?"
+        self.options = ["Si", "NO"]
+        self.selected = -1
+        self.final_msg = None
+        self.start_time = None
+        self.fondo = get_blurred_surface(previous_surface, 10)
+        self.popup = pygame.Rect(140, 150, 640, 400)
 
-    while True:
-        mouse = pygame.mouse.get_pos()
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT: return "QUIT"
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                return "MENU" if not final_msg else "QUIT"
-            if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1 and selected != -1 and not final_msg:
-                final_msg = ("Esta bien, ¡COBARDE! Si no te da para luchar en el conclave..." if options[selected]=="Si"
-                             else "¡Eso! Pelea en el conclave por el trono.")
-                start_time = pygame.time.get_ticks()
+    def handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self.next_screen = "QUIT"
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            self.next_screen = "MENU" if not self.final_msg else "QUIT"
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.selected != -1 and not self.final_msg:
+            self.final_msg = ("Esta bien, ¡COBARDE! Si no te da para luchar en el conclave..." if self.options[self.selected]=="Si"
+                               else "¡Eso! Pelea en el conclave por el trono.")
+            self.start_time = pygame.time.get_ticks()
 
-        screen.blit(fondo, (0, 0))
-        pygame.draw.rect(screen, COLOR_FONDO_POPUP, popup, border_radius=15)
-        pygame.draw.rect(screen, TEXT_COLOR, popup, 3, border_radius=15)
+    def update(self):
+        if self.final_msg:
+            elapsed = (pygame.time.get_ticks() - self.start_time) / 1000
+            if "COBARDE" in self.final_msg:
+                if elapsed >= 10:
+                    self.next_screen = "QUIT"
+            else:
+                if elapsed >= 3:
+                    self.next_screen = "MENU"
 
-        if not final_msg:
-            screen.blit(font_mono_24.render(msg, True, TEXT_COLOR), (popup.centerx - 80, popup.top + 60))
-            selected = -1
-            for i, text in enumerate(options):
-                surf = font_mono_30.render(text, True, COLOR_SELECCIONADO if
-                                           pygame.Rect(popup.centerx + (i-0.5)*180, popup.bottom-90, 100, 40).collidepoint(mouse)
-                                           else TEXT_COLOR)
-                screen.blit(surf, surf.get_rect(center=(popup.centerx + (i-0.5)*180, popup.bottom-90)))
-                if surf.get_rect(center=(popup.centerx + (i-0.5)*180, popup.bottom-90)).collidepoint(mouse):
-                    selected = i
+    def draw(self):
+        self.screen.blit(self.fondo, (0, 0))
+        pygame.draw.rect(self.screen, COLOR_FONDO_POPUP, self.popup, border_radius=15)
+        pygame.draw.rect(self.screen, TEXT_COLOR, self.popup, 3, border_radius=15)
+
+        if not self.final_msg:
+            self.screen.blit(font_mono_24.render(self.msg, True, TEXT_COLOR), (self.popup.centerx - 80, self.popup.top + 60))
+            self.selected = -1
+            mouse = pygame.mouse.get_pos()
+            for i, text in enumerate(self.options):
+                option_rect = pygame.Rect(self.popup.centerx + (i-0.5)*180 - 50, self.popup.bottom-90 - 20, 100, 40) # Ajustar para el centro
+                surf = font_mono_30.render(text, True, COLOR_SELECCIONADO if option_rect.collidepoint(mouse) else TEXT_COLOR)
+                self.screen.blit(surf, surf.get_rect(center=(self.popup.centerx + (i-0.5)*180, self.popup.bottom-90)))
+                if option_rect.collidepoint(mouse):
+                    self.selected = i
         else:
-            lines = render_multiline_text(final_msg, font_mono_20, TEXT_COLOR, popup.width - 40)
+            lines = render_multiline_text(self.final_msg, font_mono_20, TEXT_COLOR, self.popup.width - 40)
             for i, l in enumerate(lines):
-                screen.blit(l, l.get_rect(center=(popup.centerx, popup.top + 80 + i * 28)))
-            elapsed = (pygame.time.get_ticks() - start_time) / 1000
-            if "COBARDE" in final_msg:
+                self.screen.blit(l, l.get_rect(center=(self.popup.centerx, self.popup.top + 80 + i * 28)))
+            elapsed = (pygame.time.get_ticks() - self.start_time) / 1000
+            if "COBARDE" in self.final_msg:
                 countdown = max(0, 10 - int(elapsed))
                 cd_surface = font_mono_20.render(f"Cerrando en {countdown} segundos...", True, TEXT_COLOR)
-                screen.blit(cd_surface, cd_surface.get_rect(center=(popup.centerx, popup.bottom - 60)))
-                if elapsed >= 10: return "QUIT"
-            else:
-                if elapsed >= 3: return "MENU"
+                self.screen.blit(cd_surface, cd_surface.get_rect(center=(self.popup.centerx, self.popup.bottom - 60)))
+            # La lógica de cambio de pantalla está en update()
 
         pygame.display.flip()
-        clock.tick(60)
 
-#Loop principal del juego
-current_screen = "MENU"
-last_screen_surface = None
+# Loop principal del juego
+current_screen_name = "MENU"
+current_screen = MenuScreen(screen, clock, background_image)
+last_screen_surface = None # Para la pantalla de confirmación de salida
 
-while True:
-    if current_screen == "MENU":
-        last_screen_surface = screen.copy()
-        next_screen = menu_screen()
-    elif current_screen == "AJUSTES":
-        last_screen_surface = screen.copy()
-        next_screen = ajustes_screen()
-    elif current_screen == "CREDITOS":
-        print("Mostrando créditos..."); time.sleep(2); next_screen = "MENU"
-    elif current_screen == "CINEMATICA_VIDEO":
-        next_screen = reproducir_cinematica_y_ejecutar_juego()
-    elif current_screen == "CONFIRM_QUIT":
-        next_screen = confirm_quit_screen(last_screen_surface)
-    elif current_screen == "QUIT":
-        break
-    current_screen = next_screen
+running = True
+while running:
+    if current_screen.next_screen:
+        next_screen_name = current_screen.next_screen
+        current_screen.next_screen = None # Resetear para la próxima iteración
+
+        if next_screen_name == "QUIT":
+            running = False
+        elif next_screen_name == "MENU":
+            current_screen = MenuScreen(screen, clock, background_image)
+        elif next_screen_name == "AJUSTES":
+            last_screen_surface = screen.copy() # Guardar la pantalla actual antes de ir a ajustes
+            current_screen = AjustesScreen(screen, clock, background_image, config)
+        elif next_screen_name == "CREDITOS":
+            print("Mostrando créditos..."); time.sleep(2)
+            current_screen = MenuScreen(screen, clock, background_image) # Volver al menú después de créditos
+        elif next_screen_name == "CINEMATICA_VIDEO":
+            result = reproducir_cinematica_y_ejecutar_juego()
+            if result == "QUIT":
+                running = False
+            else:
+                current_screen = MenuScreen(screen, clock, background_image) # Volver al menú si la cinemática termina o falla
+        elif next_screen_name == "CONFIRM_QUIT":
+            last_screen_surface = screen.copy() # Guardar la pantalla actual antes de la confirmación
+            current_screen = ConfirmQuitScreen(screen, clock, last_screen_surface)
+        current_screen_name = next_screen_name # Actualizar el nombre de la pantalla actual
+
+    for event in pygame.event.get():
+        current_screen.handle_event(event)
+
+    current_screen.update()
+    current_screen.draw()
+
+    clock.tick(60)
 
 pygame.quit()
 sys.exit()
