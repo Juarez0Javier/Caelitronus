@@ -43,7 +43,11 @@ while run:
 
     #Run Main Menu
 
+    #Run Character Select
+
     #While Run Stage Select
+
+    LVS[0].runLvSq()
         
     pygame.display.flip()
     for event in pygame.event.get():
