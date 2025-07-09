@@ -15,19 +15,20 @@ import Menus as Mns
 WIDTH, HEIGHT = 920, 750
 
 #Angel Randomizer Chances
-
 ANGRND = [["HealManifest",4],["DrainManifest",3], ["LazManifest",1]]
 
+#Win State
+WINSTATE = {"W":1,"L&Out":2,"L&Re":3,"GW":4}
 
 class Level:
 
     def __init__(self, M1, diff, stage):
 
         self._M1 = M1
-        self.diff = diff
-        self.stage = stage
-    
-        pass
+        self._diff = diff
+        self._stage = stage
+
+        self._winState = 0
 
     def runLvSq (self):
 
@@ -37,7 +38,7 @@ class Level:
 
         pygame.display.set_caption("Caelitronus")
 
-        LvSq = [[self.AngeRand(), 1 + self.diff],[self.AngeRand(), 1 + self.diff], [self.stage + "BossManifest", 3 + self.diff]]
+        LvSq = [[self.AngeRand(), 1 + self._diff],[self.AngeRand(), 1 + self._diff], [self._stage + "BossManifest", 3 + self._diff]]
 
         for Enemy in LvSq:
             
@@ -54,28 +55,50 @@ class Level:
                 run = battleScreen.doBattle()
                 #pygame.display.flip()
 
+            self._winState = WINSTATE["GW"] if Enemy[0] == LvSq[-1][0] else WINSTATE["W"]
+
             if self._M1.get_hp() == 0:
                 #Pantalla de Perdida
                 LostMenu = Mns.LScreen(screen)
-                return LostMenu.runMenu()
-            else:
-                #Pantalla de Siguiente o Subida de Nivel
-                WinMenu = Mns.WScreen(screen)
+                self._winState = WINSTATE["L&Re"] if LostMenu.runMenu() == True else WINSTATE["L&Out"]
+
+            #Pantalla de Siguiente Batalla o Subida de Nivel
+
+            screenState = pygame.display.get_surface().copy()
+
+            if self._winState == WINSTATE["W"]:
+                
+                WinMenu = Mns.WScreen(screen,self._M1)
                 run = WinMenu.runMenu()
+
                 while run:
                     LvUpMenu = Mns.LvUpScreen(screen,self._M1)
                     LvUpMenu.runMenu()
+
+                    screen.blit(screenState)
+
+                    WinMenu = Mns.WScreen(screen,self._M1)
                     run = WinMenu.runMenu()
 
-            self._M1.set_hp(self._M1.get_maxHp())
-        
-        #Cutscene de Final de Seccion
+            elif self._winState == WINSTATE["GW"]:
 
-        run = FinalMenu = Mns.GWScreen(screen)
-        #while run
+                #Cutscene de Final de Seccion
 
+                WinMenu = Mns.GWScreen(screen,self._M1)
+                run = WinMenu.runMenu()
 
-        return True
+                while run:
+                    LvUpMenu = Mns.LvUpScreen(screen,self._M1)
+                    LvUpMenu.runMenu()
+
+                    screen.blit(screenState)
+
+                    WinMenu = Mns.GWScreen(screen,self._M1)
+                    run = WinMenu.runMenu()
+
+            self._M1.heal(self._M1.get_maxHp())
+
+        return self._winState
         
     def AngeRand(self):
 
@@ -94,9 +117,9 @@ class Level:
 
 MainC = Ch.AtkDmnManifest(1)
 
-LV1 = Level(MainC,0,"Spn")
+LV1 = Level(MainC,0,"Fnl")
 
-run =  True
+run = WINSTATE["L&Re"]
 
-while run:
+while run == WINSTATE["L&Re"]:
     run = LV1.runLvSq()
