@@ -7,6 +7,7 @@ clock.tick(30)
 
 import Characters
 import Levels
+import LvlSelect
 
 
 # Seteo valores de la screen
@@ -32,12 +33,18 @@ pygame.mixer.music.play()
 
 #Definimos un Nuevo Nivel
 
-L1 = Levels.Level(M1,0,"Spn")
+LVS = [Levels.Level(M1,0,"Spn"), Levels.Level(M1,0,"Fn"), Levels.Level(M1,0,"Pss"), Levels.Level(M1,0,"Spn")]
 
 run = True
 
 while run:
-    run = L1.runLvSq()
+
+    #Run Opening Cinematic
+
+    #Run Main Menu
+
+    #While Run Stage Select
+        
     pygame.display.flip()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

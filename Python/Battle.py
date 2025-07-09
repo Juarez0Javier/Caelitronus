@@ -219,9 +219,12 @@ class Battle:
 
         if self.get_battler1().get_hp() <= 0 or self.get_battler2().get_hp() <= 0 and not self._battleEnd:
             pygame.mixer.music.fadeout(1000)
+            
+            return False
             sleep(1)
             self._battleEnd = True
 
+        '''    
         if self._battleEnd:
             boton_rect1 = pygame.Rect(300, 600, 120, 75)
             boton_rect2 = pygame.Rect(430, 600, 120, 75)
@@ -243,8 +246,7 @@ class Battle:
                             print("¡Botón Subir de Nivel!")
                     if boton_rect2.collidepoint(evento.pos):
                         print("¡Botón Continuar!")
-
+        '''
         pygame.display.flip()
-
         return True
 
