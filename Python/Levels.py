@@ -1,21 +1,22 @@
 
 import pygame
 
-clock = pygame.time.Clock()
-clock.tick(30)
+#clock = pygame.time.Clock()
+#clock.tick(30)
 
 pygame.init()
 
 import random
 
-import Characters
-import Battle
+import Characters as Ch
+import Battle as Btl
+import Menus as Mns
 
 WIDTH, HEIGHT = 920, 750
 
 #Angel Randomizer Chances
 
-ANGRND = [["HealManifest",3], ["DrainManifest",3], ["LazManifest",1]]
+ANGRND = [["HealManifest",4],["DrainManifest",3], ["LazManifest",1]]
 
 
 class Level:
@@ -39,30 +40,42 @@ class Level:
         LvSq = [[self.AngeRand(), 1 + self.diff],[self.AngeRand(), 1 + self.diff], [self.stage + "BossManifest", 3 + self.diff]]
 
         for Enemy in LvSq:
-            M2 = getattr(Characters,Enemy[0])(Enemy[1])
-
-
+            
+            M2 = getattr(Ch,Enemy[0])(Enemy[1])
             self._M1.set_opp(M2)
             M2.set_opp(self._M1)
 
             # Creamos una nueva batalla
-            battleScreen = Battle.Battle(self._M1, M2, screen)
+            battleScreen = Btl.Battle(self._M1, M2, screen)
 
             run = True
 
             while run:
                 run = battleScreen.doBattle()
-                pygame.display.flip()
+                #pygame.display.flip()
 
             if self._M1.get_hp() == 0:
                 #Pantalla de Perdida
-                return False
+                LostMenu = Mns.LScreen(screen)
+                return LostMenu.runMenu()
             else:
-                run = True
                 #Pantalla de Siguiente o Subida de Nivel
-                self._M1.set_hp(self._M1.get_maxHp())
+                WinMenu = Mns.WScreen(screen)
+                run = WinMenu.runMenu()
+                while run:
+                    LvUpMenu = Mns.LvUpScreen(screen,self._M1)
+                    LvUpMenu.runMenu()
+                    run = WinMenu.runMenu()
+
+            self._M1.set_hp(self._M1.get_maxHp())
         
         #Cutscene de Final de Seccion
+
+        run = FinalMenu = Mns.GWScreen(screen)
+        #while run
+
+
+        return True
         
     def AngeRand(self):
 
@@ -76,8 +89,7 @@ class Level:
 
         return AngL[0]
 
-'''
-MainC = Characters.AtkDmnManifest(1)
+MainC = Ch.AtkDmnManifest(1)
 
 LV1 = Level(MainC,0,"Spn")
 
@@ -85,4 +97,3 @@ run =  True
 
 while run:
     run = LV1.runLvSq()
-'''

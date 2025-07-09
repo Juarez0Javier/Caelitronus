@@ -2,9 +2,9 @@ import pygame
 import sys
 import Button
 
-#Configuración Global del Juego
+#ConfiguraciÃ³n Global del Juego
 pygame.init()
-WIDTH, HEIGHT = 920, 750  #Tamaño de la ventana del juego
+WIDTH, HEIGHT = 920, 750  #TamaÃ±o de la ventana del juego
 screen = pygame.display.set_mode((WIDTH, HEIGHT)) 
 pygame.display.set_caption("Caeltronus - El Juego") 
 clock = pygame.time.Clock()
