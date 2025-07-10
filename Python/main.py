@@ -294,6 +294,9 @@ class Game:
 
             #Corremos los Creditos
 
+            crdScreen = Menus.Creditos(self.screen)
+            crdScreen.runMenu()
+
 
         #Guardar Datasos
 
@@ -308,12 +311,13 @@ class Game:
                        M1.get_bsStatByKey("VLC"),
                        M1.get_bsStatByKey("SRT"),
                        ]
-        VictoriaData = [difBase,difFin["Spn"],
-                        difFin["Fn"],
-                        difFin["Pss"],
+        VictoriaData = [difBase,
                         lvSel.flag_espina,
+                        difFin["Spn"],
                         lvSel.flag_serpico,
+                        difFin["Fn"],
                         lvSel.flag_corvus,
+                        difFin["Pss"], 
                         lvSel.flag_galaad,
                         lvSel.flag_misionero
                         ]
@@ -548,8 +552,11 @@ class Game:
                     self.last_screen_surface = self.screen.copy() # Guardar la pantalla actual antes de ir a ajustes
                     self.current_screen = self.AjustesScreen(self.screen, self.clock, self.background_image, self.config, self)
                 elif next_screen_name == "CREDITOS":
-                    print("Mostrando créditos..."); time.sleep(2)
+                    crdScreen = Menus.Creditos(self.screen)
+                    crdScreen.runMenu()
+                    ##print("Mostrando créditos..."); time.sleep(2)
                     self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después de créditos
+
                 elif next_screen_name == "CINEMATICA_VIDEO":
                     
                     self._reproducir_cinematica()
