@@ -255,8 +255,8 @@ class Manifest:
 
         Mss = ""
         if (random.randrange(1,BASETOLUCK) + self.get_luck() >= BASETOLUCK) and (self._actvBuff[1] == False):  
-            Mss = self.callAbility() + "\n\n"
-        Mss = self.attack() + "\n\n"
+            Mss = self.callAbility() + "\n"
+        Mss = self.attack() + "\n"
         return Mss
 
     def attack (self):
@@ -264,30 +264,30 @@ class Manifest:
         mult = 1
 
         if (random.randrange(1,ATKDIE) + self.get_atk()/10) >= (BASETOHIT + self.get_opp().get_evd()/10):
-            Mss+= " golpea a " + self.get_opp().get_name() + "." + "\n\n"
+            Mss+= " golpea a " + self.get_opp().get_name() + "." + "\n"
             if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:
                  mult = CRITMULT
-                 Mss+= " Ataque Critico!" + "\n\n"
+                 Mss+= " Ataque Critico!" + "\n"
             Mss+= self.get_opp().takeDamage(int(random.randrange(1,DANDIE) * 5 * mult + self.get_atkDmg() ))
         else:
-            Mss+=" le erra a " + self.get_opp().get_name() + "." + "\n\n"
+            Mss+=" le erra a " + self.get_opp().get_name() + "." + "\n"
         return Mss
 
     def takeDamage(self, dmg):
         rdDmg = dmg - self.get_defn()
         if(self.get_defn() > dmg ):
             rdDmg = 0
-        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño." + "\n\n"
+        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño." + "\n"
 
         if rdDmg >= self.get_hp():
             self.set_hp(0)
-            Mss+= '\n\n' + self.death()
+            Mss+= '\n' + self.death()
         else:
             self.set_hp(self.get_hp() - rdDmg) 
         return Mss
     
     def death(self):
-        return self.get_name() + " muere." + "\n\n"
+        return self.get_name() + " muere." + "\n"
         
     def heal(self,heal):
         Mss = self.get_name() + " se cura " 
@@ -298,13 +298,13 @@ class Manifest:
         else:
             self.set_hp(self.get_hp() + heal)
             Mss += str(heal)
-        Mss += " de vida." + "\n\n"
+        Mss += " de vida." + "\n"
         return Mss
     
     #Metodos de Abilidades
     
     def callAbility(self):
-        return self.get_name()  + " usa su habilidad especial." + "\n\n"
+        return self.get_name()  + " usa su habilidad especial." + "\n"
     
     def setUpBuff(self):
         for key in STATLIST:
@@ -317,16 +317,16 @@ class Manifest:
 
         self._actvBuff[1] = False
 
-        return self.get_name()  + " pierde el incremento a sus estadísticas." + "\n\n"
+        return self.get_name()  + " pierde el incremento a sus estadísticas." + "\n"
     
     #Metodos 'Ganar Experiencia' y 'Subir de Nivel'
 
     def xpUp(self,xp):
         Mss = self.get_name() 
         if self._xp == self._xpBp[-1]:
-            Mss += "no puede ganar mas experiencia." + "\n\n"   
+            Mss += "no puede ganar mas experiencia." + "\n"   
         else:
-            Mss += " gana " + str(xp) + " puntos de experiencia." + "\n\n"
+            Mss += " gana " + str(xp) + " puntos de experiencia." + "\n"
             self.set_xp(self.get_xp() + xp)
         return Mss
     
@@ -359,7 +359,7 @@ class HealManifest (Manifest):
            
     def callAbility(self):
         heal = int(self.get_maxHp() * 0.25)
-        return self.get_name()  + " usa su habilidad especial." + "\n\n" +  self.heal(heal)
+        return self.get_name()  + " usa su habilidad especial." + "\n" +  self.heal(heal)
     
 class DrainManifest (Manifest):
     def __init__(self, lv):
@@ -372,17 +372,17 @@ class DrainManifest (Manifest):
     def act(self):
         Mss = None
         if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:  
-            Mss = self.callAbility() + "\n\n"
+            Mss = self.callAbility() + "\n"
         else:
-            Mss = self.attack() + "\n\n"
+            Mss = self.attack() + "\n"
         return Mss
 
     def callAbility(self):
         drainDmg = int(random.randrange(1,DANDIE) * 5 * CRITMULT + self.get_atkDmg())
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
-        Mss += self.get_name() + " le absorbe vida a " + self.get_opp().get_name() + "." + "\n\n"
-        Mss += self.get_opp().takeDamage(drainDmg) + "\n\n"
-        Mss += self.heal(int(drainDmg * 0.5)) + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
+        Mss += self.get_name() + " le absorbe vida a " + self.get_opp().get_name() + "." + "\n"
+        Mss += self.get_opp().takeDamage(drainDmg) + "\n"
+        Mss += self.heal(int(drainDmg * 0.5)) + "\n"
         return Mss
 
 class LazManifest (Manifest):
@@ -397,7 +397,7 @@ class LazManifest (Manifest):
         return self.attack()
     
     def death(self):
-        Mss = self.get_name() + " muere." + "\n\n"
+        Mss = self.get_name() + " muere." + "\n"
         if self._abilityUse > 0:
             self._abilityUse -= 1
             Mss += self.callAbility()
@@ -406,9 +406,9 @@ class LazManifest (Manifest):
     def callAbility(self):
         Mss = ""
         rvHeal = int(random.randrange(self._luckBs,(BASETOLUCK)) * 0.0075 * self.get_maxHp())
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
-        Mss += self.get_name()  + " revive!" + "\n\n"
-        Mss += self.heal(rvHeal) + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
+        Mss += self.get_name()  + " revive!" + "\n"
+        Mss += self.heal(rvHeal) + "\n"
         return Mss
 
 #Clases de Demonio Principal
@@ -422,7 +422,7 @@ class AtkDmnManifest(Manifest):
         super().__init__(lv)
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
 
         self.setUpBuff()
 
@@ -432,7 +432,7 @@ class AtkDmnManifest(Manifest):
         self._atkBs += int(self._statBuffer['ATK'] * 0.3)
         self._atkDmgBs += int(self._statBuffer['DAN'] * 0.3)
 
-        Mss += self.get_name()  + " incrementa su ATK y DAN." + "\n\n"
+        Mss += self.get_name()  + " incrementa su ATK y DAN." + "\n"
 
         self._actvBuff[1] = True
 
@@ -447,7 +447,7 @@ class DefDmnManifest(Manifest):
         super().__init__(lv)     
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
 
         self.setUpBuff()
 
@@ -455,8 +455,8 @@ class DefDmnManifest(Manifest):
 
         self._defnBs += int(self._statBuffer['DEF'] * 0.4)
 
-        Mss += self.get_name()  + " incrementa su DEF." + "\n\n"
-        Mss += str(self.heal(int(self.get_maxHp() * 0.1))) + "\n\n"
+        Mss += self.get_name()  + " incrementa su DEF." + "\n"
+        Mss += str(self.heal(int(self.get_maxHp() * 0.1))) + "\n"
 
         self._actvBuff[1] = True
 
@@ -471,7 +471,7 @@ class LckDmnManifest(Manifest):
         super().__init__(lv)  
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
 
         self.setUpBuff()
 
@@ -484,7 +484,7 @@ class LckDmnManifest(Manifest):
         self._luckBs += int(self._statBuffer['SRT'] * 0.1)
         
 
-        Mss += self.get_name()  + " incrementa su ESQ, VLC y SRT." + "\n\n"
+        Mss += self.get_name()  + " incrementa su ESQ, VLC y SRT." + "\n"
 
         self._actvBuff[1] = True
 
@@ -507,7 +507,7 @@ class SpnBossManifest(Manifest):
         rdDmg = dmg - self.get_defn()
         if(self.get_defn() > dmg ):
             rdDmg = 0
-        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño." + "\n\n"
+        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño." + "\n"
         
         if rdDmg >= self.get_hp():
             self.set_hp(0)
@@ -515,14 +515,14 @@ class SpnBossManifest(Manifest):
         else:
             self.set_hp(self.get_hp() - rdDmg) 
             if (random.randrange(1,BASETOLUCK) + self._luckBs )>= BASETOLUCK:
-                Mss += self.callAbility() + "\n\n"
+                Mss += self.callAbility() + "\n"
         return Mss
 
     def callAbility (self):
         counterDmg = int(random.randrange(1,DANDIE) * 5 * CRITMULT + self.get_atkDmg())
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
-        Mss += self.get_name() + " contrataca!" + "\n\n"
-        Mss += self.get_opp().takeDamage(counterDmg) + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
+        Mss += self.get_name() + " contrataca!" + "\n"
+        Mss += self.get_opp().takeDamage(counterDmg) + "\n"
         return Mss
 
 class FnBossManifest(Manifest):
@@ -534,7 +534,7 @@ class FnBossManifest(Manifest):
         super().__init__(lv)       
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
 
         self.setUpBuff()
 
@@ -544,7 +544,7 @@ class FnBossManifest(Manifest):
         self._spdBs += int(self._statBuffer['VLC'] * 0.25)
         self._luckBs += int(self._statBuffer['SRT'] * 0.25)
 
-        Mss += self.get_name()  + " incrementa su VLC y SRT." + "\n\n"
+        Mss += self.get_name()  + " incrementa su VLC y SRT." + "\n"
 
         self._actvBuff[1] = True
 
@@ -567,16 +567,16 @@ class PssBossManifest(Manifest):
         return Mss
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
         
         rawDmg = int(self.get_maxHp() * 0.10)
 
-        Mss += self.get_name()  + " reduce su vida por " + str(rawDmg) + "\n\n"
+        Mss += self.get_name()  + " reduce su vida por " + str(rawDmg) + "\n"
 
         hurtDmg = int(random.randrange(1,DANDIE) * 5 * (CRITMULT + (self._hp/self._maxHp))) + self.get_atkDmg()
 
-        Mss += self.get_name() + " ataca a " + self.get_opp().get_name() + "." + "\n\n"
-        Mss += str(self.get_opp().takeDamage(hurtDmg)) + "\n\n"
+        Mss += self.get_name() + " ataca a " + self.get_opp().get_name() + "." + "\n"
+        Mss += str(self.get_opp().takeDamage(hurtDmg)) + "\n"
         return Mss 
 
 class FnlBossManifest(Manifest):
@@ -598,11 +598,11 @@ class FnlBossManifest(Manifest):
         return Mss
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
 
         rawDmg = int(self.get_maxHp() * 0.10)
 
-        Mss += self.get_name()  + " reduce su vida por " + str(rawDmg) + "\n\n"
+        Mss += self.get_name()  + " reduce su vida por " + str(rawDmg) + "\n"
 
         self.set_hp(int(self.get_hp() - rawDmg))
 
@@ -622,7 +622,7 @@ class FnlBossManifest(Manifest):
             self._spdBs += int(self._statBuffer['VLC'] * 0.2)
             self._luckBs += int(self._statBuffer['SRT'] * 0.1)
 
-            Mss += self.get_name()  + " incrementa su ATK, DAN, VLC y SRT." + "\n\n"
+            Mss += self.get_name()  + " incrementa su ATK, DAN, VLC y SRT." + "\n"
 
             self._abilityUse -=1
         else:
