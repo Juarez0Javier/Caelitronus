@@ -737,9 +737,53 @@ class Creditos:
         creditos_fondo = pygame.transform.scale(creditos_fondo, (WIDTH, HEIGHT))
         creditos_rect = creditos_fondo.get_rect()
         font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 25)
-        text = font.render("\t\t\t\tGRUPO 6:  ESTUDIO SERVENTESIO\n\n\t\t\t\t\t\t\t\t\t\t DESARROLLADORES:\n\n" +
-        "\t\t\t\t\t\t\t\t\t\t\tMaximiliano Andre Bograd\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tJuarez Javier David\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t Matias Daniel Diaz\n\n\t\t\t\t\t\t\t\t\t\t\t\tBriosso Adrian Roberto\n\n" +
-        "\t\t\t\t\t\t\t\t\t\t\t\t\t\tPROFESORES:\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Mariano Volker\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDario Hirschfeldt",True,'#000000')
+        text = font.render("\t\tGRUPO 6:  ESTUDIO SERVENTESIO\n\n\t\t\t\t\t\t\t\t\tDESARROLLADORES:\n\n" +
+        "\t\t\t\t\t\t\t\t\t\tMaximiliano Andre Bograd\n\n\t\t\t\t\t\t\t\t\t\t\t\t\tJuarez Javier David\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t Matias Daniel Diaz\n\n\t\t\t\t\t\t\t\t\t\t\tBriosso Adrian Roberto\n\n" +
+        "\t\t\t\t\t\t\t\t\t\t\t\t\tPROFESORES:\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tMariano Volker\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tDario Hirschfeldt\n\n\n",True,'#000000')
+        text_rect = text.get_rect(center = creditos_rect.center)
+        but_mainmenu = Button.Button('Volver al Menu Principal',300,50,(310, 685))
+
+        run = True
+        while run:
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    run = False
+                    quit()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    if(but_mainmenu.get_clicked() == True):
+                        self._ExitMode = True
+
+            screen.blit(creditos_fondo, (0,0))
+            screen.blit(text,text_rect)
+            but_mainmenu.draw(screen,True,False)
+
+            if self._ExitMode == True:
+                run = False
+
+            pygame.display.update()
+            clock.tick(30)
+
+class Instruct:
+
+    def __init__(self,screen):
+
+        self.screen = screen
+        self._ExitMode = False
+
+
+    def runMenu(self):
+
+        screen = self.screen
+
+        creditos_fondo = pygame.image.load("./Assets/BckGrnd/papersideborder.png").convert()
+        creditos_fondo = pygame.transform.scale(creditos_fondo, (WIDTH, HEIGHT))
+        creditos_rect = creditos_fondo.get_rect()
+        font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 25)
+        text = font.render("\t\t\t\t\t\t\t\tLas batalllas en Caelitronus son automaticas\n\n\nCARACTERISTICAS:\n\nATQ: Determina la posibilidad de acertar un ataque\n\n" +
+                           "DAN: Determina la potencia de cada ataque\n\nVLC: Determina la velocidad de ataque\n\nDEF: Reduce la potencia de cada ataque recibido\n\n" +
+                           "ESQ: Reduce la posibilidad de acertar del enemigo\n\nSRT: Aumenta la posibilidad de criticos y la activacion de habilidades\n\n\n\n",True,'#000000')
         text_rect = text.get_rect(center = creditos_rect.center)
         but_mainmenu = Button.Button('Volver al Menu Principal',300,50,(310, 685))
 
