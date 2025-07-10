@@ -100,9 +100,22 @@ class Battle:
     def set_tiempoBuff2(self, tiempoBuff2):
         self._tiempoBuff2 = tiempoBuff2
 
+    def addZero(self, stat):
+        if stat < 10:
+            return "0" + str(stat)
+        else: return str(stat)
+
     def printStats(self, battler: Characters):
-        stat = "ATQ: " + str(battler.get_atk()) + "  DAN:" + str(battler.get_atkDmg()) + "  VLC:" + str(battler.get_spd())
-        stat += "\nDEF: " + str(battler.get_defn()) + "  ESQ:" + str(battler.get_evd()) + "  SRT:" + str(battler.get_luck())
+        att = self.addZero(battler.get_atk())
+        dam = self.addZero(battler.get_atkDmg())
+        arm = self.addZero(battler.get_defn())
+        spd = self.addZero(battler.get_spd())
+        lck = self.addZero(battler.get_luck())
+        eva = self.addZero(battler.get_evd())
+
+
+        stat = "ATQ: " + att + "  DAN: " + dam + "  VLC: " + spd
+        stat += "\nDEF: " + arm + "  ESQ: " + eva + "  SRT: " + lck
 
         return stat
 
@@ -216,6 +229,16 @@ class Battle:
 
         LIFE1 = fontStats.render(str(self.get_battler1().get_hp()) + "/" + str(self.get_battler1().get_maxHp()), True, BLACK)
         LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()), True, BLACK)
+
+        # boton_rect1 = pygame.Rect(100, 600, 120, 120)
+        # #boton_rect2 = pygame.Rect(430, 600, 120, 75)
+        # #fuenteBoton = pygame.font.SysFont(None, 16)
+        # #textoBoton = fuenteBoton.render("SUBIR DE NIVEL", True, WHITE, None, 120)  # Texto blanco
+        # texto_rect = HUD1.get_rect(center=boton_rect1.center)
+        # pygame.draw.rect(self.get_screen(), GREY, boton_rect1)
+        # self.get_screen().blit(HUD1, texto_rect)
+        #
+        # #self.get_screen().blit(texto_rect, (25, 600))
 
         self.get_screen().blit(LIFE1, (25, TOPY))
         self.get_screen().blit(LIFE2, (self.get_screen().get_width() - 300, TOPY))
