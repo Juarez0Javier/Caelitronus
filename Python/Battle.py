@@ -283,7 +283,7 @@ class Battle:
         self.get_screen().blit(paperBorder, (self.get_screen().get_width() / 2 - self.get_screen().get_width() / 6, 0))
 
         paperAllBorder = pygame.image.load("../Assets/BckGrnd/paperallborder.png").convert()
-        paperAllBorder.set_alpha(200)
+        #paperAllBorder.set_alpha(200)
         paperAllBorder = pygame.transform.scale(paperAllBorder, (self.get_screen().get_width() / 3, self.get_screen().get_height() / 7))
         self.get_screen().blit(paperAllBorder, (0, self.get_screen().get_height() - self.get_screen().get_height() / 4))
         self.get_screen().blit(paperAllBorder, (self.get_screen().get_width() / 3 * 2, self.get_screen().get_height() - self.get_screen().get_height() / 4))
@@ -306,9 +306,9 @@ class Battle:
         HUD2 = fontStats.render(self.printStats(self.get_battler2()), True, BLACK)
 
         LIFE1 = fontStats.render(str(self.get_battler1().get_hp()) + "/" + str(self.get_battler1().get_maxHp()) + "\n\n\n\nNivel: " + str(self.get_battler1().get_lv()), True, WHITE)
-        LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()), True, WHITE)
+        LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()) + "\n\n\n\nNivel: " + str(self.get_battler2().get_lv()), True, WHITE)
         NAME1 = fontStats.render(self.get_battler1().get_name() + " [" + str(self.get_battler1().get_lv()) + "]", True, WHITE)
-        NAME2 = fontStats.render(self.get_battler2().get_name(), True, WHITE)
+        NAME2 = fontStats.render(self.get_battler2().get_name() + " [" + str(self.get_battler2().get_lv()) + "]", True, WHITE)
         # boton_rect1 = pygame.Rect(100, 600, 120, 120)
         # #boton_rect2 = pygame.Rect(430, 600, 120, 75)
         # #fuenteBoton = pygame.font.SysFont(None, 16)
