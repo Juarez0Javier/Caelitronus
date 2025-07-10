@@ -154,8 +154,8 @@ class Battle:
             if self._animations[i][3] == 0:
                 anim_x = self.get_screen().get_width() / 2 + (animationFrame.get_width() / 4)
             else:
-                anim_x = 0
-            anim_y = (self.get_screen().get_height() / 2) - animationFrame.get_height() / 2
+                anim_x = 0 - (animationFrame.get_width() / 5)
+            anim_y = (self.get_screen().get_height() / 2) - (animationFrame.get_height() / 2) - 50
 
 
             self.get_screen().blit(animationFrame, (anim_x, anim_y))
@@ -209,6 +209,7 @@ class Battle:
 
                 beforeBattleLife = self.get_battler1().get_hp()
                 beforeBattleLifeHeal = self.get_battler2().get_hp()
+                beforeAtk = self.get_battler2().get_atk()
 
                 btlMsg2 = str(self.get_battler2().act())
 
@@ -216,8 +217,11 @@ class Battle:
                     self._offset1 = OFFSETDURATION
                     self._animations.append(["Slash", 1, 13, 1])
 
-                if beforeBattleLifeHeal < self.get_battler2().get_hp() and self.get_battler2().get_hp() > 0:
+                if beforeBattleLifeHeal < self.get_battler2().get_hp() and self.get_battler2().get_hp() > 0 and self.get_battler1().get_hp() > 0:
                     self._animations.append(["Cure", 1, 21, 0])
+
+                if beforeAtk < self.get_battler2().get_atk() and self.get_battler2().get_actvBuff()[1] == False:
+                    self._animations.append(["BossBuff", 1, 26, 0])
 
                 self.set_tiempoEvent2(actualTick)
 
@@ -231,22 +235,30 @@ class Battle:
 
             if self.get_battler1().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
                 self.set_tiempoBuff1(actualTick)
+
+                self._animations.append(["Buff", 1, 29, 1])
+
                 print("Ataque actual con buff: " + str(self.get_battler1().get_atk()) + "\n" + str(self.get_tiempoBuff1()) + " - " + str(self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]))
 
             if self.get_battler1().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]:
                 endBuffmsg = self.get_battler1().endBuff()
                 self._textos.append(font.render(f"{endBuffmsg}", True, BLACK, None, 256))
                 self.set_tiempoBuff1(0)
+
+                self._animations.append(["Debuff", 1, 24, 1])
+
                 print("Ataque actual sin buff: " + str(self.get_battler1().get_atk()))
 
             if self.get_battler2().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
                 self.set_tiempoBuff2(actualTick)
+                self._animations.append(["BossBuff", 1, 26, 0])
                 print("Ataque actual con buff: " + str(self.get_battler1().get_atk()) + "\n" + str(self.get_tiempoBuff2()) + " - " + str(self.get_tiempoBuff2() + self.get_battler2().get_actvBuff()[0]))
 
             if self.get_battler2().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler2().get_actvBuff()[0]:
                 endBuffmsg = self.get_battler2().endBuff()
                 self._textos.append(font.render(f"PJ 2: {endBuffmsg}", True, BLACK, None, 256))
                 self.set_tiempoBuff2(0)
+                self._animations.append(["Debuff", 1, 24, 0])
                 print("Ataque actual sin buff: " + str(self.get_battler2().get_atk()))
 
         ##############
@@ -305,8 +317,8 @@ class Battle:
         HUD1 = fontStats.render(self.printStats(self.get_battler1()), True, BLACK)
         HUD2 = fontStats.render(self.printStats(self.get_battler2()), True, BLACK)
 
-        LIFE1 = fontStats.render(str(self.get_battler1().get_hp()) + "/" + str(self.get_battler1().get_maxHp()) + "\n\n\n\nNivel: " + str(self.get_battler1().get_lv()), True, WHITE)
-        LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()) + "\n\n\n\nNivel: " + str(self.get_battler2().get_lv()), True, WHITE)
+        LIFE1 = fontStats.render(str(self.get_battler1().get_hp()) + "/" + str(self.get_battler1().get_maxHp()), True, WHITE)
+        LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()), True, WHITE)
         NAME1 = fontStats.render(self.get_battler1().get_name() + " [" + str(self.get_battler1().get_lv()) + "]", True, WHITE)
         NAME2 = fontStats.render(self.get_battler2().get_name() + " [" + str(self.get_battler2().get_lv()) + "]", True, WHITE)
         # boton_rect1 = pygame.Rect(100, 600, 120, 120)
@@ -335,7 +347,7 @@ class Battle:
 
         for i, texto in enumerate(self._textos):
             if texto.get_alpha() > 1:
-                self.get_screen().blit(texto, ((self.get_screen().get_width() / 3) + 10, TOPY + i * 120))
+                self.get_screen().blit(texto, ((self.get_screen().get_width() / 3) + 10, TOPY + i * 125))
 
         self.get_screen().blit(self.get_imagen1(), (0 + offset_x1, TOPY + 100 + offset_y1))
         self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width()) + offset_x2, TOPY + 100 + offset_y2))
