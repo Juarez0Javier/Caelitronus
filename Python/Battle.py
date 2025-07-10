@@ -10,7 +10,7 @@ from PIL.ImageChops import offset
 import Characters
 
 battle1_path = "Sound/Music/Battle1.wav"
-lifeGauge_path = "Assets/ui/lifeGaugeAlpha.png"
+lifeGauge_path = "../Assets/ui/lifeGaugeAlpha.png"
 lifeGauge = pygame.image.load(lifeGauge_path)
 
 lifeGauge_offsetX = 18
@@ -18,10 +18,11 @@ lifeGauge_offsetY = 13
 # WIDTH, HEIGHT = 800, 600
 # screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # pygame.display.set_caption("Prueba de Ticks")
-fontPath = None
+#fontPath = None
+fontPath = "../Assets/Fonts/Seagram_tfb.ttf"
 # clock = pygame.time.Clock()
-font = pygame.font.Font(fontPath, 16)
-fontStats = pygame.font.Font(fontPath, 30)
+font = pygame.font.Font(fontPath, 14)
+fontStats = pygame.font.Font(fontPath, 16)
 #textos = []
 
 RED = (255, 0, 0)
@@ -35,7 +36,8 @@ TOPY = 50
 
 offset1 = 0
 offset2 = 0
-
+OFFSETPOWER = 15
+OFFSETDURATION = 20
 MIN_SPEED = 5
 
 
@@ -55,6 +57,8 @@ class Battle:
         self._tiempoBuff2 = 0
 
         self._textos = []
+
+        self._animations = []
 
         self._offset1 = 0
         self._offset2 = 0
@@ -117,7 +121,7 @@ class Battle:
 
 
         stat = "ATQ: " + att + "  DAN: " + dam + "  VLC: " + spd
-        stat += "\nDEF: " + arm + "  ESQ: " + eva + "  SRT: " + lck
+        stat += "\n DEF: " + arm + "  ESQ: " + eva + "  SRT: " + lck
 
         return stat
 
@@ -133,7 +137,36 @@ class Battle:
             return RED
 
     def fractionCalculation(self, actualHp, maxHp):
+        if actualHp == 0 or maxHp == 0:
+            return 0
         return actualHp / maxHp
+
+    def animationManager(self):
+
+        pops = []
+
+        for i in range(len(self._animations)):
+            animation_path = "../Assets/Animations/" + self._animations[i][0] + "/" + self._animations[i][0] + str(self._animations[i][1]) + ".png"
+            animationFrame = pygame.image.load(animation_path).convert_alpha()
+            #animationFrame.set_colorkey(BLACK)
+            animationFrame = pygame.transform.scale(animationFrame,(animationFrame.get_width() * 2, animationFrame.get_height() * 2))
+
+            if self._animations[i][3] == 0:
+                anim_x = self.get_screen().get_width() / 2 + (animationFrame.get_width() / 4)
+            else:
+                anim_x = 0
+            anim_y = (self.get_screen().get_height() / 2) - animationFrame.get_height() / 2
+
+
+            self.get_screen().blit(animationFrame, (anim_x, anim_y))
+            self._animations[i][1] += 1
+            if self._animations[i][1] >= self._animations[i][2]:
+                pops.append(i)
+
+        for i in range(len(pops)):
+            self._animations.pop(pops[i]-i)
+
+
 
     def doBattle(self):
 
@@ -144,7 +177,15 @@ class Battle:
 
             if actualTick >= self.get_tiempoEvent1() + (MIN_SPEED - (self.get_battler1().get_spd() * 0.5 * 0.1)):
 
+                beforeBattleLife = self.get_battler2().get_hp()
+
                 btlMsg1 = str(self.get_battler1().act())
+
+                if beforeBattleLife > self.get_battler2().get_hp() and self.get_battler2().get_hp() > 0:
+                    self._offset2 = OFFSETDURATION
+                    # PRUEBA ANIMACION
+                    self._animations.append(["Slash", 1, 13, 0])
+                    # print("ANIMAR")
 
                 #self._offset2 = 30
 
@@ -159,14 +200,24 @@ class Battle:
                 self._textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK, None, 256))
 
                 if self.get_battler2().get_hp() <= 0:
-                    expGainMsg = self.get_battler1().xpUp(5)
+                    expGainMsg = self.get_battler1().xpUp(10)
                     self._textos.append(font.render(f"PJ 1: {expGainMsg}", True, BLACK, None, 256))
 
                 # self._textos.append(font.render("PJ 1 ataca", True, BLACK))
 
             if actualTick >= self.get_tiempoEvent2() + (MIN_SPEED - (self.get_battler2().get_spd() * 0.5 * 0.1)) and self.get_battler2().get_hp() > 0:
 
+                beforeBattleLife = self.get_battler1().get_hp()
+                beforeBattleLifeHeal = self.get_battler2().get_hp()
+
                 btlMsg2 = str(self.get_battler2().act())
+
+                if beforeBattleLife > self.get_battler1().get_hp() and self.get_battler1().get_hp() > 0:
+                    self._offset1 = OFFSETDURATION
+                    self._animations.append(["Slash", 1, 13, 1])
+
+                if beforeBattleLifeHeal < self.get_battler2().get_hp() and self.get_battler2().get_hp() > 0:
+                    self._animations.append(["Cure", 1, 21, 0])
 
                 self.set_tiempoEvent2(actualTick)
 
@@ -202,22 +253,45 @@ class Battle:
 
         #Calcular offset
 
-        # if self._offset2 > 0:
-        #     offset_x2 = rnd.randint(-10, 10)
-        #     offset_y2 = rnd.randint(-10, 10)
-        #     self._offset2 -= 1
-        # else:
-        #     offset_x2 = 0
-        #     offset_y2 = 0
+        if self._offset2 > 0:
+            offset_x2 = rnd.randint(-OFFSETPOWER, OFFSETPOWER)
+            offset_y2 = rnd.randint(-OFFSETPOWER, OFFSETPOWER)
+            self._offset2 -= 1
+        else:
+            offset_x2 = 0
+            offset_y2 = 0
 
-
+        if self._offset1 > 0:
+            offset_x1 = rnd.randint(-OFFSETPOWER, OFFSETPOWER)
+            offset_y1 = rnd.randint(-OFFSETPOWER, OFFSETPOWER)
+            self._offset1 -= 1
+        else:
+            offset_x1 = 0
+            offset_y1 = 0
         ##############
         self.get_screen().fill(WHITE)
 
+        ##############
+
+        fondo_screen = pygame.image.load("../Assets/BckGrnd/paper.png").convert()
+        fondo_screen = pygame.transform.scale(fondo_screen, (self.get_screen().get_width(), self.get_screen().get_height()))
+        self.get_screen().blit(fondo_screen, (0, 0))
+
+        paperBorder = pygame.image.load("../Assets/BckGrnd/papersideborder.png").convert()
+        paperBorder = pygame.transform.scale(paperBorder, (self.get_screen().get_width() / 3, self.get_screen().get_height()))
+        self.get_screen().blit(paperBorder, (self.get_screen().get_width() / 2 - self.get_screen().get_width() / 6, 0))
+
+        paperAllBorder = pygame.image.load("../Assets/BckGrnd/paperallborder.png").convert()
+        paperAllBorder = pygame.transform.scale(paperAllBorder, (self.get_screen().get_width() / 3, self.get_screen().get_height() / 7))
+        self.get_screen().blit(paperAllBorder, (0, self.get_screen().get_height() - self.get_screen().get_height() / 4))
+        self.get_screen().blit(paperAllBorder, (self.get_screen().get_width() / 3 * 2, self.get_screen().get_height() - self.get_screen().get_height() / 4))
+        ##############
+
+
         #pygame.draw.rect(self.get_screen(), RED, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_maxHp(), 15))
         #pygame.draw.rect(self.get_screen(), GREEN, pygame.Rect(self.get_screen().get_width() - 300, TOPY + 25, self.get_battler2().get_hp(), 15))
-        pygame.draw.rect(self.get_screen(), self.colorCalculation(self.get_battler2().get_hp(), self.get_battler2().get_maxHp()), pygame.Rect(self.get_screen().get_width() - 300 + lifeGauge_offsetX, TOPY + 25 + lifeGauge_offsetY, 205 * self.fractionCalculation(self.get_battler2().get_hp(), self.get_battler2().get_maxHp()), 17))
-        self.get_screen().blit(lifeGauge, (self.get_screen().get_width() - 300, TOPY + 25))
+        pygame.draw.rect(self.get_screen(), self.colorCalculation(self.get_battler2().get_hp(), self.get_battler2().get_maxHp()), pygame.Rect(self.get_screen().get_width() - lifeGauge.get_width() - 25 + lifeGauge_offsetX, TOPY + 25 + lifeGauge_offsetY, 205 * self.fractionCalculation(self.get_battler2().get_hp(), self.get_battler2().get_maxHp()), 17))
+        self.get_screen().blit(lifeGauge, (self.get_screen().get_width() - lifeGauge.get_width() - 25, TOPY + 25))
 
         #pygame.draw.rect(self.get_screen(), RED, pygame.Rect(25, TOPY + 25, self.get_battler1().get_maxHp(), 15))
         pygame.draw.rect(self.get_screen(), self.colorCalculation(self.get_battler1().get_hp(), self.get_battler1().get_maxHp()), pygame.Rect(25 + lifeGauge_offsetX, TOPY + 25 + lifeGauge_offsetY, 205 * self.fractionCalculation(self.get_battler1().get_hp(), self.get_battler1().get_maxHp()), 17))
@@ -243,30 +317,34 @@ class Battle:
         # #self.get_screen().blit(texto_rect, (25, 600))
 
         self.get_screen().blit(LIFE1, (25, TOPY))
-        self.get_screen().blit(LIFE2, (self.get_screen().get_width() - 300, TOPY))
+        self.get_screen().blit(LIFE2, (self.get_screen().get_width() - LIFE2.get_width() - 25, TOPY))
 
         self.get_screen().blit(HUD1, (25, 600))
-        self.get_screen().blit(HUD2, (self.get_screen().get_width() - 300, 600))
+        self.get_screen().blit(HUD2, (self.get_screen().get_width() - 280, 600))
 
         ################
 
         ################
-        while len(self._textos) > 6:
+        while len(self._textos) > 5:
             self._textos.remove(self._textos[0])
 
         for i, texto in enumerate(self._textos):
             if texto.get_alpha() > 1:
-                self.get_screen().blit(texto, (300, TOPY + i * 80))
+                self.get_screen().blit(texto, ((self.get_screen().get_width() / 3) + 10, TOPY + i * 120))
 
-        self.get_screen().blit(self.get_imagen1(), (0, TOPY + 100))
-        self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20), TOPY + 100))
+        self.get_screen().blit(self.get_imagen1(), (0 + offset_x1, TOPY + 100 + offset_y1))
+        self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width()) + offset_x2, TOPY + 100 + offset_y2))
+
+        #PRUEBA ANINACIONES
+        self.animationManager()
 
         # self.get_screen().blit(self.get_imagen1(), (0, TOPY + 75))
         # self.get_screen().blit(pygame.transform.flip(self.get_imagen2(), True, False), (self.get_screen().get_width() - (self.get_imagen2().get_width() + 20 + offset_x2), TOPY + 75 + offset_y2))
 
         if self.get_battler1().get_hp() <= 0 or self.get_battler2().get_hp() <= 0 and not self._battleEnd:
             pygame.mixer.music.fadeout(1000)
-            
+            self.get_battler1().endBuff()
+            self.get_battler2().endBuff()
             return False
             sleep(1)
             self._battleEnd = True
