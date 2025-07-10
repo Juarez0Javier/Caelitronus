@@ -51,6 +51,10 @@ class Level:
 
             run = True
 
+            ##print("Do Battle!!")
+
+            self._M1.heal(self._M1.get_maxHp())
+
             while run:
                 run = battleScreen.doBattle()
                 #pygame.display.flip()
@@ -61,6 +65,7 @@ class Level:
                 #Pantalla de Perdida
                 LostMenu = Mns.LScreen(screen)
                 self._winState = WINSTATE["L&Re"] if LostMenu.runMenu() == True else WINSTATE["L&Out"]
+                break
 
             #Pantalla de Siguiente Batalla o Subida de Nivel
 
@@ -95,10 +100,9 @@ class Level:
 
                     WinMenu = Mns.GWScreen(screen,self._M1)
                     run = WinMenu.runMenu()
-
-            self._M1.heal(self._M1.get_maxHp())
             
             battleScreen.textReset()
+
 
         return self._winState
         

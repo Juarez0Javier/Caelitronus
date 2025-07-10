@@ -74,7 +74,7 @@ class Game:
         if os.path.exists("progs.json"):
             with open("progs.json", "r") as f:
                 return json.load(f)
-        return {"musica": 0.5, "efectos": 0.5}
+        return None
 
     def _guardar_progs (self,jgdr, vic):
         with open("progs.json", "w") as f:
@@ -85,16 +85,20 @@ class Game:
                 "pvJgdr":jgdr[3],
                 "defJgdr":jgdr[4],
                 "esqJgdr":jgdr[5],
-                "vlcJgdr":jgdr[6],
-                "srtJgdr":jgdr[7],
+                "atkJgdr":jgdr[6],
+                "danJgdr":jgdr[7],
+                "vlcJgdr":jgdr[8],
+                "srtJgdr":jgdr[9],
                 "jefesCant": vic [0],
                 "espinaFlag": vic [1],
-                "serpicoFlag": vic [2],
-                "corvusFlag": vic [3],
-                "galaadFlag": vic [4],
-                "misioFlag": vic [5]
+                "espinaDif": vic [2],
+                "serpicoFlag": vic [3],
+                "serpicoDif": vic [4],
+                "corvusFlag": vic [5],
+                "corvusDif": vic [6],
+                "galaadFlag": vic [7],
+                "missFlag": vic [8],
                 }, f)
-
 
     def _get_blurred_surface(self, surface, blur_amount=5):
         if blur_amount <= 1:
@@ -157,13 +161,44 @@ class Game:
         charSel = Menus.CharSelectScreen(self.screen)
         lvSel = Menus.LevelSelectScreen(self.screen)
 
-        difBase = lvSel.jefesderrotados
-        difFin = {"Spn":0, "Fn":0, "Pss":0,"Fnl":0}
+        difBase = 0
+        difFin = {"Spn":0, "Fn":0, "Pss":0}
 
-        #Cargar Datasos
+        progs = self._cargar_progs()
+
+        M1 = None
+
+        charType = None
+
+        if progs == None:
+            charType = charSel.runMenu()
+            M1 = getattr(Characters,charType + "DmnManifest")(1)
+        else:
+            charType = progs["tipoJgdr"]
+            M1 = getattr(Characters,charType + "DmnManifest")(1)
+            M1.set_lv(progs["nivelJgdr"])
+            M1.set_xp(progs["xpJgdr"])
+            M1.set_maxHp(progs["pvJgdr"])
+            M1.set_hp(progs["pvJgdr"])
+            M1.set_defn(progs["defJgdr"])
+            M1.set_evd(progs["esqJgdr"])
+            M1.set_atk(progs["atkJgdr"])
+            M1.set_atkDmg(progs["danJgdr"])
+            M1.set_spd(progs["vlcJgdr"])
+            M1.set_luck(progs["srtJgdr"])
+
+            difBase = progs["jefesCant"]
+
+            difFin["Spn"] = progs["espinaDif"]
+            difFin["Fn"] = progs["serpicoDif"]
+            difFin["Pss"] = progs["corvusDif"]
+
+            lvSel.flag_espina = progs["espinaFlag"]
+            lvSel.flag_serpico = progs["serpicoFlag"]
+            lvSel.flag_corvus = progs["corvusFlag"]
+            lvSel.flag_galaad = progs["galaadFlag"]
+            lvSel.flag_misionero = progs["missFlag"]
         
-        charType = charSel.runMenu()
-        M1 = getattr(Characters,charType + "DmnManifest")(1)
 
         selRun = lvSel.runMenu()
 
@@ -182,10 +217,10 @@ class Game:
 
                 print(winState)
 
-                while winState == "L&Re":
+                while winState == Levels.WINSTATE["L&Re"]:
                     winState = lv.runLvSq()
 
-                if winState == "GW":
+                if winState == Levels.WINSTATE["GW"]:
                     lvSel.flag_espina == True
                     difBase += 1
 
@@ -200,11 +235,11 @@ class Game:
 
                 lv = Levels.Level(M1,difFin["Fn"],"Fn")
 
-                winState = lv.runLvSq()
-                while winState == "L&Re":
+
+                while winState == Levels.WINSTATE["L&Re"]:
                     winState = lv.runLvSq()
 
-                if winState == "GW":
+                if winState == Levels.WINSTATE["GW"]:
                     lvSel.flag_serpico == True
                     difBase += 1
 
@@ -220,10 +255,10 @@ class Game:
                 lv = Levels.Level(M1,difFin["Pss"],"Pss")
 
                 winState = lv.runLvSq()
-                while winState == "L&Re":
+                while winState == Levels.WINSTATE["L&Re"]:
                     winState = lv.runLvSq()
 
-                if winState == "GW":
+                if winState == Levels.WINSTATE["GW"]:
                     lvSel.flag_corvus == True
                     difBase += 1
 
@@ -231,27 +266,23 @@ class Game:
 
             if selRun == "Fnl":
 
-                if lvSel.flag_galaad == False:
-                    difFin["Fnl"] = difBase
-
                 #Corremos Inicial de Galaad
 
-                lv = Levels.Level(M1,difFin["Fnl"],"Fnl")
+                lv = Levels.Level(M1,difBase,"Fnl")
 
                 winState = lv.runLvSq()
-                while winState == "L&Re":
+                while winState == Levels.WINSTATE["L&Re"]:
                     winState = lv.runLvSq()
 
-                if winState == "GW":
+                if winState == Levels.WINSTATE["GW"]:
                     lvSel.flag_galaad == True
-                    difBase += 1
 
                 #Corremos Final de Galaad
 
             if selRun == "Miss" or selRun == "Back":
                 break
 
-            lvSel.runMenu()
+            selRun = lvSel.runMenu()
 
         if selRun == "Miss":
 
@@ -259,8 +290,38 @@ class Game:
 
             lvSel.flag_misionero = True
 
+            #Corremos los Creditos
+
 
         #Guardar Datasos
+
+        JugadorData = [charType,
+                       M1.get_lv(),
+                       M1.get_xp(),
+                       M1.get_bsStatByKey("PV"),
+                       M1.get_bsStatByKey("DEF"),
+                       M1.get_bsStatByKey("ESQ"),
+                       M1.get_bsStatByKey("ATK"),
+                       M1.get_bsStatByKey("DAN"),
+                       M1.get_bsStatByKey("VLC"),
+                       M1.get_bsStatByKey("SRT"),
+                       ]
+        VictoriaData = [difBase,difFin["Spn"],
+                        difFin["Fn"],
+                        difFin["Pss"],
+                        lvSel.flag_espina,
+                        lvSel.flag_serpico,
+                        lvSel.flag_corvus,
+                        lvSel.flag_galaad,
+                        lvSel.flag_misionero
+                        ]
+        
+        #print(JugadorData)
+        #print(VictoriaData)
+
+        self._guardar_progs(JugadorData,VictoriaData)
+
+
 
         return "MENU"
 
@@ -304,6 +365,7 @@ class Game:
             self.background_image = background_image
             self.next_screen = None
             self.game = game_instance # Referencia a la instancia de Game
+            self.filtrCol = (12,12,35,25)
 
         def handle_event(self, event):
             pass
@@ -313,6 +375,10 @@ class Game:
 
         def draw(self):
             self.screen.blit(self.background_image, (0, 0))
+            filter = pygame.Surface((500, 300))
+            filter.set_alpha(155)
+            filter.fill((50,50,50)) 
+            self.screen.blit(filter, (970/2 - 500/2 - 25,320)) 
 
     class MenuScreen(GameScreen):
         def __init__(self, screen, clock, background_image, font_renderer_menu, game_instance):

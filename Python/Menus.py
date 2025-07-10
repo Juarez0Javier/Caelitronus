@@ -482,7 +482,7 @@ class LevelSelectScreen:
         but_espina = Button.Button('Padre Espina',200,100,(360,600))
         but_corvus = Button.Button('Fray Corvus',200,100,(640,600))
         but_galaad = Button.Button('Galaad',200,100,(360,325))
-        but_misionero = Button.Button('El Misionero',200,100,(360,100))
+        but_misionero = Button.Button('???',200,100,(360,100))
         but_menu = Button.Button('Salir al Menu Principal',280,50,(595,25))
 
         #Prueba. Sale si se presiona el boton de Salir al Menu Principal (falta integrar).

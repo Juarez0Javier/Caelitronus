@@ -259,11 +259,6 @@ class Manifest:
         Mss = self.get_name()
         mult = 1
 
-        HitNumber = random.randrange(1,BASETOHIT)
-        DefNumber = BASETOHIT
-
-        print (str(HitNumber) + " + " + str(self.get_atk()/10) + " vs " + str(DefNumber) + " + " +  str(self.get_opp().get_evd()/10))
-
         if (random.randrange(1,ATKDIE) + self.get_atk()/10) >= (BASETOHIT + self.get_opp().get_evd()/10):
             Mss+= " golpea a " + self.get_opp().get_name() + "."
             if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:
