@@ -440,39 +440,49 @@ class LevelSelectScreen:
         fondo = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
         fondo = pygame.transform.scale(fondo, (WIDTH, HEIGHT))
         icon_back_color = '#000000'
+
         if(self.flag_serpico == False):
             icon_serpico = pygame.image.load("./Assets/Icons/Serpico.png")
         else:
             icon_serpico = pygame.image.load("./Assets/Icons/SerpicoDerrotado.png")
             self.jefesderrotados+=1
+
         icon_serpico = pygame.transform.scale(icon_serpico, (50, 50))
         posicion = pygame.Rect(155,550,50,50)
         icon_serpico_rect = icon_serpico.get_rect(center = posicion.center)
+
         if(self.flag_espina == False):
             icon_espina = pygame.image.load("./Assets/Icons/Espina.png")
         else:
             icon_espina = pygame.image.load("./Assets/Icons/EspinaDerrotado.png")
             self.jefesderrotados+=1
+
         icon_espina = pygame.transform.scale(icon_espina, (50, 50))
         posicion = pygame.Rect(435,550,50,50)
         icon_espina_rect = icon_espina.get_rect(center = posicion.center)
+
         if(self.flag_corvus == False):
             icon_corvus = pygame.image.load("./Assets/Icons/Corvus.png")
         else:
             icon_corvus = pygame.image.load("./Assets/Icons/CorvusDerrotado.png")
             self.jefesderrotados+=1
+
         icon_corvus = pygame.transform.scale(icon_corvus, (50, 50))
         posicion = pygame.Rect(715,550,50,50)
         icon_corvus_rect = icon_corvus.get_rect(center = posicion.center)
+
         if(self.flag_galaad == False):
             icon_galaad = pygame.image.load("./Assets/Icons/Galaad.png")
         else:
             icon_galaad = pygame.image.load("./Assets/Icons/GalaadDerrotado.png")
             self.jefesderrotados+=1
+
         icon_galaad = pygame.transform.scale(icon_galaad, (50, 50))
         posicion = pygame.Rect(435,275,50,50)
         icon_galaad_rect = icon_galaad.get_rect(center = posicion.center)
+        
         icon_misionero = pygame.image.load("./Assets/Icons/Misionero.png")
+
         icon_misionero = pygame.transform.scale(icon_misionero, (50, 50))
         posicion = pygame.Rect(435,50,50,50)
         icon_misionero_rect = icon_misionero.get_rect(center = posicion.center)
@@ -595,6 +605,7 @@ class LevelSelectScreen:
             clock.tick(30)
 
         return stageSelec
+
 class CharSelectScreen:
 
     def __init__(self,screen):

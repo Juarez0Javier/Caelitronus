@@ -3,7 +3,7 @@ import sys
 import json
 import os
 import time
-import subprocess
+import copy
 from moviepy import VideoFileClip
 
 import Menus
@@ -198,8 +198,8 @@ class Game:
             lvSel.flag_corvus = progs["corvusFlag"]
             lvSel.flag_galaad = progs["galaadFlag"]
             lvSel.flag_misionero = progs["missFlag"]
-        
 
+        backUpLvSel = copy.copy(lvSel)
         selRun = lvSel.runMenu()
 
         while True:
@@ -282,6 +282,8 @@ class Game:
             if selRun == "Miss" or selRun == "Back":
                 break
 
+            lvSel = backUpLvSel
+            backUpLvSel = copy.copy(lvSel)
             selRun = lvSel.runMenu()
 
         if selRun == "Miss":
