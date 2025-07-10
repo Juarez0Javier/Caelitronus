@@ -434,6 +434,7 @@ class LevelSelectScreen:
         screen = self.screen
 
         stageSelec = None
+        self.jefesderrotados = 0
 
         #Trae y muestra los iconos de los jefes
         fondo = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
@@ -494,7 +495,6 @@ class LevelSelectScreen:
         but_misionero = Button.Button('???',200,100,(360,100))
         but_menu = Button.Button('Salir al Menu Principal',280,50,(595,25))
 
-        #Prueba. Sale si se presiona el boton de Salir al Menu Principal (falta integrar).
         run = True
 
         while run:
@@ -720,6 +720,50 @@ class CharSelectScreen:
             clock.tick(30)
 
         return charType
+
+class Creditos:
+
+    def __init__(self,screen):
+
+        self.screen = screen
+        self._ExitMode = False
+
+
+    def runMenu(self):
+
+        screen = self.screen
+
+        creditos_fondo = pygame.image.load("./Assets/BckGrnd/papersideborder.png").convert()
+        creditos_fondo = pygame.transform.scale(creditos_fondo, (WIDTH, HEIGHT))
+        creditos_rect = creditos_fondo.get_rect()
+        font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 25)
+        text = font.render("\t\t\t\tGRUPO 6:  ESTUDIO SERVENTESIO\n\n\t\t\t\t\t\t\t\t\t\t DESARROLLADORES:\n\n" +
+        "\t\t\t\t\t\t\t\t\t\t\tMaximiliano Andre Bograd\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tJuarez Javier David\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t Matias Daniel Diaz\n\n\t\t\t\t\t\t\t\t\t\t\t\tBriosso Adrian Roberto\n\n" +
+        "\t\t\t\t\t\t\t\t\t\t\t\t\t\tPROFESORES:\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Mariano Volker\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDario Hirschfeldt",True,'#000000')
+        text_rect = text.get_rect(center = creditos_rect.center)
+        but_mainmenu = Button.Button('Volver al Menu Principal',300,50,(310, 685))
+
+        run = True
+        while run:
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    run = False
+                    quit()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    if(but_mainmenu.get_clicked() == True):
+                        self._ExitMode = True
+
+            screen.blit(creditos_fondo, (0,0))
+            screen.blit(text,text_rect)
+            but_mainmenu.draw(screen,True,False)
+
+            if self._ExitMode == True:
+                run = False
+
+            pygame.display.update()
+            clock.tick(30)
 
 '''
 import Characters
