@@ -1,8 +1,8 @@
 
 import pygame
 
-#clock = pygame.time.Clock()
-#clock.tick(30)
+clock = pygame.time.Clock()
+clock.tick(30)
 
 pygame.init()
 
@@ -51,9 +51,17 @@ class Level:
 
             run = True
 
+            ##print("Do Battle!!")
+
+            self._M1.heal(self._M1.get_maxHp())
+
             while run:
                 run = battleScreen.doBattle()
+
                 #pygame.display.flip()
+
+                clock.tick(30)
+
 
             self._winState = WINSTATE["GW"] if Enemy[0] == LvSq[-1][0] else WINSTATE["W"]
 
@@ -61,6 +69,7 @@ class Level:
                 #Pantalla de Perdida
                 LostMenu = Mns.LScreen(screen)
                 self._winState = WINSTATE["L&Re"] if LostMenu.runMenu() == True else WINSTATE["L&Out"]
+                break
 
             #Pantalla de Siguiente Batalla o Subida de Nivel
 
@@ -95,10 +104,9 @@ class Level:
 
                     WinMenu = Mns.GWScreen(screen,self._M1)
                     run = WinMenu.runMenu()
-
-            self._M1.heal(self._M1.get_maxHp())
-
+            
             battleScreen.textReset()
+
 
         return self._winState
         
@@ -114,14 +122,15 @@ class Level:
 
         return AngL[0]
     
-
+'''
 ##Prueba de Niveles##
 
 MainC = Ch.AtkDmnManifest(1)
 
-LV1 = Level(MainC,0,"Fnl")
+LV1 = Level(MainC,0,"Spn")
 
 run = WINSTATE["L&Re"]
 
 while run == WINSTATE["L&Re"]:
     run = LV1.runLvSq()
+'''

@@ -1,11 +1,15 @@
 import random
 import asyncio
 
-RANDDMGUP = 8
-RANDDMGLOW = 1
+
+#Dados
+DANDIE = 8
+ATKDIE = 20
 
 #Liimites minimos
-BASETOHIT = 20
+
+
+BASETOHIT = 10
 BASETOLUCK = 100
 
 #Multiplicadores
@@ -13,74 +17,77 @@ CRITMULT = 1.5
 
 #Blueprints de Niveles de Manifestacion
 ATKDMN_LV = [
-{"StartLv": 1, "EndLv":5},
-{"PV": 200, "DEF": 0, "ESQ": 0, "ATK": 35, "DAN": 25, "VLC": 5, "SRT": 5},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 0},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5}
+{"StartLv": 1, "EndLv":6},
+{"PV": 150, "DEF": 0, "ESQ": 10, "ATK": 20, "DAN": 10, "VLC": 10, "SRT": 5},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 10, "DAN": 0, "VLC": 5, "SRT": 0},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 10, "VLC": 5, "SRT": 0},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 10, "DAN": 10, "VLC": 0, "SRT": 0}
 ]
 DEFDMN_LV = [
-{"StartLv": 1, "EndLv":5},
-{"PV": 250, "DEF": 25, "ESQ": 15, "ATK": 15, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 50, "DEF": 5, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 0, "SRT": 0},
-{"PV": 0, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 0}
+{"StartLv": 1, "EndLv":6},
+{"PV": 200, "DEF": 10, "ESQ": 15, "ATK": 10, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 50, "DEF": 5, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 0, "SRT": 0},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
+{"PV": 0, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 0},
+{"PV": 50, "DEF": 10, "ESQ": 0, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 0}
 ]
 LCKDMN_LV = [
-{"StartLv": 1, "EndLv":5},
-{"PV": 200, "DEF": 0, "ESQ":35, "ATK": 5, "DAN": 5, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5},
-{"PV": 00, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5}
+{"StartLv": 1, "EndLv":6},
+{"PV": 150, "DEF": 0, "ESQ":15, "ATK": 10, "DAN": 0, "VLC": 15, "SRT": 15},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 0},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 5},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 0, "VLC": 10, "SRT": 10}
 ]
 
 HEALANG_LV = [
 {"StartLv": 1, "EndLv": 3},
-{"PV": 125, "DEF": 0, "ESQ": 15, "ATK": 5, "DAN": 0, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0},
+{"PV": 150, "DEF": 0, "ESQ": 5, "ATK": 10, "DAN": 0, "VLC": 5, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 5},
 ]
 DRAINANG_LV = [
 {"StartLv": 1, "EndLv": 3},
-{"PV": 175, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 0},
+{"PV": 150, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 5, "VLC": 0, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 5, "VLC": 0, "SRT": 0},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 10},
 ]
 LAZANG_LV = [
 {"StartLv": 1, "EndLv": 3},
-{"PV": 125, "DEF": 5, "ESQ": 15, "ATK": 0, "DAN": 0, "VLC": 15, "SRT": 25},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5}
+{"PV": 125, "DEF": 5, "ESQ": 15, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 10},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 5, "VLC": 0, "SRT": 5},
+{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5}
 ]
 
 SPNBOSS_LV = [
 {"StartLv": 3, "EndLv": 5},
-{"PV": 300, "DEF": 15, "ESQ": 25, "ATK": 25, "DAN": 25, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 5},
-{"PV": 50, "DEF": 5, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0}
+{"PV": 200, "DEF": 10, "ESQ": 15, "ATK": 15, "DAN": 25, "VLC": 10, "SRT": 20},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 0, "SRT": 5},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0}
 ]
 FNBOSS_LV = [
 {"StartLv": 3, "EndLv": 5},
-{"PV": 250, "DEF": 0, "ESQ": 5, "ATK": 25, "DAN": 25, "VLC": 15, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0}
+{"PV": 200, "DEF": 0, "ESQ": 15, "ATK": 30, "DAN": 15, "VLC": 25, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 5}
 ]
 PSSBOSS_LV = [
 {"StartLv": 3, "EndLv": 5},
-{"PV": 300, "DEF": 35, "ESQ": 15, "ATK": 15, "DAN": 35, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0}
+{"PV": 300, "DEF": 5, "ESQ": 15, "ATK": 15, "DAN": 10, "VLC": 15, "SRT": 15},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0}
 ]
 FNLBOSS_LV = [
 {"StartLv": 6, "EndLv": 6},
-{"PV": 400, "DEF": 25, "ESQ": 35, "ATK": 35, "DAN": 45, "VLC": 25, "SRT": 25}
+{"PV": 500, "DEF": 15, "ESQ": 30, "ATK": 40, "DAN": 25, "VLC": 25, "SRT": 20}
 ]
 
 #Bluprint de Experiencia para Subir de Nivel
-XPPROG = [10,30,60,100]
+XPPROG = [10,30,60,100,150]
 
 #Lista de Stats
 STATLIST = ['PV','DEF','ESQ','ATK','DAN','VLC','SRT']
@@ -122,6 +129,8 @@ class Manifest:
 
         #Definiendo Stats Base
         self._statBuffer = {'PV':0,'DEF':0,'ESQ':0,'ATK':0,'DAN':0,'VLC':0,'SRT':0}
+
+        self.setUpBuff()
 
         #Ritina para Subir de Nivel en caso de comenzar
         #en un nivel mayor al inicial
@@ -241,44 +250,47 @@ class Manifest:
     ##Las funciones siempre retornan los mensajes de acciones
 
     def act(self):
+
+        #print("Acting is my passion!!")
+
         Mss = ""
         if (random.randrange(1,BASETOLUCK) + self.get_luck() >= BASETOLUCK) and (self._actvBuff[1] == False):  
-            Mss = self.callAbility() + "\n" + self.attack()
-        else:
-            Mss = self.attack()
+            Mss = self.callAbility() + "\n\n"
+        Mss = self.attack() + "\n\n"
         return Mss
 
     def attack (self):
         Mss = self.get_name()
         mult = 1
-        if (random.randrange(1,BASETOHIT) + self.get_atk()) >= (BASETOHIT + self.get_opp().get_evd()):
-            Mss+= " golpea a " + self.get_opp().get_name() + "."
+
+        if (random.randrange(1,ATKDIE) + self.get_atk()/10) >= (BASETOHIT + self.get_opp().get_evd()/10):
+            Mss+= " golpea a " + self.get_opp().get_name() + "." + "\n\n"
             if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:
                  mult = CRITMULT
-                 Mss+= " Ataque Critico!"
-            Mss+= "\n" + self.get_opp().takeDamage(int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * mult + self.get_atkDmg() ))
+                 Mss+= " Ataque Critico!" + "\n\n"
+            Mss+= self.get_opp().takeDamage(int(random.randrange(1,DANDIE) * 5 * mult + self.get_atkDmg() ))
         else:
-            Mss+= " le erra a " + self.get_opp().get_name() + "."
+            Mss+=" le erra a " + self.get_opp().get_name() + "." + "\n\n"
         return Mss
 
     def takeDamage(self, dmg):
         rdDmg = dmg - self.get_defn()
         if(self.get_defn() > dmg ):
             rdDmg = 0
-        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño."
+        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño." + "\n\n"
 
         if rdDmg >= self.get_hp():
             self.set_hp(0)
-            Mss+= '\n' + self.death()
+            Mss+= '\n\n' + self.death()
         else:
             self.set_hp(self.get_hp() - rdDmg) 
         return Mss
     
     def death(self):
-        return self.get_name() + " muere."
+        return self.get_name() + " muere." + "\n\n"
         
     def heal(self,heal):
-        Mss = self.get_name() + " se cura "
+        Mss = self.get_name() + " se cura " 
         effHeal = self.get_maxHp() - self.get_hp()
         if heal >= effHeal:
             self.set_hp(self.get_hp() + effHeal)
@@ -286,13 +298,13 @@ class Manifest:
         else:
             self.set_hp(self.get_hp() + heal)
             Mss += str(heal)
-        Mss += " de vida."
+        Mss += " de vida." + "\n\n"
         return Mss
     
     #Metodos de Abilidades
     
     def callAbility(self):
-        return self.get_name()  + " usa su habilidad especial."
+        return self.get_name()  + " usa su habilidad especial." + "\n\n"
     
     def setUpBuff(self):
         for key in STATLIST:
@@ -305,16 +317,16 @@ class Manifest:
 
         self._actvBuff[1] = False
 
-        return self.get_name()  + " pierde el incremento a sus estadísticas."
+        return self.get_name()  + " pierde el incremento a sus estadísticas." + "\n\n"
     
     #Metodos 'Ganar Experiencia' y 'Subir de Nivel'
 
     def xpUp(self,xp):
         Mss = self.get_name() 
         if self._xp == self._xpBp[-1]:
-            Mss += "no puede ganar mas experiencia."   
+            Mss += "no puede ganar mas experiencia." + "\n\n"   
         else:
-            Mss += " gana " + str(xp) + " puntos de experiencia."
+            Mss += " gana " + str(xp) + " puntos de experiencia." + "\n\n"
             self.set_xp(self.get_xp() + xp)
         return Mss
     
@@ -340,19 +352,19 @@ class Manifest:
 class HealManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Sagrado"
-        self._sprite =r"Assets\BttlSprit\AnSag.gif"
+        self._sprite =r"Assets\\BttlSprit\\AnSag.png"
         self. _lvBp = HEALANG_LV
 
         super().__init__(lv)
            
     def callAbility(self):
         heal = int(self.get_maxHp() * 0.25)
-        return self.get_name()  + " usa su habilidad especial." + "\n" +  self.heal(heal)
+        return self.get_name()  + " usa su habilidad especial." + "\n\n" +  self.heal(heal)
     
 class DrainManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Oscuro"
-        self._sprite =r"Assets\BttlSprit\AnOsc.gif"
+        self._sprite =r"Assets\\BttlSprit\\AnOsc.png"
         self._lvBp = DRAINANG_LV
 
         super().__init__(lv)        
@@ -360,23 +372,23 @@ class DrainManifest (Manifest):
     def act(self):
         Mss = None
         if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:  
-            Mss = self.callAbility()
+            Mss = self.callAbility() + "\n\n"
         else:
-            Mss = self.attack()
+            Mss = self.attack() + "\n\n"
         return Mss
 
     def callAbility(self):
-        drainDmg = int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * CRITMULT + self.get_atkDmg())
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
-        Mss += self.get_name() + " le absorbe vida a " + self.get_opp().get_name() + "."
-        Mss += "\n" + self.get_opp().takeDamage(drainDmg)
-        Mss += "\n" + self.heal(int(drainDmg * 0.5))
+        drainDmg = int(random.randrange(1,DANDIE) * 5 * CRITMULT + self.get_atkDmg())
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss += self.get_name() + " le absorbe vida a " + self.get_opp().get_name() + "." + "\n\n"
+        Mss += self.get_opp().takeDamage(drainDmg) + "\n\n"
+        Mss += self.heal(int(drainDmg * 0.5)) + "\n\n"
         return Mss
 
 class LazManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Lázaro"
-        self._sprite =r"Assets\BttlSprit\AnLaz.gif"
+        self._sprite =r"Assets\\BttlSprit\\AnLaz.png"
         self._lvBp = LAZANG_LV
 
         super().__init__(lv)
@@ -385,18 +397,18 @@ class LazManifest (Manifest):
         return self.attack()
     
     def death(self):
-        Mss = self.get_name() + " muere."
+        Mss = self.get_name() + " muere." + "\n\n"
         if self._abilityUse > 0:
             self._abilityUse -= 1
-            Mss += "\n" + self.callAbility()
+            Mss += self.callAbility()
         return Mss
     
     def callAbility(self):
         Mss = ""
         rvHeal = int(random.randrange(self._luckBs,(BASETOLUCK)) * 0.0075 * self.get_maxHp())
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
-        Mss += self.get_name()  + " revive!" + "\n"
-        Mss += self.heal(rvHeal)
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss += self.get_name()  + " revive!" + "\n\n"
+        Mss += self.heal(rvHeal) + "\n\n"
         return Mss
 
 #Clases de Demonio Principal
@@ -404,13 +416,13 @@ class LazManifest (Manifest):
 class AtkDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\BttlSprit\Fause.png"
+        self._sprite =r"Assets\\BttlSprit\\Fause.png"
         self._lvBp = ATKDMN_LV
 
         super().__init__(lv)
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial."
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
 
         self.setUpBuff()
 
@@ -420,7 +432,7 @@ class AtkDmnManifest(Manifest):
         self._atkBs += int(self._statBuffer['ATK'] * 0.3)
         self._atkDmgBs += int(self._statBuffer['DAN'] * 0.3)
 
-        Mss += "\n" + self.get_name()  + " incrementa su ATK y DAN."
+        Mss += self.get_name()  + " incrementa su ATK y DAN." + "\n\n"
 
         self._actvBuff[1] = True
 
@@ -429,22 +441,22 @@ class AtkDmnManifest(Manifest):
 class DefDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Fause.png"
         self._lvBp = DEFDMN_LV
 
         super().__init__(lv)     
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial."
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
 
         self.setUpBuff()
 
-        self._statBuffer['DEF'] = self._dfnBs
+        self._statBuffer['DEF'] = self.get_defn()
 
-        self._defBn += int(self._statBuffer['DEF'] * 0.4)
+        self._defnBs += int(self._statBuffer['DEF'] * 0.4)
 
-        Mss += "\n" + self.get_name()  + " incrementa su DEF."
-        Mss += "\n" + str(self.heal(int(self.get_maxHp * 0,4)))
+        Mss += self.get_name()  + " incrementa su DEF." + "\n\n"
+        Mss += str(self.heal(int(self.get_maxHp() * 0.1))) + "\n\n"
 
         self._actvBuff[1] = True
 
@@ -453,13 +465,13 @@ class DefDmnManifest(Manifest):
 class LckDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Fause.png"
         self._lvBp = LCKDMN_LV
 
         super().__init__(lv)  
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial."
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
 
         self.setUpBuff()
 
@@ -472,7 +484,7 @@ class LckDmnManifest(Manifest):
         self._luckBs += int(self._statBuffer['SRT'] * 0.1)
         
 
-        Mss += "\n" + self.get_name()  + " incrementa su ESQ, VLC y SRT."
+        Mss += self.get_name()  + " incrementa su ESQ, VLC y SRT." + "\n\n"
 
         self._actvBuff[1] = True
 
@@ -483,7 +495,7 @@ class LckDmnManifest(Manifest):
 class SpnBossManifest(Manifest):
     def __init__(self, lv):
         self. _name = "Kamathra"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Kamathra.png"
         self._lvBp = SPNBOSS_LV
 
         super().__init__(lv)
@@ -495,34 +507,34 @@ class SpnBossManifest(Manifest):
         rdDmg = dmg - self.get_defn()
         if(self.get_defn() > dmg ):
             rdDmg = 0
-        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño."
+        Mss = self.get_name() + " recibe " + str(rdDmg) + " de daño." + "\n\n"
         
         if rdDmg >= self.get_hp():
             self.set_hp(0)
-            Mss+= "\n" + self.death()
+            Mss+= self.death()
         else:
             self.set_hp(self.get_hp() - rdDmg) 
             if (random.randrange(1,BASETOLUCK) + self._luckBs )>= BASETOLUCK:
-                Mss += "\n" + self.callAbility()
+                Mss += self.callAbility() + "\n\n"
         return Mss
 
     def callAbility (self):
-        counterDmg = int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * CRITMULT + self.get_atkDmg())
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
-        Mss += self.get_name() + " contrataca!"
-        Mss += "\n" + self.get_opp().takeDamage(counterDmg)
+        counterDmg = int(random.randrange(1,DANDIE) * 5 * CRITMULT + self.get_atkDmg())
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        Mss += self.get_name() + " contrataca!" + "\n\n"
+        Mss += self.get_opp().takeDamage(counterDmg) + "\n\n"
         return Mss
 
 class FnBossManifest(Manifest):
     def __init__(self, lv):
         self._name = "Vahruksha"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Vahruksha.png"
         self._lvBp = FNBOSS_LV
 
         super().__init__(lv)       
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial."
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
 
         self.setUpBuff()
 
@@ -532,7 +544,7 @@ class FnBossManifest(Manifest):
         self._spdBs += int(self._statBuffer['VLC'] * 0.25)
         self._luckBs += int(self._statBuffer['SRT'] * 0.25)
 
-        Mss += "\n" + self.get_name()  + " incrementa su VLC y SRT."
+        Mss += self.get_name()  + " incrementa su VLC y SRT." + "\n\n"
 
         self._actvBuff[1] = True
 
@@ -541,7 +553,7 @@ class FnBossManifest(Manifest):
 class PssBossManifest(Manifest):
     def __init__(self, lv):
         self._name = "Nzolukaya"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Nzolukaya.png"
         self._lvBp = PSSBOSS_LV
 
         super().__init__(lv)       
@@ -555,19 +567,22 @@ class PssBossManifest(Manifest):
         return Mss
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial." + "\n"
-        Mss += "\n" + self.takeDamage(int(self.get_maxHp() * 0.01))
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
+        
+        rawDmg = int(self.get_maxHp() * 0.10)
 
-        hurtDmg = int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * (CRITMULT + (self._hp/self._maxHp))) + self.get_atkDmg()
+        Mss += self.get_name()  + " reduce su vida por " + str(rawDmg) + "\n\n"
 
-        Mss += self.get_name() + " ataca a " + self.get_opp().get_name() + "."
-        Mss += "\n" + self.get_opp().takeDamage(hurtDmg)
-        return Mss
+        hurtDmg = int(random.randrange(1,DANDIE) * 5 * (CRITMULT + (self._hp/self._maxHp))) + self.get_atkDmg()
+
+        Mss += self.get_name() + " ataca a " + self.get_opp().get_name() + "." + "\n\n"
+        Mss += str(self.get_opp().takeDamage(hurtDmg)) + "\n\n"
+        return Mss 
 
 class FnlBossManifest(Manifest):
     def __init__(self, lv):
         self._name = "Eliadran"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Eliadran.png"
         self._lvBp = FNLBOSS_LV
         
         super().__init__(lv)
@@ -576,38 +591,42 @@ class FnlBossManifest(Manifest):
 
     def act(self):
         Mss = ""
-        if random.randrange(1,BASETOLUCK) * 10 + self._luckBs >= BASETOLUCK:
-            if self._abilityUse < 0:
-                Mss += self.attack() + "\n"
-            else:
-                Mss += self.callAbility() + "\n"
-    
+        if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:
+            Mss += self.callAbility()
+
         Mss += self.attack()
         return Mss
 
     def callAbility(self):
-        Mss = self.get_name()  + " usa su habilidad especial."
+        Mss = self.get_name()  + " usa su habilidad especial." + "\n\n"
 
-        Mss += "\n" + self.takeDamage(int(self.get_maxHp() * 0.05))
+        rawDmg = int(self.get_maxHp() * 0.10)
 
-        if self._abilityUse == 5:
+        Mss += self.get_name()  + " reduce su vida por " + str(rawDmg) + "\n\n"
 
-            self.setUpBuff()
+        self.set_hp(int(self.get_hp() - rawDmg))
 
-            self._statBuffer['ATK'] = self._atkBs
-            self._statBuffer['DAN'] = self._atkDmgBs
-            self._statBuffer['VLC'] = self._spdBs
-            self._statBuffer['SRT'] = self._luckBs
+        if self._abilityUse > 0:
 
-        self._atkBs += int(self._statBuffer['ATK'] * 0.2)
-        self._atkDmgBs += int(self._statBuffer['DAN'] * 0.2)
-        self._spdBs += int(self._statBuffer['VLC'] * 0.2)
-        self._luckBs += int(self._statBuffer['SRT'] * 0.1)
+            if self._abilityUse == 5:
 
-        Mss += "\n" + self.get_name()  + "incrementa su ATK, DAN, VLC y SRT."
+                self.setUpBuff()
 
-        self._abilityUse -=1
+                self._statBuffer['ATK'] = self._atkBs
+                self._statBuffer['DAN'] = self._atkDmgBs
+                self._statBuffer['VLC'] = self._spdBs
+                self._statBuffer['SRT'] = self._luckBs
 
+            self._atkBs += int(self._statBuffer['ATK'] * 0.2)
+            self._atkDmgBs += int(self._statBuffer['DAN'] * 0.2)
+            self._spdBs += int(self._statBuffer['VLC'] * 0.2)
+            self._luckBs += int(self._statBuffer['SRT'] * 0.1)
+
+            Mss += self.get_name()  + " incrementa su ATK, DAN, VLC y SRT." + "\n\n"
+
+            self._abilityUse -=1
+        else:
+            self.attack()
         return Mss
 
 '''

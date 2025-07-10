@@ -68,8 +68,7 @@ class BinaryMenu:
         self._ExitMode = False
 
         #Return Value
-        self._ret = True
-        
+        self._ret = True   
 
     def runMenu(self):
 
@@ -376,7 +375,7 @@ class LvUpScreen:
         Txt = ""
         for Stat in Characters.STATLIST:
 
-            Txt += Stat + ": " + str(M1Bp[M1Lv][Stat]) + " => " + str(M1Bp[lvOffset][Stat] + M1Bp[lvOffset+1][Stat])
+            Txt += Stat + ": " + str(self._M1.get_bsStatByKey(Stat)) + " => " + (str(self._M1.get_bsStatByKey(Stat) + M1Bp[lvOffset+1][Stat]))
             
             if i == 0 or i == 3 or i == 6:
                 TxtList.append(Txt)
@@ -420,7 +419,7 @@ class LevelSelectScreen:
 
         #Prueba. True si los jefes han sido derrotados (no me hago cargo si no respetan el orden de pelea)
         self.flag_serpico = False
-        self.flag_espina = True
+        self.flag_espina = False
         self.flag_corvus = False
         self.flag_galaad = False
         self.flag_misionero = False
@@ -434,43 +433,55 @@ class LevelSelectScreen:
 
         screen = self.screen
 
+        stageSelec = None
+
         #Trae y muestra los iconos de los jefes
         fondo = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
         fondo = pygame.transform.scale(fondo, (WIDTH, HEIGHT))
         icon_back_color = '#000000'
+
         if(self.flag_serpico == False):
             icon_serpico = pygame.image.load("./Assets/Icons/Serpico.png")
         else:
             icon_serpico = pygame.image.load("./Assets/Icons/SerpicoDerrotado.png")
             self.jefesderrotados+=1
+
         icon_serpico = pygame.transform.scale(icon_serpico, (50, 50))
         posicion = pygame.Rect(155,550,50,50)
         icon_serpico_rect = icon_serpico.get_rect(center = posicion.center)
+
         if(self.flag_espina == False):
             icon_espina = pygame.image.load("./Assets/Icons/Espina.png")
         else:
             icon_espina = pygame.image.load("./Assets/Icons/EspinaDerrotado.png")
             self.jefesderrotados+=1
+
         icon_espina = pygame.transform.scale(icon_espina, (50, 50))
         posicion = pygame.Rect(435,550,50,50)
         icon_espina_rect = icon_espina.get_rect(center = posicion.center)
+
         if(self.flag_corvus == False):
             icon_corvus = pygame.image.load("./Assets/Icons/Corvus.png")
         else:
             icon_corvus = pygame.image.load("./Assets/Icons/CorvusDerrotado.png")
             self.jefesderrotados+=1
+
         icon_corvus = pygame.transform.scale(icon_corvus, (50, 50))
         posicion = pygame.Rect(715,550,50,50)
         icon_corvus_rect = icon_corvus.get_rect(center = posicion.center)
+
         if(self.flag_galaad == False):
             icon_galaad = pygame.image.load("./Assets/Icons/Galaad.png")
         else:
             icon_galaad = pygame.image.load("./Assets/Icons/GalaadDerrotado.png")
             self.jefesderrotados+=1
+
         icon_galaad = pygame.transform.scale(icon_galaad, (50, 50))
         posicion = pygame.Rect(435,275,50,50)
         icon_galaad_rect = icon_galaad.get_rect(center = posicion.center)
+        
         icon_misionero = pygame.image.load("./Assets/Icons/Misionero.png")
+
         icon_misionero = pygame.transform.scale(icon_misionero, (50, 50))
         posicion = pygame.Rect(435,50,50,50)
         icon_misionero_rect = icon_misionero.get_rect(center = posicion.center)
@@ -480,11 +491,12 @@ class LevelSelectScreen:
         but_espina = Button.Button('Padre Espina',200,100,(360,600))
         but_corvus = Button.Button('Fray Corvus',200,100,(640,600))
         but_galaad = Button.Button('Galaad',200,100,(360,325))
-        but_misionero = Button.Button('El Misionero',200,100,(360,100))
+        but_misionero = Button.Button('???',200,100,(360,100))
         but_menu = Button.Button('Salir al Menu Principal',280,50,(595,25))
 
         #Prueba. Sale si se presiona el boton de Salir al Menu Principal (falta integrar).
         run = True
+
         while run:
             events = pygame.event.get()
             for event in events:
@@ -494,17 +506,25 @@ class LevelSelectScreen:
                     quit()
                 if event.type == pygame.MOUSEBUTTONUP:
                     if(but_serpico.get_clicked() == True):
+                        stageSelec = "Fn"
                         self._ExitMode = True
                     if(but_espina.get_clicked() == True):
+                        stageSelec = "Spn"
                         self._ExitMode = True
                     if(but_corvus.get_clicked() == True):
+                        stageSelec = "Pss"
                         self._ExitMode = True
                     if(but_galaad.get_clicked() == True):
+                        stageSelec = "Fnl"
                         self._ExitMode = True
                     if(but_misionero.get_clicked() == True):
-                        self._ExitMode = True
+                        stageSelec = "Miss"
+                        self._ExitMode = True 
                     if(but_menu.get_clicked() == True):
+                        stageSelec = "Back"
                         self._ExitMode = True
+                if event.type == pygame.QUIT:
+                    pygame.quit()
             
             #Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect...
             #Dibuja las lineas entre los niveles, y sus variantes, segun cual y cuantos jefes se han derrotado
@@ -579,9 +599,11 @@ class LevelSelectScreen:
 
             if self._ExitMode == True:
                 run = False
-            
+
             pygame.display.update()
             clock.tick(30)
+
+        return stageSelec
 
 class CharSelectScreen:
 
@@ -640,6 +662,8 @@ class CharSelectScreen:
 
         screen = self.screen
 
+        charType = None
+
         fondo_screen = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
         fondo_screen = pygame.transform.scale(fondo_screen, (WIDTH, HEIGHT))      
         caelius1 = pygame.image.load("./Assets/ChArt/Calius.png")
@@ -648,6 +672,12 @@ class CharSelectScreen:
         caelius2 = pygame.transform.scale(caelius2, (200, 386))
         caelius3 = pygame.image.load("./Assets/ChArt/Calius3.png")
         caelius3 = pygame.transform.scale(caelius3, (200, 386))
+
+        #Botones de Seleccion de Personajes (clase Button)
+
+        but_select1 = Button.Button('Obispo Serpico',610,475,(270,250))
+        but_select2 = Button.Button('Obispo Serpico',325,475,(270,250))
+        but_select3 = Button.Button('Obispo Serpico',40,475,(270,250))
 
         run = True
         while run:
@@ -659,16 +689,22 @@ class CharSelectScreen:
                     quit()
                 if event.type == pygame.MOUSEBUTTONUP:
                     if(but_select1.get_clicked() == True):
+                        charType = "Atk"
                         self._ExitMode = True
                     if(but_select2.get_clicked() == True):
+                        charType = "Def"
                         self._ExitMode = True
                     if(but_select3.get_clicked() == True):
+                        charType = "Lck"
                         self._ExitMode = True
+                        
 
             screen.blit(fondo_screen,(0,0))
+
             self.drawThing(screen, pygame.Rect(65,25,220,425), caelius1)
             self.drawThing(screen, pygame.Rect(350,25,220,425), caelius2)
             self.drawThing(screen, pygame.Rect(635,25,220,425), caelius3)
+
             but_select1 = self.drawThing(screen, pygame.Rect(40,475,270,250), "   Fauste de Fe (Ira): \n Incrementa sus valores\n de ATK y DAN en un \n   30% por 5 segundos  ")
             but_select2 = self.drawThing(screen, pygame.Rect(325,475,270,250), "     Fauste de Fe (Pena):\nIncrementa su valor de DEF\n  en un 40% por 5 segundos\n       y se cura 10% de sus\n            PV maximos")
             but_select3 = self.drawThing(screen, pygame.Rect(610,475,270,250), "      Fauste de Fe (Ego):\nIncrementa su valor de SRT\n   por un 10% y sus valores\n    de ESQ y VLC en 20%\n          por 5 segundos")
@@ -682,6 +718,8 @@ class CharSelectScreen:
 
             pygame.display.update()
             clock.tick(30)
+
+        return charType
 
 '''
 import Characters
