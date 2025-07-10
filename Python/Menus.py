@@ -33,7 +33,8 @@ class BinaryMenu:
         self._leftTxt = "Left"
         self._rightTxt= "Right"
 
-        self._popUptxt = "Hola"
+        self._leftLg = "Hola"
+        self._rightLg = ""
 
         #Separator
         self._sprt = 20
@@ -111,6 +112,14 @@ class BinaryMenu:
             onClick = lambda: self.pressRight() if self._rightEn == True else self.null(),
             textColour = self._btnnTxtCol)
 
+        #Making Legends
+        title = self._BttnFont.render(self._leftLg,True,self._titleTxtCol)
+        self._screen.blit(title,numpy.add(self._leftBttnPos,(0,50)))
+
+        title = self._BttnFont.render(self._rightLg,True,self._titleTxtCol)
+        self._screen.blit(title,numpy.add(self._rightBttnPos,(0,50)))
+
+
         run = True
         self._ExitMode = False
         self._ret = False
@@ -131,13 +140,6 @@ class BinaryMenu:
                 run = False
 
             pwidgets.update(events)
-
-            #self._screen = screenState
-
-            #self.mouse_check(self._screen,self._popUptxt,self._leftEn, pygame.Rect(*self._leftBttnPos,*self._bttnSize))
-        
-            #screenState = pygame.display.get_surface().copy()
-
             pygame.display.update()
 
         return self._ret
@@ -171,37 +173,6 @@ class BinaryMenu:
             menuWidth = horTitleSize
         
         return (menuWidth,menuHeight)
-    
-    def popup(self,screen,text,rect):
-
-        background_img = pygame.image.load("./Assets/BckGrnd/paperallborder.png").convert()
-
-        background_img = pygame.transform.scale(background_img, (rect.width - 2 , rect.height - 2)) 
-
-        background_rect = background_img.get_rect(center = rect.center) 
-
-        font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 20)
-
-        mensaje_text = font.render(text,True,'#000000')
-
-        mensaje_text_rect = mensaje_text.get_rect(center = rect.center)
-
-        pygame.draw.rect(screen,'#000000',rect,1)
-
-        screen.blit(background_img,background_rect)
-
-        screen.blit(mensaje_text,mensaje_text_rect)
-
-    def mouse_check(self,screen,txt,enabled,border_rect):
-        mouse_pos = pygame.mouse.get_pos()
-        if border_rect.collidepoint(mouse_pos):
-            if enabled == False:
-                #Muestra mensaje si el jefe no esta desbloqueado
-                mensaje_rect = pygame.Rect(mouse_pos[0] - 350, mouse_pos[1] - 50, 350, 50)
-                self.popup(screen,txt,mensaje_rect)
-            return True
-        else:
-            return False
 
 class WScreen (BinaryMenu):
     def __init__(self,screen,M1):
@@ -852,13 +823,11 @@ class Instruct:
             pygame.display.update()
             clock.tick(30)
 
-'''
+
 import Characters
 
 M1 = Characters.AtkDmnManifest(1)
 
-WinScreen = Creditos(SCREEN)
+WinScreen = GWScreen(SCREEN,M1)
 
 print(WinScreen.runMenu())
-
-'''

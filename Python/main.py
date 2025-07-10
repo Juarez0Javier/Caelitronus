@@ -170,6 +170,7 @@ class Game:
 
         charType = None
 
+        #Cargar Datos Guardados
         if progs == None:
             charType = charSel.runMenu()
             M1 = getattr(Characters,charType + "DmnManifest")(1)
@@ -299,7 +300,6 @@ class Game:
 
 
         #Guardar Datasos
-
         JugadorData = [charType,
                        M1.get_lv(),
                        M1.get_xp(),
