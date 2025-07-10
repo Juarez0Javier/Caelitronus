@@ -22,7 +22,7 @@ fontPath = None
 # clock = pygame.time.Clock()
 font = pygame.font.Font(fontPath, 16)
 fontStats = pygame.font.Font(fontPath, 30)
-textos = []
+#textos = []
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -53,6 +53,8 @@ class Battle:
 
         self._tiempoBuff1 = 0
         self._tiempoBuff2 = 0
+
+        self._textos = []
 
         self._offset1 = 0
         self._offset2 = 0
@@ -120,7 +122,7 @@ class Battle:
         return stat
 
     def textReset(self):
-        textos = []
+        self._textos = []
 
     def colorCalculation(self, actualHp, maxHp):
         if actualHp > (maxHp / 2):
@@ -154,13 +156,13 @@ class Battle:
 
                 print(str(actualTick) + " - " + str(self.get_tiempoEvent1()))
 
-                textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK, None, 256))
+                self._textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK, None, 256))
 
                 if self.get_battler2().get_hp() <= 0:
                     expGainMsg = self.get_battler1().xpUp(5)
-                    textos.append(font.render(f"PJ 1: {expGainMsg}", True, BLACK, None, 256))
+                    self._textos.append(font.render(f"PJ 1: {expGainMsg}", True, BLACK, None, 256))
 
-                # textos.append(font.render("PJ 1 ataca", True, BLACK))
+                # self._textos.append(font.render("PJ 1 ataca", True, BLACK))
 
             if actualTick >= self.get_tiempoEvent2() + (MIN_SPEED - (self.get_battler2().get_spd() * 0.5 * 0.1)) and self.get_battler2().get_hp() > 0:
 
@@ -170,11 +172,11 @@ class Battle:
 
                 print("Ataque de PJ 2" + btlMsg2)
 
-                # textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
+                # self._textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
 
-                textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK, None, 256))
+                self._textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK, None, 256))
 
-                # textos.append(font.render("PJ 2 ataca", True, BLACK))
+                # self._textos.append(font.render("PJ 2 ataca", True, BLACK))
 
             if self.get_battler1().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
                 self.set_tiempoBuff1(actualTick)
@@ -182,7 +184,7 @@ class Battle:
 
             if self.get_battler1().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]:
                 endBuffmsg = self.get_battler1().endBuff()
-                textos.append(font.render(f"PJ 1: {endBuffmsg}", True, BLACK, None, 256))
+                self._textos.append(font.render(f"PJ 1: {endBuffmsg}", True, BLACK, None, 256))
                 self.set_tiempoBuff1(0)
                 print("Ataque actual sin buff: " + str(self.get_battler1().get_atk()))
 
@@ -192,7 +194,7 @@ class Battle:
 
             if self.get_battler2().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler2().get_actvBuff()[0]:
                 endBuffmsg = self.get_battler2().endBuff()
-                textos.append(font.render(f"PJ 2: {endBuffmsg}", True, BLACK, None, 256))
+                self._textos.append(font.render(f"PJ 2: {endBuffmsg}", True, BLACK, None, 256))
                 self.set_tiempoBuff2(0)
                 print("Ataque actual sin buff: " + str(self.get_battler2().get_atk()))
 
@@ -249,10 +251,10 @@ class Battle:
         ################
 
         ################
-        while len(textos) > 6:
-            textos.remove(textos[0])
+        while len(self._textos) > 6:
+            self._textos.remove(self._textos[0])
 
-        for i, texto in enumerate(textos):
+        for i, texto in enumerate(self._textos):
             if texto.get_alpha() > 1:
                 self.get_screen().blit(texto, (300, TOPY + i * 80))
 
