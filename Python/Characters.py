@@ -348,7 +348,7 @@ class Manifest:
 class HealManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Sagrado"
-        self._sprite =r"Assets\BttlSprit\AnSag.gif"
+        self._sprite =r"Assets\\BttlSprit\\AnSag.png"
         self. _lvBp = HEALANG_LV
 
         super().__init__(lv)
@@ -360,7 +360,7 @@ class HealManifest (Manifest):
 class DrainManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Oscuro"
-        self._sprite =r"Assets\BttlSprit\AnOsc.gif"
+        self._sprite =r"Assets\\BttlSprit\\AnOsc.png"
         self._lvBp = DRAINANG_LV
 
         super().__init__(lv)        
@@ -384,7 +384,7 @@ class DrainManifest (Manifest):
 class LazManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Lázaro"
-        self._sprite =r"Assets\BttlSprit\AnLaz.gif"
+        self._sprite =r"Assets\\BttlSprit\\AnLaz.png"
         self._lvBp = LAZANG_LV
 
         super().__init__(lv)
@@ -412,7 +412,7 @@ class LazManifest (Manifest):
 class AtkDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\BttlSprit\Fause.png"
+        self._sprite =r"Assets\\BttlSprit\\Fause.png"
         self._lvBp = ATKDMN_LV
 
         super().__init__(lv)
@@ -437,7 +437,7 @@ class AtkDmnManifest(Manifest):
 class DefDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Fause.png"
         self._lvBp = DEFDMN_LV
 
         super().__init__(lv)     
@@ -461,7 +461,7 @@ class DefDmnManifest(Manifest):
 class LckDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Fause.png"
         self._lvBp = LCKDMN_LV
 
         super().__init__(lv)  
@@ -524,7 +524,7 @@ class SpnBossManifest(Manifest):
 class FnBossManifest(Manifest):
     def __init__(self, lv):
         self._name = "Vahruksha"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Vahruksha.png"
         self._lvBp = FNBOSS_LV
 
         super().__init__(lv)       
@@ -549,7 +549,7 @@ class FnBossManifest(Manifest):
 class PssBossManifest(Manifest):
     def __init__(self, lv):
         self._name = "Nzolukaya"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Nzolukaya.png"
         self._lvBp = PSSBOSS_LV
 
         super().__init__(lv)       
@@ -578,7 +578,7 @@ class PssBossManifest(Manifest):
 class FnlBossManifest(Manifest):
     def __init__(self, lv):
         self._name = "Eliadran"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Eliadran.png"
         self._lvBp = FNLBOSS_LV
         
         super().__init__(lv)
