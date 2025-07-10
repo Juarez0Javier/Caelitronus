@@ -158,6 +158,9 @@ class Game:
     
     def _correr_juego(self):
 
+        pygame.mixer.music.load(r"Assets\\Music\\Adversus.wav")
+        pygame.mixer.music.play(-1) 
+
         charSel = Menus.CharSelectScreen(self.screen)
         lvSel = Menus.LevelSelectScreen(self.screen)
 
@@ -202,7 +205,7 @@ class Game:
             bossFlags["Fnl"] = progs["galaadFlag"]
             bossFlags["Miss"] = progs["missFlag"]
 
-       
+        pygame.mixer.music.play(-1) 
 
         backUpLvSel = copy.copy(lvSel)
         lvSel.flag_espina = bossFlags["Spn"]
@@ -213,7 +216,12 @@ class Game:
         
         selRun = lvSel.runMenu()
 
+        pygame.mixer.stop
+
         while True:
+
+            pygame.mixer.music.load(r"Assets\\Music\\Adversus.wav")
+            pygame.mixer.music.play(-1) 
 
             if selRun == "Spn":
 
@@ -290,6 +298,10 @@ class Game:
                         bossFlags["Pss"] = True                   
 
             if selRun == "Fnl":
+                
+                pygame.mixer.stop
+                pygame.mixer.music.load(r"Assets\\Music\\Duel.wav")
+                pygame.mixer.music.play(-1) 
 
                 if bossFlags["Fnl"] == False:
                     #Corremos Inicial de Galaad
@@ -323,7 +335,13 @@ class Game:
             lvSel.flag_galaad = bossFlags["Fnl"]
             lvSel.flag_misionero = bossFlags["Miss"]
 
+            pygame.mixer.stop
+
+            pygame.mixer.music.load(r"Assets\\Music\\Adversus.wav")
+            pygame.mixer.music.play(-1) 
+
             selRun = lvSel.runMenu()
+            
 
         if selRun == "Miss":
 
