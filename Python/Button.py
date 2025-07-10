@@ -1,6 +1,8 @@
 from asyncio.windows_events import NULL
 import pygame, sys
 
+from pygame import mouse
+
 class Button:
     def __init__(self,text,width,height,pos):
 
@@ -25,6 +27,18 @@ class Button:
     def get_clicked(self):
         return self.clicked
 
+    def popup(self,screen,text,rect):
+
+        background_img = pygame.image.load("./Assets/BckGrnd/paperallborder.png").convert()
+        background_img = pygame.transform.scale(background_img, (rect.width - 2 , rect.height - 2))           
+        background_rect = background_img.get_rect(center = rect.center) 
+        font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 20)
+        mensaje_text = font.render(text,True,'#000000')
+        mensaje_text_rect = mensaje_text.get_rect(center = rect.center)
+        pygame.draw.rect(screen,'#000000',rect,1)
+        screen.blit(background_img,background_rect)
+        screen.blit(mensaje_text,mensaje_text_rect)
+
     #Dibuja los Rect anteriores y llama funcion mouse_check
     def draw(self,screen,enabled,flag):
         pygame.draw.rect(screen,self.border_color,self.border_rect,5)
@@ -46,14 +60,6 @@ class Button:
             else:
                 #Muestra mensaje si el jefe no esta desbloqueado
                 mensaje_rect = pygame.Rect(mouse_pos[0] - 350, mouse_pos[1] - 50, 350, 50)
-                background_img = pygame.image.load("./Assets/BckGrnd/paperallborder.png").convert()
-                background_img = pygame.transform.scale(background_img, (348 , 48))           
-                background_rect = background_img.get_rect(center = mensaje_rect.center) 
-                font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 20)
-                mensaje_text = font.render('Derrota a todos los Jefes anteriores',True,'#000000')
-                mensaje_text_rect = mensaje_text.get_rect(center = mensaje_rect.center)
-                pygame.draw.rect(screen,'#000000',mensaje_rect,1)
-                screen.blit(background_img,background_rect)
-                screen.blit(mensaje_text,mensaje_text_rect)
+                self.popup(screen,"Derrota a todos los Jefes anteriores",mensaje_rect)
         else:
             self.border_color = '#000000'
