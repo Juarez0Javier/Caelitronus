@@ -251,7 +251,7 @@ class Manifest:
     def attack (self):
         Mss = self.get_name()
         mult = 1
-        if (random.randrange(1,BASETOHIT) + self.get_atk()) >= (BASETOHIT + self.get_opp().get_evd()):
+        if (random.randrange(1,BASETOHIT) + self.get_atk()/10) >= (BASETOHIT + self.get_opp().get_evd()/10):
             Mss+= " golpea a " + self.get_opp().get_name() + "."
             if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:
                  mult = CRITMULT
@@ -439,7 +439,7 @@ class DefDmnManifest(Manifest):
 
         self.setUpBuff()
 
-        self._statBuffer['DEF'] = self._dfnBs
+        self._statBuffer['DEF'] = self.get_defn()
 
         self._defBn += int(self._statBuffer['DEF'] * 0.4)
 
@@ -556,7 +556,10 @@ class PssBossManifest(Manifest):
 
     def callAbility(self):
         Mss = self.get_name()  + " usa su habilidad especial." + "\n"
-        Mss += "\n" + self.takeDamage(int(self.get_maxHp() * 0.01))
+        
+        rawDmg = int(self.get_maxHp() * 0.10)
+
+        Mss += "\n" + self.get_name()  + " reduce su vida por " + str(rawDmg)
 
         hurtDmg = int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * (CRITMULT + (self._hp/self._maxHp))) + self.get_atkDmg()
 
@@ -576,38 +579,42 @@ class FnlBossManifest(Manifest):
 
     def act(self):
         Mss = ""
-        if random.randrange(1,BASETOLUCK) * 10 + self._luckBs >= BASETOLUCK:
-            if self._abilityUse < 0:
-                Mss += self.attack() + "\n"
-            else:
-                Mss += self.callAbility() + "\n"
-    
+        if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:
+            Mss += self.callAbility() + "\n"
+
         Mss += self.attack()
         return Mss
 
     def callAbility(self):
         Mss = self.get_name()  + " usa su habilidad especial."
 
-        Mss += "\n" + self.takeDamage(int(self.get_maxHp() * 0.05))
+        rawDmg = int(self.get_maxHp() * 0.10)
 
-        if self._abilityUse == 5:
+        Mss += "\n" + self.get_name()  + " reduce su vida por " + str(rawDmg)
 
-            self.setUpBuff()
+        self.set_hp(int(self.get_hp() - rawDmg))
 
-            self._statBuffer['ATK'] = self._atkBs
-            self._statBuffer['DAN'] = self._atkDmgBs
-            self._statBuffer['VLC'] = self._spdBs
-            self._statBuffer['SRT'] = self._luckBs
+        if self._abilityUse > 0:
 
-        self._atkBs += int(self._statBuffer['ATK'] * 0.2)
-        self._atkDmgBs += int(self._statBuffer['DAN'] * 0.2)
-        self._spdBs += int(self._statBuffer['VLC'] * 0.2)
-        self._luckBs += int(self._statBuffer['SRT'] * 0.1)
+            if self._abilityUse == 5:
 
-        Mss += "\n" + self.get_name()  + "incrementa su ATK, DAN, VLC y SRT."
+                self.setUpBuff()
 
-        self._abilityUse -=1
+                self._statBuffer['ATK'] = self._atkBs
+                self._statBuffer['DAN'] = self._atkDmgBs
+                self._statBuffer['VLC'] = self._spdBs
+                self._statBuffer['SRT'] = self._luckBs
 
+            self._atkBs += int(self._statBuffer['ATK'] * 0.2)
+            self._atkDmgBs += int(self._statBuffer['DAN'] * 0.2)
+            self._spdBs += int(self._statBuffer['VLC'] * 0.2)
+            self._luckBs += int(self._statBuffer['SRT'] * 0.1)
+
+            Mss += "\n" + self.get_name()  + " incrementa su ATK, DAN, VLC y SRT."
+
+            self._abilityUse -=1
+        else:
+            self.attack()
         return Mss
 
 '''

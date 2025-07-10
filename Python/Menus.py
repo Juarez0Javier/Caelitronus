@@ -420,7 +420,7 @@ class LevelSelectScreen:
 
         #Prueba. True si los jefes han sido derrotados (no me hago cargo si no respetan el orden de pelea)
         self.flag_serpico = False
-        self.flag_espina = True
+        self.flag_espina = False
         self.flag_corvus = False
         self.flag_galaad = False
         self.flag_misionero = False
@@ -433,6 +433,8 @@ class LevelSelectScreen:
     def runMenu(self):
 
         screen = self.screen
+
+        stageSelec = None
 
         #Trae y muestra los iconos de los jefes
         fondo = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
@@ -485,6 +487,7 @@ class LevelSelectScreen:
 
         #Prueba. Sale si se presiona el boton de Salir al Menu Principal (falta integrar).
         run = True
+
         while run:
             events = pygame.event.get()
             for event in events:
@@ -494,17 +497,25 @@ class LevelSelectScreen:
                     quit()
                 if event.type == pygame.MOUSEBUTTONUP:
                     if(but_serpico.get_clicked() == True):
+                        stageSelec = "Fn"
                         self._ExitMode = True
                     if(but_espina.get_clicked() == True):
+                        stageSelec = "Spn"
                         self._ExitMode = True
                     if(but_corvus.get_clicked() == True):
+                        stageSelec = "Pss"
                         self._ExitMode = True
                     if(but_galaad.get_clicked() == True):
+                        stageSelec = "Fnl"
                         self._ExitMode = True
                     if(but_misionero.get_clicked() == True):
-                        self._ExitMode = True
+                        stageSelec = "Miss"
+                        self._ExitMode = True 
                     if(but_menu.get_clicked() == True):
+                        stageSelec = "Back"
                         self._ExitMode = True
+                if event.type == pygame.QUIT:
+                    pygame.quit()
             
             #Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect...
             #Dibuja las lineas entre los niveles, y sus variantes, segun cual y cuantos jefes se han derrotado
@@ -580,12 +591,10 @@ class LevelSelectScreen:
             if self._ExitMode == True:
                 run = False
 
-            if event.type == pygame.QUIT:
-                pygame.quit()
-
             pygame.display.update()
             clock.tick(30)
 
+        return stageSelec
 class CharSelectScreen:
 
     def __init__(self,screen):
@@ -643,6 +652,8 @@ class CharSelectScreen:
 
         screen = self.screen
 
+        charType = None
+
         fondo_screen = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
         fondo_screen = pygame.transform.scale(fondo_screen, (WIDTH, HEIGHT))      
         caelius1 = pygame.image.load("./Assets/ChArt/Calius.png")
@@ -651,6 +662,12 @@ class CharSelectScreen:
         caelius2 = pygame.transform.scale(caelius2, (200, 386))
         caelius3 = pygame.image.load("./Assets/ChArt/Calius3.png")
         caelius3 = pygame.transform.scale(caelius3, (200, 386))
+
+        #Botones de Seleccion de Personajes (clase Button)
+
+        but_select1 = Button.Button('Obispo Serpico',610,475,(270,250))
+        but_select2 = Button.Button('Obispo Serpico',325,475,(270,250))
+        but_select3 = Button.Button('Obispo Serpico',40,475,(270,250))
 
         run = True
         while run:
@@ -662,16 +679,22 @@ class CharSelectScreen:
                     quit()
                 if event.type == pygame.MOUSEBUTTONUP:
                     if(but_select1.get_clicked() == True):
+                        charType = "Atk"
                         self._ExitMode = True
                     if(but_select2.get_clicked() == True):
+                        charType = "Def"
                         self._ExitMode = True
                     if(but_select3.get_clicked() == True):
+                        charType = "Lck"
                         self._ExitMode = True
+                        
 
             screen.blit(fondo_screen,(0,0))
+
             self.drawThing(screen, pygame.Rect(65,25,220,425), caelius1)
             self.drawThing(screen, pygame.Rect(350,25,220,425), caelius2)
             self.drawThing(screen, pygame.Rect(635,25,220,425), caelius3)
+
             but_select1 = self.drawThing(screen, pygame.Rect(40,475,270,250), "   Fauste de Fe (Ira): \n Incrementa sus valores\n de ATK y DAN en un \n   30% por 5 segundos  ")
             but_select2 = self.drawThing(screen, pygame.Rect(325,475,270,250), "     Fauste de Fe (Pena):\nIncrementa su valor de DEF\n  en un 40% por 5 segundos\n       y se cura 10% de sus\n            PV maximos")
             but_select3 = self.drawThing(screen, pygame.Rect(610,475,270,250), "      Fauste de Fe (Ego):\nIncrementa su valor de SRT\n   por un 10% y sus valores\n    de ESQ y VLC en 20%\n          por 5 segundos")
@@ -685,6 +708,8 @@ class CharSelectScreen:
 
             pygame.display.update()
             clock.tick(30)
+
+        return charType
 
 '''
 import Characters

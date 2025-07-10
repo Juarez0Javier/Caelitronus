@@ -6,14 +6,18 @@ import time
 import subprocess
 from moviepy import VideoFileClip
 
-FONTPATH = "Assets\Fonts\Seagram_tfb.ttf"
+import Menus
+import Characters
+import Levels
+
+FONTPATH = r"Assets\\Fonts\\Seagram_tfb.ttf"
 
 class Game:
     def __init__(self):
         pygame.init()
 
         # Configuración Global
-        self.WIDTH, self.HEIGHT = 1020, 750  # Tamaño de la ventana
+        self.WIDTH, self.HEIGHT = 920, 750  # Tamaño de la ventana
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Caeltronos")
         self.clock = pygame.time.Clock()
@@ -35,9 +39,9 @@ class Game:
 
         # Carga fondo y música
         try:
-            self.background_image = pygame.image.load("font.png").convert()
+            self.background_image = pygame.image.load(r"Assets\\Images\\MainM.png").convert()
             self.background_image = pygame.transform.scale(self.background_image, (self.WIDTH, self.HEIGHT))
-            pygame.mixer.music.load("violin.mp3")
+            pygame.mixer.music.load(r"Assets\\Music\\Violin.mp3")
         except pygame.error as e:
             print(f"Error cargando recursos: {e}")
             sys.exit()
@@ -48,7 +52,7 @@ class Game:
         pygame.mixer.music.play(-1)  # Reproducir música en bucle
 
         # Instancia para renderizar fuente animada del menú
-        self.font_renderer_menu = self.MatrixFont("matrix mono.ttf", 30, 24)
+        self.font_renderer_menu = self.MatrixFont(FONTPATH, 30, 24)
 
         # Estado del juego
         self.current_screen_name = "MENU"
@@ -65,6 +69,32 @@ class Game:
     def _guardar_config(self, musica, efectos):
         with open("config.json", "w") as f:
             json.dump({"musica": round(musica, 2), "efectos": round(efectos, 2)}, f)
+
+    def _cargar_progs(self):
+        if os.path.exists("progs.json"):
+            with open("progs.json", "r") as f:
+                return json.load(f)
+        return {"musica": 0.5, "efectos": 0.5}
+
+    def _guardar_progs (self,jgdr, vic):
+        with open("progs.json", "w") as f:
+            json.dump({
+                "tipoJgdr": jgdr[0], 
+                "nivelJgdr": jgdr[1],
+                "xpJgdr":jgdr[2],
+                "pvJgdr":jgdr[3],
+                "defJgdr":jgdr[4],
+                "esqJgdr":jgdr[5],
+                "vlcJgdr":jgdr[6],
+                "srtJgdr":jgdr[7],
+                "jefesCant": vic [0],
+                "espinaFlag": vic [1],
+                "serpicoFlag": vic [2],
+                "corvusFlag": vic [3],
+                "galaadFlag": vic [4],
+                "misioFlag": vic [5]
+                }, f)
+
 
     def _get_blurred_surface(self, surface, blur_amount=5):
         if blur_amount <= 1:
@@ -85,11 +115,12 @@ class Game:
         if current: lines.append(current)
         return [font.render(line, True, color) for line in lines]
 
-    def _reproducir_cinematica_y_ejecutar_juego(self):
+    def _reproducir_cinematica(self):
         pygame.mixer.music.stop()  # Detiene la música
 
         try:
-            clip = VideoFileClip("prologo.mp4").resize((self.WIDTH, self.HEIGHT))
+            clip = VideoFileClip(r"Assets\\Movie\\Prologo.mp4")
+            clip = clip.resize(self.WIDTH, self.HEIGHT)
             fps = clip.fps
             # duration = clip.duration # No se usa
 
@@ -111,12 +142,125 @@ class Game:
             self.screen.fill((0, 0, 0))
             pygame.display.flip()
             pygame.time.wait(2000)
-
-            subprocess.run([sys.executable, "juego.py"], check=True) # Reemplazar juego.py por el archivo que siga
-
         except Exception as e:
             print(f"Error al reproducir video: {e}")
             return "MENU"
+        
+        ###Corremos el Juego Aca
+
+        self._correr_juego()
+
+        return "MENU"
+    
+    def _correr_juego(self):
+
+        charSel = Menus.CharSelectScreen(self.screen)
+        lvSel = Menus.LevelSelectScreen(self.screen)
+
+        difBase = lvSel.jefesderrotados
+        difFin = {"Spn":0, "Fn":0, "Pss":0,"Fnl":0}
+
+        #Cargar Datasos
+        
+        charType = charSel.runMenu()
+        M1 = getattr(Characters,charType + "DmnManifest")(1)
+
+        selRun = lvSel.runMenu()
+
+        while True:
+
+            if selRun == "Spn":
+
+                if lvSel.flag_espina == False:
+                    difFin["Spn"] = difBase
+
+                #Corremos Inicial de Espina
+
+                lv = Levels.Level(M1,difFin["Spn"],"Spn")
+
+                winState = lv.runLvSq()
+
+                print(winState)
+
+                while winState == "L&Re":
+                    winState = lv.runLvSq()
+
+                if winState == "GW":
+                    lvSel.flag_espina == True
+                    difBase += 1
+
+                #Corremos Final de Espina
+
+            if selRun == "Fn":
+
+                if lvSel.flag_serpico == False:
+                    difFin["Fn"] = difBase
+
+                #Corremos Inicial de Serpico
+
+                lv = Levels.Level(M1,difFin["Fn"],"Fn")
+
+                winState = lv.runLvSq()
+                while winState == "L&Re":
+                    winState = lv.runLvSq()
+
+                if winState == "GW":
+                    lvSel.flag_serpico == True
+                    difBase += 1
+
+                #Corremos Final de Serpico
+
+            if selRun == "Pss":
+
+                if lvSel.flag_corvus == False:
+                    difFin["Pss"] = difBase
+
+                #Corremos Inicial de Corvus
+
+                lv = Levels.Level(M1,difFin["Pss"],"Pss")
+
+                winState = lv.runLvSq()
+                while winState == "L&Re":
+                    winState = lv.runLvSq()
+
+                if winState == "GW":
+                    lvSel.flag_corvus == True
+                    difBase += 1
+
+                #Corremos Final de Corvus
+
+            if selRun == "Fnl":
+
+                if lvSel.flag_galaad == False:
+                    difFin["Fnl"] = difBase
+
+                #Corremos Inicial de Galaad
+
+                lv = Levels.Level(M1,difFin["Fnl"],"Fnl")
+
+                winState = lv.runLvSq()
+                while winState == "L&Re":
+                    winState = lv.runLvSq()
+
+                if winState == "GW":
+                    lvSel.flag_galaad == True
+                    difBase += 1
+
+                #Corremos Final de Galaad
+
+            if selRun == "Miss" or selRun == "Back":
+                break
+
+            lvSel.runMenu()
+
+        if selRun == "Miss":
+
+            #Corremos la cinematica "El Misionero"
+
+            lvSel.flag_misionero = True
+
+
+        #Guardar Datasos
 
         return "MENU"
 
@@ -339,7 +483,11 @@ class Game:
                     print("Mostrando créditos..."); time.sleep(2)
                     self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después de créditos
                 elif next_screen_name == "CINEMATICA_VIDEO":
-                    result = self._reproducir_cinematica_y_ejecutar_juego()
+                    
+                    self._reproducir_cinematica()
+
+                    result = self._correr_juego()
+
                     if result == "QUIT":
                         running = False
                     else:
