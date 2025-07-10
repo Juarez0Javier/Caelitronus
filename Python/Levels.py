@@ -57,7 +57,15 @@ class Level:
 
             self._M1.setUpBuff()
 
+            if Enemy[0] == LvSq[-1][0]:
+                pygame.mixer.music.load(r"Assets\\Music\\Duel.wav")
+                pygame.mixer.music.play(-1) 
+            else:
+                pygame.mixer.music.load(r"Assets\\Music\\Adversus.wav")
+                pygame.mixer.music.play(-1) 
+
             while run:
+
                 
                 run = battleScreen.doBattle()
 
@@ -65,6 +73,8 @@ class Level:
 
                 clock.tick(30)
 
+            pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
+            pygame.mixer.music.play(-1) 
 
             self._winState = WINSTATE["GW"] if Enemy[0] == LvSq[-1][0] else WINSTATE["W"]
 

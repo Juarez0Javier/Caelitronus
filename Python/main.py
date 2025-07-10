@@ -23,12 +23,12 @@ class Game:
         self.clock = pygame.time.Clock()
 
         # Colores usados en la interfaz
-        self.COLOR_NORMAL = (200, 190, 175)
-        self.COLOR_SELECCIONADO = (160, 150, 135)
-        self.SLIDER_COLOR = (180, 180, 180)
-        self.HANDLE_COLOR = (255, 255, 255)
+        self.COLOR_NORMAL = (0, 0, 0)
+        self.COLOR_SELECCIONADO = (0, 0, 0)
+        self.SLIDER_COLOR = (0, 0, 0)
+        self.HANDLE_COLOR = (0, 0, 0)
         self.TEXT_COLOR = self.COLOR_NORMAL
-        self.COLOR_FONDO_POPUP = (50, 50, 50)
+        self.COLOR_FONDO_POPUP = (75, 75, 75)
         self.BLACK = (0, 0, 0)
 
         # Fuentes utilizadas
@@ -41,7 +41,7 @@ class Game:
         try:
             self.background_image = pygame.image.load(r"Assets\\Images\\MainM.png").convert()
             self.background_image = pygame.transform.scale(self.background_image, (self.WIDTH, self.HEIGHT))
-            pygame.mixer.music.load(r"Assets\\Music\\Violin.mp3")
+            pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
         except pygame.error as e:
             print(f"Error cargando recursos: {e}")
             sys.exit()
@@ -158,9 +158,6 @@ class Game:
     
     def _correr_juego(self):
 
-        pygame.mixer.music.load(r"Assets\\Music\\Adversus.wav")
-        pygame.mixer.music.play(-1) 
-
         charSel = Menus.CharSelectScreen(self.screen)
         lvSel = Menus.LevelSelectScreen(self.screen)
 
@@ -205,7 +202,6 @@ class Game:
             bossFlags["Fnl"] = progs["galaadFlag"]
             bossFlags["Miss"] = progs["missFlag"]
 
-        pygame.mixer.music.play(-1) 
 
         backUpLvSel = copy.copy(lvSel)
         lvSel.flag_espina = bossFlags["Spn"]
@@ -216,12 +212,7 @@ class Game:
         
         selRun = lvSel.runMenu()
 
-        pygame.mixer.stop
-
         while True:
-
-            pygame.mixer.music.load(r"Assets\\Music\\Adversus.wav")
-            pygame.mixer.music.play(-1) 
 
             if selRun == "Spn":
 
@@ -298,10 +289,6 @@ class Game:
                         bossFlags["Pss"] = True                   
 
             if selRun == "Fnl":
-                
-                pygame.mixer.stop
-                pygame.mixer.music.load(r"Assets\\Music\\Duel.wav")
-                pygame.mixer.music.play(-1) 
 
                 if bossFlags["Fnl"] == False:
                     #Corremos Inicial de Galaad
@@ -335,9 +322,7 @@ class Game:
             lvSel.flag_galaad = bossFlags["Fnl"]
             lvSel.flag_misionero = bossFlags["Miss"]
 
-            pygame.mixer.stop
-
-            pygame.mixer.music.load(r"Assets\\Music\\Adversus.wav")
+            pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
             pygame.mixer.music.play(-1) 
 
             selRun = lvSel.runMenu()
@@ -396,7 +381,7 @@ class Game:
         def render(self, text, selected):
             size = self.hover_size if selected else self.base_size
             font = pygame.font.Font(self.font_path, size)
-            color = (160, 150, 135) if selected else (200, 190, 175) # Usar colores directamente o pasar desde Game
+            color = (50, 50, 50) if selected else (0, 0, 0) # Usar colores directamente o pasar desde Game
             return font.render(text, True, color)
 
     class MenuItem:
@@ -436,10 +421,10 @@ class Game:
 
         def draw(self):
             self.screen.blit(self.background_image, (0, 0))
-            filter = pygame.Surface((500, 300))
-            filter.set_alpha(155)
-            filter.fill((50,50,50)) 
-            self.screen.blit(filter, (970/2 - 500/2 - 25,320)) 
+            #filter = pygame.Surface((500, 300))
+            #filter.set_alpha(155)
+            #filter.fill((50,50,50)) 
+            #self.screen.blit(filter, (970/2 - 500/2 - 25,320)) 
 
     class MenuScreen(GameScreen):
         def __init__(self, screen, clock, background_image, font_renderer_menu, game_instance):
@@ -447,9 +432,10 @@ class Game:
             self.font_renderer_menu = font_renderer_menu
             menu_items_data = [
                 ("COMENZAR PARTIDA", "CINEMATICA_VIDEO", 0),
-                ("AJUSTES", "AJUSTES", 60),
-                ("CREDITOS", "CREDITOS", 120),
-                ("SALIR", "CONFIRM_QUIT", 180)
+                ("INSTRUCCIONES", "INSTRUCCIONES", 60),
+                ("AJUSTES", "AJUSTES", 120),
+                ("CREDITOS", "CREDITOS", 180),
+                ("SALIR", "CONFIRM_QUIT", 240)
             ]
             self.menu_items = []
             for text, action, y_offset in menu_items_data:
@@ -603,6 +589,10 @@ class Game:
                     running = False
                 elif next_screen_name == "MENU":
                     self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self)
+                elif next_screen_name == "INSTRUCCIONES":
+                    self.last_screen_surface = self.screen.copy()
+                    instrMenu = Menus.Instruct(self.screen)
+                    instrMenu.runMenu()
                 elif next_screen_name == "AJUSTES":
                     self.last_screen_surface = self.screen.copy() # Guardar la pantalla actual antes de ir a ajustes
                     self.current_screen = self.AjustesScreen(self.screen, self.clock, self.background_image, self.config, self)
