@@ -98,6 +98,8 @@ class Level:
 
             self._M1.heal(self._M1.get_maxHp())
 
+            battleScreen.textReset()
+
         return self._winState
         
     def AngeRand(self):
