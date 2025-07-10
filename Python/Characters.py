@@ -130,6 +130,8 @@ class Manifest:
         #Definiendo Stats Base
         self._statBuffer = {'PV':0,'DEF':0,'ESQ':0,'ATK':0,'DAN':0,'VLC':0,'SRT':0}
 
+        self.setUpBuff()
+
         #Ritina para Subir de Nivel en caso de comenzar
         #en un nivel mayor al inicial
 
@@ -513,7 +515,7 @@ class SpnBossManifest(Manifest):
         else:
             self.set_hp(self.get_hp() - rdDmg) 
             if (random.randrange(1,BASETOLUCK) + self._luckBs )>= BASETOLUCK:
-                Mss += self.callAbility()
+                Mss += self.callAbility() + "\n\n"
         return Mss
 
     def callAbility (self):
@@ -623,7 +625,6 @@ class FnlBossManifest(Manifest):
             Mss += self.get_name()  + " incrementa su ATK, DAN, VLC y SRT." + "\n\n"
 
             self._abilityUse -=1
-
         else:
             self.attack()
         return Mss

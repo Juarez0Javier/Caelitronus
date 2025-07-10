@@ -68,8 +68,7 @@ class BinaryMenu:
         self._ExitMode = False
 
         #Return Value
-        self._ret = True
-        
+        self._ret = True   
 
     def runMenu(self):
 

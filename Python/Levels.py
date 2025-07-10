@@ -1,8 +1,8 @@
 
 import pygame
 
-#clock = pygame.time.Clock()
-#clock.tick(30)
+clock = pygame.time.Clock()
+clock.tick(30)
 
 pygame.init()
 
@@ -57,7 +57,11 @@ class Level:
 
             while run:
                 run = battleScreen.doBattle()
+
                 #pygame.display.flip()
+
+                clock.tick(30)
+
 
             self._winState = WINSTATE["GW"] if Enemy[0] == LvSq[-1][0] else WINSTATE["W"]
 

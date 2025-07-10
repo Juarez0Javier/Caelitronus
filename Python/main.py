@@ -124,7 +124,7 @@ class Game:
 
         try:
             clip = VideoFileClip(r"Assets\\Movie\\Prologo.mp4")
-            clip = clip.resized(self.WIDTH, self.HEIGHT)
+            clip = clip.resize(self.WIDTH, self.HEIGHT)
             fps = clip.fps
             # duration = clip.duration # No se usa
 
