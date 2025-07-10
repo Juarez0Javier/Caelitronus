@@ -483,7 +483,7 @@ class LckDmnManifest(Manifest):
 class SpnBossManifest(Manifest):
     def __init__(self, lv):
         self. _name = "Kamathra"
-        self._sprite =r"Assets\BttlSprit\Fause.gif"
+        self._sprite =r"Assets\\BttlSprit\\Kamathra.png"
         self._lvBp = SPNBOSS_LV
 
         super().__init__(lv)

@@ -97,7 +97,7 @@ class Level:
                     run = WinMenu.runMenu()
 
             self._M1.heal(self._M1.get_maxHp())
-
+            
             battleScreen.textReset()
 
         return self._winState
@@ -119,7 +119,7 @@ class Level:
 
 MainC = Ch.AtkDmnManifest(1)
 
-LV1 = Level(MainC,0,"Fnl")
+LV1 = Level(MainC,0,"Spn")
 
 run = WINSTATE["L&Re"]
 
