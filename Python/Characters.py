@@ -198,7 +198,8 @@ class Manifest:
     def get_spd(self):
         return self._spdBs
     def set_spd(self, spd):
-        self._spBs = spd
+        print(spd)
+        self._spdBs = spd
 
     def get_luck(self):
         return self._luckBs

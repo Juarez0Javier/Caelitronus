@@ -163,6 +163,7 @@ class Game:
 
         difBase = 0
         difFin = {"Spn":0, "Fn":0, "Pss":0}
+        bossFlags = {"Spn":False, "Fn":False, "Pss":False, "Fnl":False,"Miss":False}
 
         progs = self._cargar_progs()
 
@@ -195,25 +196,27 @@ class Game:
             difFin["Fn"] = progs["serpicoDif"]
             difFin["Pss"] = progs["corvusDif"]
 
-            lvSel.flag_espina = progs["espinaFlag"]
-            lvSel.flag_serpico = progs["serpicoFlag"]
-            lvSel.flag_corvus = progs["corvusFlag"]
-            lvSel.flag_galaad = progs["galaadFlag"]
-            lvSel.flag_misionero = progs["missFlag"]
+            bossFlags["Spn"] = progs["espinaFlag"]
+            bossFlags["Fn"] = progs["serpicoFlag"]
+            bossFlags["Pss"] = progs["corvusFlag"]
+            bossFlags["Fnl"] = progs["galaadFlag"]
+            bossFlags["Miss"] = progs["missFlag"]
 
-        backUpLvSel = copy.copy(lvSel)
+       
+
+        backUpLvSel = copy.deepcopy(lvSel)
         selRun = lvSel.runMenu()
 
         while True:
 
             if selRun == "Spn":
 
-                if lvSel.flag_espina == False:
+                if bossFlags["Spn"]  == False:
 
                     #Corremos Inicial de Espina
 
                     difFin["Spn"] = difBase
-                    
+                  
 
                 lv = Levels.Level(M1,difFin["Spn"],"Spn")
 
@@ -224,17 +227,16 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
 
-                    if lvSel.flag_espina == False:
+                    if bossFlags["Spn"]  == False:
 
                         #Corremos Final de Espina
 
                         difBase += 1
-                        lvSel.flag_espina = True
-               
+                        bossFlags["Spn"]  = True             
 
             if selRun == "Fn":
 
-                if lvSel.flag_serpico == False:
+                if bossFlags["Fn"] == False:
 
                     #Corremos Inicial de Serpico
 
@@ -249,18 +251,16 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
 
-                    if lvSel.flag_serpico == False:
+                    if bossFlags["Fn"] == False:
 
                         #Corremos Final de Serpico
 
                         difBase += 1
-                        lvSel.flag_serpico = True
-
-                
+                        bossFlags["Fn"] = True   
 
             if selRun == "Pss":
 
-                if lvSel.flag_corvus == False:
+                if bossFlags["Pss"] == False:
 
                     #Corremos Inicial de Corvus
 
@@ -276,17 +276,16 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
                    
-                   if lvSel.flag_corvus == False:
+                   if bossFlags["Pss"] == False:
                         
                         #Corremos Final de Corvus
 
                         difBase += 1
-                        lvSel.flag_corvus = True
-                           
+                        bossFlags["Pss"] = True                   
 
             if selRun == "Fnl":
 
-                if lvSel.flag_galaad == False:
+                if bossFlags["Fnl"] == False:
                     #Corremos Inicial de Galaad
                     pass 
 
@@ -299,18 +298,21 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
 
-                    if lvSel.flag_galaad == False:
+                    if bossFlags["Fnl"] == False:
                             
                             #Corremos Final de Galaad
 
-                            lvSel.flag_galaad = True
-                    
+                            bossFlags["Fnl"] = True                    
 
             if selRun == "Miss" or selRun == "Back":
                 break
 
+            print("Copia")
+
             lvSel = backUpLvSel
+
             backUpLvSel = copy.copy(lvSel)
+
             selRun = lvSel.runMenu()
 
         if selRun == "Miss":
@@ -338,13 +340,13 @@ class Game:
                        M1.get_bsStatByKey("SRT"),
                        ]
         VictoriaData = [difBase,
-                        lvSel.flag_espina,
+                        bossFlags["Spn"] ,
                         difFin["Spn"],
-                        lvSel.flag_serpico,
+                        bossFlags["Fn"],
                         difFin["Fn"],
-                        lvSel.flag_corvus,
+                        bossFlags["Pss"],
                         difFin["Pss"], 
-                        lvSel.flag_galaad,
+                        bossFlags["Fnl"],
                         lvSel.flag_misionero
                         ]
         
@@ -352,7 +354,6 @@ class Game:
         #print(VictoriaData)
 
         self._guardar_progs(JugadorData,VictoriaData)
-
 
 
         return "MENU"

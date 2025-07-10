@@ -55,7 +55,10 @@ class Level:
 
             self._M1.heal(self._M1.get_maxHp())
 
+            self._M1.setUpBuff()
+
             while run:
+                
                 run = battleScreen.doBattle()
 
                 #pygame.display.flip()
@@ -106,7 +109,6 @@ class Level:
                     run = WinMenu.runMenu()
             
             battleScreen.textReset()
-
 
         return self._winState
         

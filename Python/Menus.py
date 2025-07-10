@@ -33,7 +33,7 @@ class BinaryMenu:
         self._leftTxt = "Left"
         self._rightTxt= "Right"
 
-        self._leftLg = "Hola"
+        self._leftLg = ""
         self._rightLg = ""
 
         #Separator
