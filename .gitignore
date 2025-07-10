@@ -194,4 +194,4 @@ cython_debug/
 .cursorindexingignore
 
 # Other Stuff
-.psd
+*.psd

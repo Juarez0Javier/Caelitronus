@@ -1,11 +1,15 @@
 import random
 import asyncio
 
-RANDDMGUP = 8
-RANDDMGLOW = 1
+
+#Dados
+DANDIE = 8
+ATKDIE = 20
 
 #Liimites minimos
-BASETOHIT = 20
+
+
+BASETOHIT = 10
 BASETOLUCK = 100
 
 #Multiplicadores
@@ -14,69 +18,69 @@ CRITMULT = 1.5
 #Blueprints de Niveles de Manifestacion
 ATKDMN_LV = [
 {"StartLv": 1, "EndLv":5},
-{"PV": 200, "DEF": 0, "ESQ": 0, "ATK": 35, "DAN": 25, "VLC": 5, "SRT": 5},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 0},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5}
+{"PV": 150, "DEF": 0, "ESQ": 10, "ATK": 20, "DAN": 10, "VLC": 10, "SRT": 5},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 10, "DAN": 0, "VLC": 5, "SRT": 0},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 10, "VLC": 5, "SRT": 0},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 5}
 ]
 DEFDMN_LV = [
 {"StartLv": 1, "EndLv":5},
-{"PV": 250, "DEF": 25, "ESQ": 15, "ATK": 15, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 50, "DEF": 5, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 0, "SRT": 0},
-{"PV": 0, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 0}
+{"PV": 200, "DEF": 10, "ESQ": 15, "ATK": 10, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 50, "DEF": 5, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 0, "SRT": 0},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
+{"PV": 0, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 0}
 ]
 LCKDMN_LV = [
 {"StartLv": 1, "EndLv":5},
-{"PV": 200, "DEF": 0, "ESQ":35, "ATK": 5, "DAN": 5, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5},
-{"PV": 00, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5}
+{"PV": 150, "DEF": 0, "ESQ":15, "ATK": 10, "DAN": 0, "VLC": 15, "SRT": 15},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 0},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 5},
+{"PV": 25, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5}
 ]
 
 HEALANG_LV = [
 {"StartLv": 1, "EndLv": 3},
-{"PV": 125, "DEF": 0, "ESQ": 15, "ATK": 5, "DAN": 0, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 5, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0},
+{"PV": 150, "DEF": 0, "ESQ": 5, "ATK": 10, "DAN": 0, "VLC": 5, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 5},
 ]
 DRAINANG_LV = [
 {"StartLv": 1, "EndLv": 3},
-{"PV": 175, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 0},
+{"PV": 150, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 5, "VLC": 0, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 5, "VLC": 0, "SRT": 0},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 10},
 ]
 LAZANG_LV = [
 {"StartLv": 1, "EndLv": 3},
-{"PV": 125, "DEF": 5, "ESQ": 15, "ATK": 0, "DAN": 0, "VLC": 15, "SRT": 25},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 5, "SRT": 5}
+{"PV": 125, "DEF": 5, "ESQ": 15, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 10},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 5, "VLC": 0, "SRT": 5},
+{"PV": 50, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 0, "VLC": 0, "SRT": 5}
 ]
 
 SPNBOSS_LV = [
 {"StartLv": 3, "EndLv": 5},
-{"PV": 300, "DEF": 15, "ESQ": 25, "ATK": 25, "DAN": 25, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 5},
-{"PV": 50, "DEF": 5, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0}
+{"PV": 200, "DEF": 10, "ESQ": 15, "ATK": 15, "DAN": 25, "VLC": 10, "SRT": 20},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 0, "SRT": 5},
+{"PV": 25, "DEF": 0, "ESQ": 5, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 0}
 ]
 FNBOSS_LV = [
 {"StartLv": 3, "EndLv": 5},
-{"PV": 250, "DEF": 0, "ESQ": 5, "ATK": 25, "DAN": 25, "VLC": 15, "SRT": 0},
-{"PV": 50, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 0, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0}
+{"PV": 200, "DEF": 0, "ESQ": 15, "ATK": 30, "DAN": 15, "VLC": 25, "SRT": 10},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 0, "VLC": 5, "SRT": 5},
+{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 5}
 ]
 PSSBOSS_LV = [
 {"StartLv": 3, "EndLv": 5},
-{"PV": 300, "DEF": 35, "ESQ": 15, "ATK": 15, "DAN": 35, "VLC": 15, "SRT": 15},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5},
-{"PV": 0, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0}
+{"PV": 300, "DEF": 5, "ESQ": 15, "ATK": 15, "DAN": 10, "VLC": 15, "SRT": 15},
+{"PV": 0, "DEF": 0, "ESQ": 5, "ATK": 0, "DAN": 5, "VLC": 5, "SRT": 5},
+{"PV": 25, "DEF": 0, "ESQ": 0, "ATK": 5, "DAN": 5, "VLC": 5, "SRT": 0}
 ]
 FNLBOSS_LV = [
 {"StartLv": 6, "EndLv": 6},
-{"PV": 400, "DEF": 25, "ESQ": 35, "ATK": 35, "DAN": 45, "VLC": 25, "SRT": 25}
+{"PV": 500, "DEF": 15, "ESQ": 30, "ATK": 40, "DAN": 25, "VLC": 25, "SRT": 20}
 ]
 
 #Bluprint de Experiencia para Subir de Nivel
@@ -241,6 +245,9 @@ class Manifest:
     ##Las funciones siempre retornan los mensajes de acciones
 
     def act(self):
+
+        print("Acting is my passion!!")
+
         Mss = ""
         if (random.randrange(1,BASETOLUCK) + self.get_luck() >= BASETOLUCK) and (self._actvBuff[1] == False):  
             Mss = self.callAbility() + "\n" + self.attack()
@@ -251,12 +258,18 @@ class Manifest:
     def attack (self):
         Mss = self.get_name()
         mult = 1
-        if (random.randrange(1,BASETOHIT) + self.get_atk()/10) >= (BASETOHIT + self.get_opp().get_evd()/10):
+
+        HitNumber = random.randrange(1,BASETOHIT)
+        DefNumber = BASETOHIT
+
+        print (str(HitNumber) + " + " + str(self.get_atk()/10) + " vs " + str(DefNumber) + " + " +  str(self.get_opp().get_evd()/10))
+
+        if (random.randrange(1,ATKDIE) + self.get_atk()/10) >= (BASETOHIT + self.get_opp().get_evd()/10):
             Mss+= " golpea a " + self.get_opp().get_name() + "."
             if random.randrange(1,BASETOLUCK) + self._luckBs >= BASETOLUCK:
                  mult = CRITMULT
                  Mss+= " Ataque Critico!"
-            Mss+= "\n" + self.get_opp().takeDamage(int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * mult + self.get_atkDmg() ))
+            Mss+= "\n" + self.get_opp().takeDamage(int(random.randrange(1,DANDIE) * 5 * mult + self.get_atkDmg() ))
         else:
             Mss+= " le erra a " + self.get_opp().get_name() + "."
         return Mss
@@ -366,7 +379,7 @@ class DrainManifest (Manifest):
         return Mss
 
     def callAbility(self):
-        drainDmg = int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * CRITMULT + self.get_atkDmg())
+        drainDmg = int(random.randrange(1,DANDIE) * 5 * CRITMULT + self.get_atkDmg())
         Mss = self.get_name()  + " usa su habilidad especial." + "\n"
         Mss += self.get_name() + " le absorbe vida a " + self.get_opp().get_name() + "."
         Mss += "\n" + self.get_opp().takeDamage(drainDmg)
@@ -441,10 +454,10 @@ class DefDmnManifest(Manifest):
 
         self._statBuffer['DEF'] = self.get_defn()
 
-        self._defBn += int(self._statBuffer['DEF'] * 0.4)
+        self._defnBs += int(self._statBuffer['DEF'] * 0.4)
 
         Mss += "\n" + self.get_name()  + " incrementa su DEF."
-        Mss += "\n" + str(self.heal(int(self.get_maxHp * 0,4)))
+        Mss += "\n" + str(self.heal(int(self.get_maxHp() * 0.1)))
 
         self._actvBuff[1] = True
 
@@ -507,7 +520,7 @@ class SpnBossManifest(Manifest):
         return Mss
 
     def callAbility (self):
-        counterDmg = int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * CRITMULT + self.get_atkDmg())
+        counterDmg = int(random.randrange(1,DANDIE) * 5 * CRITMULT + self.get_atkDmg())
         Mss = self.get_name()  + " usa su habilidad especial." + "\n"
         Mss += self.get_name() + " contrataca!"
         Mss += "\n" + self.get_opp().takeDamage(counterDmg)
@@ -561,7 +574,7 @@ class PssBossManifest(Manifest):
 
         Mss += "\n" + self.get_name()  + " reduce su vida por " + str(rawDmg)
 
-        hurtDmg = int(random.randrange(RANDDMGLOW,RANDDMGUP) * 5 * (CRITMULT + (self._hp/self._maxHp))) + self.get_atkDmg()
+        hurtDmg = int(random.randrange(1,DANDIE) * 5 * (CRITMULT + (self._hp/self._maxHp))) + self.get_atkDmg()
 
         Mss += self.get_name() + " ataca a " + self.get_opp().get_name() + "."
         Mss += "\n" + self.get_opp().takeDamage(hurtDmg)
