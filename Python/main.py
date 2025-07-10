@@ -204,7 +204,13 @@ class Game:
 
        
 
-        backUpLvSel = copy.deepcopy(lvSel)
+        backUpLvSel = copy.copy(lvSel)
+        lvSel.flag_espina = bossFlags["Spn"]
+        lvSel.flag_serpico = bossFlags["Fn"]
+        lvSel.flag_corvus = bossFlags["Pss"]
+        lvSel.flag_galaad = bossFlags["Fnl"]
+        lvSel.flag_misionero = bossFlags["Miss"]
+        
         selRun = lvSel.runMenu()
 
         while True:
@@ -310,8 +316,12 @@ class Game:
             print("Copia")
 
             lvSel = backUpLvSel
-
             backUpLvSel = copy.copy(lvSel)
+            lvSel.flag_espina = bossFlags["Spn"]
+            lvSel.flag_serpico = bossFlags["Fn"]
+            lvSel.flag_corvus = bossFlags["Pss"]
+            lvSel.flag_galaad = bossFlags["Fnl"]
+            lvSel.flag_misionero = bossFlags["Miss"]
 
             selRun = lvSel.runMenu()
 

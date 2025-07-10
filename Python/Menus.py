@@ -186,7 +186,7 @@ class WScreen (BinaryMenu):
 
         self._M1 = M1
 
-        self._leftLg = "XP: " + str(self._M1.get_xp()) + "/" + str(self._M1._xpBp[self._M1.get_lv() - 1])
+        self._leftLg = "XP: " + str(self._M1.get_xp()) + "/" + str(self._M1._xpBp[self._M1.get_lv() - 2] if self._M1.get_lv() == self._M1.get_lvBp()[0]["EndLv"] else self._M1._xpBp[self._M1.get_lv() - 1])
 
         self._leftEn = self._leftEn if self._M1.checkXp() == True else False
 
