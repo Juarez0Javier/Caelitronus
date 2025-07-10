@@ -174,6 +174,7 @@ class Game:
         if progs == None:
             charType = charSel.runMenu()
             M1 = getattr(Characters,charType + "DmnManifest")(1)
+            self._reproducir_cinematica()
         else:
             charType = progs["tipoJgdr"]
             M1 = getattr(Characters,charType + "DmnManifest")(1)
@@ -208,9 +209,11 @@ class Game:
             if selRun == "Spn":
 
                 if lvSel.flag_espina == False:
-                    difFin["Spn"] = difBase
 
-                #Corremos Inicial de Espina
+                    #Corremos Inicial de Espina
+
+                    difFin["Spn"] = difBase
+                    
 
                 lv = Levels.Level(M1,difFin["Spn"],"Spn")
 
@@ -220,17 +223,22 @@ class Game:
                     winState = lv.runLvSq()
 
                 if winState == Levels.WINSTATE["GW"]:
-                    lvSel.flag_espina == True
-                    difBase += 1
 
-                #Corremos Final de Espina
+                    if lvSel.flag_espina == False:
+
+                        #Corremos Final de Espina
+
+                        difBase += 1
+                        lvSel.flag_espina = True
+               
 
             if selRun == "Fn":
 
                 if lvSel.flag_serpico == False:
-                    difFin["Fn"] = difBase
 
-                #Corremos Inicial de Serpico
+                    #Corremos Inicial de Serpico
+
+                    difFin["Fn"] = difBase
 
                 lv = Levels.Level(M1,difFin["Fn"],"Fn")
 
@@ -240,33 +248,47 @@ class Game:
                     winState = lv.runLvSq()
 
                 if winState == Levels.WINSTATE["GW"]:
-                    lvSel.flag_serpico == True
-                    difBase += 1
 
-                #Corremos Final de Serpico
+                    if lvSel.flag_serpico == False:
+
+                        #Corremos Final de Serpico
+
+                        difBase += 1
+                        lvSel.flag_serpico = True
+
+                
 
             if selRun == "Pss":
 
                 if lvSel.flag_corvus == False:
-                    difFin["Pss"] = difBase
 
-                #Corremos Inicial de Corvus
+                    #Corremos Inicial de Corvus
+
+                    difFin["Pss"] = difBase
 
                 lv = Levels.Level(M1,difFin["Pss"],"Pss")
 
                 winState = lv.runLvSq()
+
                 while winState == Levels.WINSTATE["L&Re"]:
+
                     winState = lv.runLvSq()
 
                 if winState == Levels.WINSTATE["GW"]:
-                    lvSel.flag_corvus == True
-                    difBase += 1
+                   
+                   if lvSel.flag_corvus == False:
+                        
+                        #Corremos Final de Corvus
 
-                #Corremos Final de Corvus
+                        difBase += 1
+                        lvSel.flag_corvus = True
+                           
 
             if selRun == "Fnl":
 
-                #Corremos Inicial de Galaad
+                if lvSel.flag_galaad == False:
+                    #Corremos Inicial de Galaad
+                    pass 
 
                 lv = Levels.Level(M1,difBase,"Fnl")
 
@@ -276,9 +298,13 @@ class Game:
                     winState = lv.runLvSq()
 
                 if winState == Levels.WINSTATE["GW"]:
-                    lvSel.flag_galaad == True
 
-                #Corremos Final de Galaad
+                    if lvSel.flag_galaad == False:
+                            
+                            #Corremos Final de Galaad
+
+                            lvSel.flag_galaad = True
+                    
 
             if selRun == "Miss" or selRun == "Back":
                 break
@@ -558,8 +584,6 @@ class Game:
                     self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después de créditos
 
                 elif next_screen_name == "CINEMATICA_VIDEO":
-                    
-                    self._reproducir_cinematica()
 
                     result = self._correr_juego()
 

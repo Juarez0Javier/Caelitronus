@@ -347,6 +347,8 @@ class Manifest:
             self.set_bsStatByKey(stat,self.get_bsStatByKey(stat) + self._lvBp[Offset][stat])
             #print (stat + " Rslt: " + str(self.get_bsStatByKey(stat)))
 
+        self.heal(self.get_maxHp())
+
 #Clases de Angeles
 
 class HealManifest (Manifest):

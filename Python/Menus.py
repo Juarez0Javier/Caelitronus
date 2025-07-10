@@ -114,10 +114,10 @@ class BinaryMenu:
 
         #Making Legends
         title = self._BttnFont.render(self._leftLg,True,self._titleTxtCol)
-        self._screen.blit(title,numpy.add(self._leftBttnPos,(0,50)))
+        self._screen.blit(title,numpy.subtract(self._leftBttnPos,(0,(self._bttnSize[1]/2))))
 
         title = self._BttnFont.render(self._rightLg,True,self._titleTxtCol)
-        self._screen.blit(title,numpy.add(self._rightBttnPos,(0,50)))
+        self._screen.blit(title,numpy.add(self._rightBttnPos,(0,(self._bttnSize[1]))))
 
 
         run = True
@@ -185,6 +185,8 @@ class WScreen (BinaryMenu):
         self._titlePos = (self._menuCenter[0] - self._titleSize[0]/2,self._menuCenter[1] - self._bttnSize[1] - self._sprt)
 
         self._M1 = M1
+
+        self._leftLg = "XP: " + str(self._M1.get_xp()) + "/" + str(self._M1._xpBp[self._M1.get_lv() - 1])
 
         self._leftEn = self._leftEn if self._M1.checkXp() == True else False
 
@@ -823,11 +825,12 @@ class Instruct:
             pygame.display.update()
             clock.tick(30)
 
-
+'''
 import Characters
 
 M1 = Characters.AtkDmnManifest(1)
 
-WinScreen = GWScreen(SCREEN,M1)
+WinScreen = WScreen(SCREEN,M1)
 
 print(WinScreen.runMenu())
+'''
