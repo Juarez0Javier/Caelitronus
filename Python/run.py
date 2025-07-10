@@ -7,7 +7,7 @@ clock.tick(30)
 
 import Characters
 import Levels
-import LvlSelect
+import Menus
 
 
 # Seteo valores de la screen
@@ -35,7 +35,13 @@ pygame.mixer.music.play()
 
 LVS = [Levels.Level(M1,0,"Spn"), Levels.Level(M1,0,"Fn"), Levels.Level(M1,0,"Pss"), Levels.Level(M1,0,"Spn")]
 
+Menus.CharSelectScreen()
+
+
 run = True
+
+
+
 
 while run:
 

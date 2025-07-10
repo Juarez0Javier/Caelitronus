@@ -579,7 +579,10 @@ class LevelSelectScreen:
 
             if self._ExitMode == True:
                 run = False
-            
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
             pygame.display.update()
             clock.tick(30)
 
