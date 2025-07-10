@@ -70,8 +70,8 @@ class Battle:
         self._img2_imp = pygame.image.load(battler2.get_sprite())
 
         #Se resizea para que tenga el tamaño correcto
-        self._imagen1 = pygame.transform.scale(self._img1_imp, (self._img1_imp.get_width() / 2, self._img1_imp.get_height() / 2))
-        self._imagen2 = pygame.transform.scale(self._img2_imp, (self._img2_imp.get_width() / 2, self._img2_imp.get_height() / 2))
+        self._imagen1 = pygame.transform.scale(self._img1_imp, (self._img1_imp.get_width(), self._img1_imp.get_height()))
+        self._imagen2 = pygame.transform.scale(self._img2_imp, (self._img2_imp.get_width(), self._img2_imp.get_height()))
 
     def get_battler1(self):
         return self._battler1
@@ -191,17 +191,17 @@ class Battle:
 
                 self.set_tiempoEvent1(pygame.time.get_ticks() / 1000)
 
-                print("Ataque de PJ 1" + btlMsg1)
+                print("Ataque de " + btlMsg1)
 
                 # Prueba de checks
 
                 print(str(actualTick) + " - " + str(self.get_tiempoEvent1()))
 
-                self._textos.append(font.render(f"PJ 1: {btlMsg1}", True, BLACK, None, 256))
+                self._textos.append(font.render(f"{btlMsg1}", True, BLACK, None, 265))
 
                 if self.get_battler2().get_hp() <= 0:
                     expGainMsg = self.get_battler1().xpUp(10)
-                    self._textos.append(font.render(f"PJ 1: {expGainMsg}", True, BLACK, None, 256))
+                    self._textos.append(font.render(f"{expGainMsg}", True, BLACK, None, 265))
 
                 # self._textos.append(font.render("PJ 1 ataca", True, BLACK))
 
@@ -221,11 +221,11 @@ class Battle:
 
                 self.set_tiempoEvent2(actualTick)
 
-                print("Ataque de PJ 2" + btlMsg2)
+                print("Ataque de " + btlMsg2)
 
                 # self._textos.append(font.render(f"PJ 2 ataca con Daño {danioNuevo[0]} {danioNuevo[1]}", True, BLACK))
 
-                self._textos.append(font.render(f"PJ 2: {btlMsg2}", True, BLACK, None, 256))
+                self._textos.append(font.render(f"{btlMsg2}", True, BLACK, None, 256))
 
                 # self._textos.append(font.render("PJ 2 ataca", True, BLACK))
 
@@ -235,7 +235,7 @@ class Battle:
 
             if self.get_battler1().get_actvBuff()[1] and actualTick >= self.get_tiempoBuff1() + self.get_battler1().get_actvBuff()[0]:
                 endBuffmsg = self.get_battler1().endBuff()
-                self._textos.append(font.render(f"PJ 1: {endBuffmsg}", True, BLACK, None, 256))
+                self._textos.append(font.render(f"{endBuffmsg}", True, BLACK, None, 256))
                 self.set_tiempoBuff1(0)
                 print("Ataque actual sin buff: " + str(self.get_battler1().get_atk()))
 
@@ -273,15 +273,17 @@ class Battle:
 
         ##############
 
-        fondo_screen = pygame.image.load("../Assets/BckGrnd/paper.png").convert()
+        fondo_screen = pygame.image.load("../Assets/BckGrnd/Bonefield_mvt.png").convert()
         fondo_screen = pygame.transform.scale(fondo_screen, (self.get_screen().get_width(), self.get_screen().get_height()))
         self.get_screen().blit(fondo_screen, (0, 0))
 
         paperBorder = pygame.image.load("../Assets/BckGrnd/papersideborder.png").convert()
+        paperBorder.set_alpha(200)
         paperBorder = pygame.transform.scale(paperBorder, (self.get_screen().get_width() / 3, self.get_screen().get_height()))
         self.get_screen().blit(paperBorder, (self.get_screen().get_width() / 2 - self.get_screen().get_width() / 6, 0))
 
         paperAllBorder = pygame.image.load("../Assets/BckGrnd/paperallborder.png").convert()
+        #paperAllBorder.set_alpha(200)
         paperAllBorder = pygame.transform.scale(paperAllBorder, (self.get_screen().get_width() / 3, self.get_screen().get_height() / 7))
         self.get_screen().blit(paperAllBorder, (0, self.get_screen().get_height() - self.get_screen().get_height() / 4))
         self.get_screen().blit(paperAllBorder, (self.get_screen().get_width() / 3 * 2, self.get_screen().get_height() - self.get_screen().get_height() / 4))
@@ -303,9 +305,10 @@ class Battle:
         HUD1 = fontStats.render(self.printStats(self.get_battler1()), True, BLACK)
         HUD2 = fontStats.render(self.printStats(self.get_battler2()), True, BLACK)
 
-        LIFE1 = fontStats.render(str(self.get_battler1().get_hp()) + "/" + str(self.get_battler1().get_maxHp()), True, BLACK)
-        LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()), True, BLACK)
-
+        LIFE1 = fontStats.render(str(self.get_battler1().get_hp()) + "/" + str(self.get_battler1().get_maxHp()) + "\n\n\n\nNivel: " + str(self.get_battler1().get_lv()), True, WHITE)
+        LIFE2 = fontStats.render(str(self.get_battler2().get_hp()) + "/" + str(self.get_battler2().get_maxHp()) + "\n\n\n\nNivel: " + str(self.get_battler2().get_lv()), True, WHITE)
+        NAME1 = fontStats.render(self.get_battler1().get_name() + " [" + str(self.get_battler1().get_lv()) + "]", True, WHITE)
+        NAME2 = fontStats.render(self.get_battler2().get_name() + " [" + str(self.get_battler2().get_lv()) + "]", True, WHITE)
         # boton_rect1 = pygame.Rect(100, 600, 120, 120)
         # #boton_rect2 = pygame.Rect(430, 600, 120, 75)
         # #fuenteBoton = pygame.font.SysFont(None, 16)
@@ -318,6 +321,8 @@ class Battle:
 
         self.get_screen().blit(LIFE1, (25, TOPY))
         self.get_screen().blit(LIFE2, (self.get_screen().get_width() - LIFE2.get_width() - 25, TOPY))
+        self.get_screen().blit(NAME1, (25, TOPY - 20))
+        self.get_screen().blit(NAME2, (self.get_screen().get_width() - NAME2.get_width() - 25, TOPY - 20))
 
         self.get_screen().blit(HUD1, (25, 600))
         self.get_screen().blit(HUD2, (self.get_screen().get_width() - 280, 600))
