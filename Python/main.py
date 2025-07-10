@@ -124,7 +124,7 @@ class Game:
 
         try:
             clip = VideoFileClip(r"Assets\\Movie\\Prologo.mp4")
-            clip = clip.resize(self.WIDTH, self.HEIGHT)
+            clip = clip.resized(self.WIDTH, self.HEIGHT)
             fps = clip.fps
             # duration = clip.duration # No se usa
 
@@ -215,8 +215,6 @@ class Game:
 
                 winState = lv.runLvSq()
 
-                print(winState)
-
                 while winState == Levels.WINSTATE["L&Re"]:
                     winState = lv.runLvSq()
 
@@ -235,6 +233,7 @@ class Game:
 
                 lv = Levels.Level(M1,difFin["Fn"],"Fn")
 
+                winState = lv.runLvSq()
 
                 while winState == Levels.WINSTATE["L&Re"]:
                     winState = lv.runLvSq()
@@ -271,6 +270,7 @@ class Game:
                 lv = Levels.Level(M1,difBase,"Fnl")
 
                 winState = lv.runLvSq()
+
                 while winState == Levels.WINSTATE["L&Re"]:
                     winState = lv.runLvSq()
 

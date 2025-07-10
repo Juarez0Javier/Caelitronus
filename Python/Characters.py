@@ -513,7 +513,7 @@ class SpnBossManifest(Manifest):
         else:
             self.set_hp(self.get_hp() - rdDmg) 
             if (random.randrange(1,BASETOLUCK) + self._luckBs )>= BASETOLUCK:
-                Mss += self.callAbility() + "\n\n"
+                Mss += self.callAbility()
         return Mss
 
     def callAbility (self):
@@ -623,7 +623,7 @@ class FnlBossManifest(Manifest):
             Mss += self.get_name()  + " incrementa su ATK, DAN, VLC y SRT." + "\n\n"
 
             self._abilityUse -=1
-            
+
         else:
             self.attack()
         return Mss

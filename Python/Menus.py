@@ -376,7 +376,7 @@ class LvUpScreen:
         Txt = ""
         for Stat in Characters.STATLIST:
 
-            Txt += Stat + ": " + str(self._M1.get_bsStatByKey(Stat)) + " => " + (str(self._M1.get_bsStatByKey(Stat)) + M1Bp[lvOffset+1][Stat])
+            Txt += Stat + ": " + str(self._M1.get_bsStatByKey(Stat)) + " => " + (str(self._M1.get_bsStatByKey(Stat) + M1Bp[lvOffset+1][Stat]))
             
             if i == 0 or i == 3 or i == 6:
                 TxtList.append(Txt)
