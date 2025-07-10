@@ -2,7 +2,7 @@ import random
 import numpy
 import pygame
 import pygame_widgets as pwidgets
-from pygame_widgets.button import Button
+from pygame_widgets.button import Button as WidButton
 
 import Characters
 import Button
@@ -90,7 +90,7 @@ class BinaryMenu:
         #Creating Buttons
         self._btnImage = pygame.transform.scale(self._btnImage, numpy.subtract(self._bttnSize,(10,10)))
 
-        leftBtn = Button(
+        leftBtn = WidButton(
             self._screen, *self._leftBttnPos, *self._bttnSize, text=self._leftTxt,
             font=self._BttnFont, margin=20,
             inactiveColour = self._BtnCol,
@@ -100,7 +100,7 @@ class BinaryMenu:
             onClick = lambda: self.pressLeft() if self._leftEn == True else self.null(),
             textColour = self._btnnTxtCol)
         
-        rightBtn = Button(
+        rightBtn = WidButton(
             self._screen, *self._rightBttnPos, *self._bttnSize, text=self._rightTxt,
             font=self._BttnFont, margin=20,
             inactiveColour = self._BtnCol,
@@ -320,7 +320,7 @@ class LvUpScreen:
         bttomRightTxt = "+" + str(statList[2][0][1])  + " " + str(statList[2][0][0]) + "\n" + "+" + str(statList[2][1][1])  + " " + str(statList[2][1][0])
        
         
-        bttmLeftBtn = Button(
+        bttmLeftBtn = WidButton(
             self._screen, *self._bttmLeftBttnPos, *self._bttnSize, text=bttomLeftTxt,
             font=self._stageFont, margin=20,
             inactiveColour = self._BtnCol,
@@ -330,7 +330,7 @@ class LvUpScreen:
             onClick = lambda: self.btnnStatUp(statList[0]),
             textColour = self._btnnTxtCol)
         
-        bttmMiddleBtn = Button(
+        bttmMiddleBtn = WidButton(
             self._screen, *self._bttmMiddleBtnnPos, *self._bttnSize,  text=bttomMiddleTxt,
             font=self._stageFont, margin=20,
             inactiveColour = self._BtnCol,
@@ -340,7 +340,7 @@ class LvUpScreen:
             onClick = lambda: self.btnnStatUp(statList[1]),
             textColour = self._btnnTxtCol)
         
-        bttmRightBtn = Button(
+        bttmRightBtn = WidButton(
             self._screen, *self._bttmRightBtnnPos, *self._bttnSize,  text=bttomRightTxt,
             font=self._stageFont, margin=20,
             inactiveColour = self._BtnCol,

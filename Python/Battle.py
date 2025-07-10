@@ -9,8 +9,8 @@ from PIL.ImageChops import offset
 
 import Characters
 
-battle1_path = "../Sound/Music/Battle1.wav"
-lifeGauge_path = "../Assets/ui/lifeGaugeAlpha.png"
+battle1_path = "Sound/Music/Battle1.wav"
+lifeGauge_path = "Assets/ui/lifeGaugeAlpha.png"
 lifeGauge = pygame.image.load(lifeGauge_path)
 
 lifeGauge_offsetX = 18
