@@ -23,7 +23,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 
-## Corroboracion del Directorio Activio (Esto es importante por otra razón)
+##Corroboracion del Directorio Activio (Esto es importante por otra razón)
 print (os.getcwd())
 
 M1 = Characters.AtkDmnManifest(1)
