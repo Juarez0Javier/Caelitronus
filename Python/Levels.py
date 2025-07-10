@@ -114,7 +114,7 @@ class Level:
 
         return AngL[0]
     
-
+'''
 ##Prueba de Niveles##
 
 MainC = Ch.AtkDmnManifest(1)
@@ -125,3 +125,4 @@ run = WINSTATE["L&Re"]
 
 while run == WINSTATE["L&Re"]:
     run = LV1.runLvSq()
+'''
