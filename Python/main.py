@@ -511,6 +511,9 @@ class Game:
                 self.sliders[self.arrastrando]["value"] = rel_x / 300
                 if self.arrastrando == "Música":
                     pygame.mixer.music.set_volume(self.sliders["Música"]["value"])
+                if self.arrastrando == "Efectos":
+                    for i in range (1,4):
+                        pygame.mixer.Channel(i).set_volume(self.sliders["Efectos"]["value"])                   
 
         def draw(self):
             super().draw()

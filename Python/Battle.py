@@ -10,7 +10,7 @@ from PIL.ImageChops import offset
 import Characters
 
 battle1_path = "Sound/Music/Battle1.wav"
-lifeGauge_path = "../Assets/ui/lifeGaugeAlpha.png"
+lifeGauge_path = "./Assets/ui/lifeGaugeAlpha.png"
 lifeGauge = pygame.image.load(lifeGauge_path)
 
 lifeGauge_offsetX = 18
@@ -19,7 +19,7 @@ lifeGauge_offsetY = 13
 # screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # pygame.display.set_caption("Prueba de Ticks")
 #fontPath = None
-fontPath = "../Assets/Fonts/Seagram_tfb.ttf"
+fontPath = "./Assets/Fonts/Seagram_tfb.ttf"
 # clock = pygame.time.Clock()
 font = pygame.font.Font(fontPath, 14)
 fontStats = pygame.font.Font(fontPath, 16)
@@ -146,7 +146,7 @@ class Battle:
         pops = []
 
         for i in range(len(self._animations)):
-            animation_path = "../Assets/Animations/" + self._animations[i][0] + "/" + self._animations[i][0] + str(self._animations[i][1]) + ".png"
+            animation_path = "./Assets/Animations/" + self._animations[i][0] + "/" + self._animations[i][0] + str(self._animations[i][1]) + ".png"
             animationFrame = pygame.image.load(animation_path).convert_alpha()
             #animationFrame.set_colorkey(BLACK)
             animationFrame = pygame.transform.scale(animationFrame,(animationFrame.get_width() * 2, animationFrame.get_height() * 2))
@@ -183,6 +183,7 @@ class Battle:
 
                 if beforeBattleLife > self.get_battler2().get_hp() and self.get_battler2().get_hp() > 0:
                     self._offset2 = OFFSETDURATION
+                    pygame.mixer.Channel(1).play(pygame.mixer.Sound('Assets\Sounds\Fantasy_Game_Attack_Weapon_Impact.wav'), maxtime=2000)
                     # PRUEBA ANIMACION
                     self._animations.append(["Slash", 1, 13, 0])
                     # print("ANIMAR")
@@ -215,13 +216,16 @@ class Battle:
 
                 if beforeBattleLife > self.get_battler1().get_hp() and self.get_battler1().get_hp() > 0:
                     self._offset1 = OFFSETDURATION
+                    pygame.mixer.Channel(2).play(pygame.mixer.Sound('Assets\Sounds\Fantasy_Game_Attack_Weapon_Impact.wav'), maxtime=2000)
                     self._animations.append(["Slash", 1, 13, 1])
 
                 if beforeBattleLifeHeal < self.get_battler2().get_hp() and self.get_battler2().get_hp() > 0 and self.get_battler1().get_hp() > 0:
                     self._animations.append(["Cure", 1, 21, 0])
 
                 if beforeAtk < self.get_battler2().get_atk() and self.get_battler2().get_actvBuff()[1] == False:
+                    pygame.mixer.Channel(3).play(pygame.mixer.Sound('Assets\Sounds\Fantasy_Game_Magic_Light Magic_2_Blast_Holy_Priest_Spell.wav'), maxtime=2000)
                     self._animations.append(["BossBuff", 1, 26, 0])
+
 
                 self.set_tiempoEvent2(actualTick)
 
@@ -234,7 +238,10 @@ class Battle:
                 # self._textos.append(font.render("PJ 2 ataca", True, BLACK))
 
             if self.get_battler1().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
+
                 self.set_tiempoBuff1(actualTick)
+
+                pygame.mixer.Channel(4).play(pygame.mixer.Sound('Assets\Sounds\Fantasy_Game_Magic_Light Magic_2_Blast_Holy_Priest_Spell.wav'), maxtime=2000)
 
                 self._animations.append(["Buff", 1, 29, 1])
 
@@ -251,6 +258,7 @@ class Battle:
 
             if self.get_battler2().get_actvBuff()[1] and self.get_tiempoBuff1() == 0:
                 self.set_tiempoBuff2(actualTick)
+                pygame.mixer.Channel(3).play(pygame.mixer.Sound('Assets\Sounds\Fantasy_Game_Magic_Light Magic_2_Blast_Holy_Priest_Spell.wav'), maxtime=2000)
                 self._animations.append(["BossBuff", 1, 26, 0])
                 print("Ataque actual con buff: " + str(self.get_battler1().get_atk()) + "\n" + str(self.get_tiempoBuff2()) + " - " + str(self.get_tiempoBuff2() + self.get_battler2().get_actvBuff()[0]))
 
@@ -285,16 +293,16 @@ class Battle:
 
         ##############
 
-        fondo_screen = pygame.image.load("../Assets/BckGrnd/Bonefield_mvt.png").convert()
+        fondo_screen = pygame.image.load("./Assets/BckGrnd/Bonefield_mvt.png").convert()
         fondo_screen = pygame.transform.scale(fondo_screen, (self.get_screen().get_width(), self.get_screen().get_height()))
         self.get_screen().blit(fondo_screen, (0, 0))
 
-        paperBorder = pygame.image.load("../Assets/BckGrnd/papersideborder.png").convert()
+        paperBorder = pygame.image.load("./Assets/BckGrnd/papersideborder.png").convert()
         paperBorder.set_alpha(200)
         paperBorder = pygame.transform.scale(paperBorder, (self.get_screen().get_width() / 3, self.get_screen().get_height()))
         self.get_screen().blit(paperBorder, (self.get_screen().get_width() / 2 - self.get_screen().get_width() / 6, 0))
 
-        paperAllBorder = pygame.image.load("../Assets/BckGrnd/paperallborder.png").convert()
+        paperAllBorder = pygame.image.load("./Assets/BckGrnd/paperallborder.png").convert()
         #paperAllBorder.set_alpha(200)
         paperAllBorder = pygame.transform.scale(paperAllBorder, (self.get_screen().get_width() / 3, self.get_screen().get_height() / 7))
         self.get_screen().blit(paperAllBorder, (0, self.get_screen().get_height() - self.get_screen().get_height() / 4))
