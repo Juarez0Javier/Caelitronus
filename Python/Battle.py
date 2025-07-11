@@ -201,7 +201,7 @@ class Battle:
                 self._textos.append(font.render(f"{btlMsg1}", True, BLACK, None, 265))
 
                 if self.get_battler2().get_hp() <= 0:
-                    expGainMsg = self.get_battler1().xpUp(10)
+                    expGainMsg = self.get_battler1().xpUp(5 * self._battler2.get_lv())
                     self._textos.append(font.render(f"{expGainMsg}", True, BLACK, None, 265))
 
                 # self._textos.append(font.render("PJ 1 ataca", True, BLACK))

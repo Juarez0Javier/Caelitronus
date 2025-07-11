@@ -38,7 +38,7 @@ class Level:
 
         pygame.display.set_caption("Caelitronus")
 
-        LvSq = [[self.AngeRand(), 1 + self._diff],[self.AngeRand(), 1 + self._diff], [self._stage + "BossManifest", 3 + self._diff]]
+        LvSq = [[self.AngeRand(), 1 + self._diff],[self.AngeRand(), 1 + self._diff], [self._stage + "BossManifest", 2 + self._diff]]
 
         for Enemy in LvSq:
             
