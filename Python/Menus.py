@@ -682,11 +682,11 @@ class CharSelectScreen:
 
         fondo_screen = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
         fondo_screen = pygame.transform.scale(fondo_screen, (WIDTH, HEIGHT))      
-        caelius1 = pygame.image.load("./Assets/ChArt/Calius.png")
+        caelius1 = pygame.image.load("./Assets/ChArt/caelius de ira.png")
         caelius1 = pygame.transform.scale(caelius1, (200, 386))
-        caelius2 = pygame.image.load("./Assets/ChArt/Calius2.png")
+        caelius2 = pygame.image.load("./Assets/ChArt/caelius de ego.png")
         caelius2 = pygame.transform.scale(caelius2, (200, 386))
-        caelius3 = pygame.image.load("./Assets/ChArt/Calius3.png")
+        caelius3 = pygame.image.load("./Assets/ChArt/caelius de pena.png")
         caelius3 = pygame.transform.scale(caelius3, (200, 386))
 
         #Botones de Seleccion de Personajes (clase Button)
@@ -722,8 +722,8 @@ class CharSelectScreen:
             self.drawThing(screen, pygame.Rect(635,25,220,425), caelius3)
 
             but_select1 = self.drawThing(screen, pygame.Rect(40,475,270,250), "   Fauste de Fe (Ira): \n Incrementa sus valores\n de ATK y DAN en un \n   30% por 5 segundos  ")
-            but_select2 = self.drawThing(screen, pygame.Rect(325,475,270,250), "     Fauste de Fe (Pena):\nIncrementa su valor de DEF\n  en un 40% por 5 segundos\n       y se cura 10% de sus\n            PV maximos")
-            but_select3 = self.drawThing(screen, pygame.Rect(610,475,270,250), "      Fauste de Fe (Ego):\nIncrementa su valor de SRT\n   por un 10% y sus valores\n    de ESQ y VLC en 20%\n          por 5 segundos")
+            but_select2 = self.drawThing(screen, pygame.Rect(325,475,270,250), "     Fauste de Fe (Ego):\nIncrementa su valor de DEF\n  en un 40% por 5 segundos\n       y se cura 10% de sus\n            PV maximos")
+            but_select3 = self.drawThing(screen, pygame.Rect(610,475,270,250), "      Fauste de Fe (Pena):\nIncrementa su valor de SRT\n   por un 10% y sus valores\n    de ESQ y VLC en 20%\n          por 5 segundos")
            
             but_select1.draw(screen,True,False)
             but_select2.draw(screen,True,False)
