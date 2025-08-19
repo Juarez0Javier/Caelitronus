@@ -365,7 +365,7 @@ class Manifest:
 class HealManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Sagrado"
-        self._sprite =r"Assets\\BttlSprit\\AnSag.png"
+        self._sprite =r"Assets\\BttlSprit\\sagrados.png"
         self. _lvBp = HEALANG_LV
 
         super().__init__(lv)
@@ -377,7 +377,7 @@ class HealManifest (Manifest):
 class DrainManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Oscuro"
-        self._sprite =r"Assets\\BttlSprit\\AnOsc.png"
+        self._sprite =r"Assets\\BttlSprit\\oscuro.png"
         self._lvBp = DRAINANG_LV
 
         super().__init__(lv)        
@@ -401,7 +401,7 @@ class DrainManifest (Manifest):
 class LazManifest (Manifest):
     def __init__(self, lv):
         self._name = "Angel Lázaro"
-        self._sprite =r"Assets\\BttlSprit\\AnLaz.png"
+        self._sprite =r"Assets\\BttlSprit\\lazaro.png"
         self._lvBp = LAZANG_LV
 
         super().__init__(lv)
@@ -429,7 +429,7 @@ class LazManifest (Manifest):
 class AtkDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\\BttlSprit\\Fause.png"
+        self._sprite =r"Assets\\BttlSprit\\fause.png"
         self._lvBp = ATKDMN_LV
 
         super().__init__(lv)
@@ -454,7 +454,7 @@ class AtkDmnManifest(Manifest):
 class DefDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\\BttlSprit\\Fause.png"
+        self._sprite =r"Assets\\BttlSprit\\fause.png"
         self._lvBp = DEFDMN_LV
 
         super().__init__(lv)     
@@ -479,7 +479,7 @@ class DefDmnManifest(Manifest):
 class LckDmnManifest(Manifest):
     def __init__(self, lv):
         self._name = "Fauste de Fe"
-        self._sprite =r"Assets\\BttlSprit\\Fause.png"
+        self._sprite =r"Assets\\BttlSprit\\fause.png"
         self._lvBp = LCKDMN_LV
 
         super().__init__(lv)  
