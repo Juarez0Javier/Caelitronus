@@ -335,7 +335,7 @@ class Manifest:
     def xpUp(self,xp):
         Mss = self.get_name() 
         if self._xp == self._xpBp[-1]:
-            Mss += "no puede ganar mas experiencia." + "\n"   
+            Mss += " no puede ganar mas experiencia." + "\n"   
         else:
             Mss += " gana " + str(xp) + " puntos de experiencia." + "\n"
             self.set_xp(self.get_xp() + xp)

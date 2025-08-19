@@ -9,6 +9,7 @@ from moviepy import VideoFileClip
 import Menus
 import Characters
 import Levels
+import Save
 
 FONTPATH = r"Assets\\Fonts\\Seagram_tfb.ttf"
 
@@ -46,10 +47,12 @@ class Game:
             print(f"Error cargando recursos: {e}")
             sys.exit()
 
-        # Cargar configuración actual y aplicar volumen a la música
+        # Cargar configuración actual y aplicar volumen a la música y efectos
         self.config = self._cargar_config()
         pygame.mixer.music.set_volume(self.config["musica"])
         pygame.mixer.music.play(-1)  # Reproducir música en bucle
+        for i in range (4):
+            pygame.mixer.Channel(i+1).set_volume(self.config["efectos"])  
 
         # Instancia para renderizar fuente animada del menú
         self.font_renderer_menu = self.MatrixFont(FONTPATH, 30, 24)
@@ -79,16 +82,7 @@ class Game:
     def _guardar_progs (self,jgdr, vic):
         with open("progs.json", "w") as f:
             json.dump({
-                "tipoJgdr": jgdr[0], 
-                "nivelJgdr": jgdr[1],
-                "xpJgdr":jgdr[2],
-                "pvJgdr":jgdr[3],
-                "defJgdr":jgdr[4],
-                "esqJgdr":jgdr[5],
-                "atkJgdr":jgdr[6],
-                "danJgdr":jgdr[7],
-                "vlcJgdr":jgdr[8],
-                "srtJgdr":jgdr[9],
+
                 "jefesCant": vic [0],
                 "espinaFlag": vic [1],
                 "espinaDif": vic [2],
@@ -160,71 +154,32 @@ class Game:
 
         charSel = Menus.CharSelectScreen(self.screen)
         lvSel = Menus.LevelSelectScreen(self.screen)
+        difFn = {"Spn":0,"Fn":0,"Pss":0,"Fnl":0,"Miss":0}
 
-        difBase = 0
-        difFin = {"Spn":0, "Fn":0, "Pss":0}
-        bossFlags = {"Spn":False, "Fn":False, "Pss":False, "Fnl":False,"Miss":False}
+        #Cargar Flags de Juego
+        Save.stg_load(lvSel,difFn)
 
-        progs = self._cargar_progs()
-
-        M1 = None
-
-        charType = None
-
-        #Cargar Datos Guardados
-        if progs == None:
-            charType = charSel.runMenu()
-            M1 = getattr(Characters,charType + "DmnManifest")(1)
+        #Cargar Jugador
+        M1 = Save.plyr_load()
+        if M1 == None:
+            M1 = getattr(Characters,charSel.runMenu() + "DmnManifest")(1)
             self._reproducir_cinematica()
-        else:
-            charType = progs["tipoJgdr"]
-            M1 = getattr(Characters,charType + "DmnManifest")(1)
-            M1.set_lv(progs["nivelJgdr"])
-            M1.set_xp(progs["xpJgdr"])
-            M1.set_maxHp(progs["pvJgdr"])
-            M1.set_hp(progs["pvJgdr"])
-            M1.set_defn(progs["defJgdr"])
-            M1.set_evd(progs["esqJgdr"])
-            M1.set_atk(progs["atkJgdr"])
-            M1.set_atkDmg(progs["danJgdr"])
-            M1.set_spd(progs["vlcJgdr"])
-            M1.set_luck(progs["srtJgdr"])
-
-            difBase = progs["jefesCant"]
-
-            difFin["Spn"] = progs["espinaDif"]
-            difFin["Fn"] = progs["serpicoDif"]
-            difFin["Pss"] = progs["corvusDif"]
-
-            bossFlags["Spn"] = progs["espinaFlag"]
-            bossFlags["Fn"] = progs["serpicoFlag"]
-            bossFlags["Pss"] = progs["corvusFlag"]
-            bossFlags["Fnl"] = progs["galaadFlag"]
-            bossFlags["Miss"] = progs["missFlag"]
-
-
-        backUpLvSel = copy.copy(lvSel)
-        lvSel.flag_espina = bossFlags["Spn"]
-        lvSel.flag_serpico = bossFlags["Fn"]
-        lvSel.flag_corvus = bossFlags["Pss"]
-        lvSel.flag_galaad = bossFlags["Fnl"]
-        lvSel.flag_misionero = bossFlags["Miss"]
         
-        selRun = lvSel.runMenu()
-
+        #Correr Menu de Seleccion de Nivel
         while True:
+            Save.plyr_save(M1)
+            Save.stg_save(lvSel,difFn)
+
+            selRun = lvSel.runMenu()
 
             if selRun == "Spn":
 
-                if bossFlags["Spn"]  == False:
+                if lvSel.flag_espina == False:
 
                     #Corremos Inicial de Espina
+                    difFn["Spn"] = lvSel.jefesderrotados
 
-                    difFin["Spn"] = difBase
-                  
-
-                lv = Levels.Level(M1,difFin["Spn"],"Spn")
-
+                lv = Levels.Level(M1,lvSel.flag_espina,"Spn")
                 winState = lv.runLvSq()
 
                 while winState == Levels.WINSTATE["L&Re"]:
@@ -232,22 +187,21 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
 
-                    if bossFlags["Spn"]  == False:
+                    if lvSel.flag_espina  == False:
 
                         #Corremos Final de Espina
-
-                        difBase += 1
-                        bossFlags["Spn"]  = True             
+                        lvSel.jefesderrotados += 1
+                        lvSel.flag_espina = True             
 
             if selRun == "Fn":
 
-                if bossFlags["Fn"] == False:
+                if lvSel.flag_serpico == False:
 
                     #Corremos Inicial de Serpico
 
-                    difFin["Fn"] = difBase
+                    difFn["Fn"] = lvSel.jefesderrotados
 
-                lv = Levels.Level(M1,difFin["Fn"],"Fn")
+                lv = Levels.Level(M1,difFn["Fn"],"Fn")
 
                 winState = lv.runLvSq()
 
@@ -256,22 +210,22 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
 
-                    if bossFlags["Fn"] == False:
+                    if lvSel.flag_serpico == False:
 
                         #Corremos Final de Serpico
 
-                        difBase += 1
-                        bossFlags["Fn"] = True   
+                        lvSel.jefesderrotados += 1
+                        lvSel.flag_serpico = True   
 
             if selRun == "Pss":
 
-                if bossFlags["Pss"] == False:
+                if lvSel.flag_corvus  == False:
 
                     #Corremos Inicial de Corvus
 
-                    difFin["Pss"] = difBase
+                    difFn["Pss"] = lvSel.jefesderrotados
 
-                lv = Levels.Level(M1,difFin["Pss"],"Pss")
+                lv = Levels.Level(M1,difFn["Pss"],"Pss")
 
                 winState = lv.runLvSq()
 
@@ -281,20 +235,20 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
                    
-                   if bossFlags["Pss"] == False:
+                   if lvSel.flag_corvus  == False:
                         
                         #Corremos Final de Corvus
 
-                        difBase += 1
-                        bossFlags["Pss"] = True                   
-
+                        lvSel.jefesderrotados += 1
+                        lvSel.flag_corvus  = True                   
+    
             if selRun == "Fnl":
 
-                if bossFlags["Fnl"] == False:
+                if lvSel.flag_galaad == False:
                     #Corremos Inicial de Galaad
                     pass 
 
-                lv = Levels.Level(M1,difBase,"Fnl")
+                lv = Levels.Level(M1,lvSel.jefesderrotados,"Fnl")
 
                 winState = lv.runLvSq()
 
@@ -303,71 +257,20 @@ class Game:
 
                 if winState == Levels.WINSTATE["GW"]:
 
-                    if bossFlags["Fnl"] == False:
+                    if lvSel.flag_galaad == False:
                             
                             #Corremos Final de Galaad
 
-                            bossFlags["Fnl"] = True                    
+                            lvSel.flag_galaad = True                    
 
-            if selRun == "Miss" or selRun == "Back":
+            if selRun == "Miss":
+                lvSel.flag_misionero = True
+                crdScreen = Menus.Creditos(self.screen)
+                crdScreen.runMenu()
                 break
 
-            print("Copia")
-
-            lvSel = backUpLvSel
-            backUpLvSel = copy.copy(lvSel)
-            lvSel.flag_espina = bossFlags["Spn"]
-            lvSel.flag_serpico = bossFlags["Fn"]
-            lvSel.flag_corvus = bossFlags["Pss"]
-            lvSel.flag_galaad = bossFlags["Fnl"]
-            lvSel.flag_misionero = bossFlags["Miss"]
-
-            pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
-            pygame.mixer.music.play(-1) 
-
-            selRun = lvSel.runMenu()
-            
-
-        if selRun == "Miss":
-
-            #Corremos la cinematica "El Misionero"
-
-            lvSel.flag_misionero = True
-
-            #Corremos los Creditos
-
-            crdScreen = Menus.Creditos(self.screen)
-            crdScreen.runMenu()
-
-
-        #Guardar Datasos
-        JugadorData = [charType,
-                       M1.get_lv(),
-                       M1.get_xp(),
-                       M1.get_bsStatByKey("PV"),
-                       M1.get_bsStatByKey("DEF"),
-                       M1.get_bsStatByKey("ESQ"),
-                       M1.get_bsStatByKey("ATK"),
-                       M1.get_bsStatByKey("DAN"),
-                       M1.get_bsStatByKey("VLC"),
-                       M1.get_bsStatByKey("SRT"),
-                       ]
-        VictoriaData = [difBase,
-                        bossFlags["Spn"] ,
-                        difFin["Spn"],
-                        bossFlags["Fn"],
-                        difFin["Fn"],
-                        bossFlags["Pss"],
-                        difFin["Pss"], 
-                        bossFlags["Fnl"],
-                        lvSel.flag_misionero
-                        ]
-        
-        #print(JugadorData)
-        #print(VictoriaData)
-
-        self._guardar_progs(JugadorData,VictoriaData)
-
+            if selRun == "Back":
+                break
 
         return "MENU"
 
@@ -512,8 +415,8 @@ class Game:
                 if self.arrastrando == "Música":
                     pygame.mixer.music.set_volume(self.sliders["Música"]["value"])
                 if self.arrastrando == "Efectos":
-                    for i in range (1,4):
-                        pygame.mixer.Channel(i).set_volume(self.sliders["Efectos"]["value"])                   
+                    for i in range (4):
+                        pygame.mixer.Channel(i+1).set_volume(self.sliders["Efectos"]["value"])                   
 
         def draw(self):
             super().draw()
@@ -582,6 +485,10 @@ class Game:
 
     # --- Bucle Principal del Juego ---
     def run(self):
+        
+        pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
+        pygame.mixer.music.play(-1)
+
         running = True
         while running:
             if self.current_screen.next_screen:

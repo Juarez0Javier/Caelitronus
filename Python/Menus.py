@@ -10,7 +10,7 @@ import Button
 pygame.init()
 
 
-WIDTH, HEIGHT = 920, 750
+WIDTH, HEIGHT = 920, 720
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 font_Path = r"Assets\\Fonts\\Seagram_Tfb.ttf"
 BTNIMAGE = r"Assets\\BckGrnd\\paperallborder.png"
@@ -451,6 +451,8 @@ class LevelSelectScreen:
 
         stageSelec = None
         self.jefesderrotados = 0
+        self._ExitMode = False
+        
 
         #Trae y muestra los iconos de los jefes
         fondo = pygame.image.load("./Assets/BckGrnd/Nivel.png").convert()
@@ -512,6 +514,7 @@ class LevelSelectScreen:
         but_menu = Button.Button('Salir al Menu Principal',280,50,(595,25))
 
         run = True
+        
 
         while run:
             events = pygame.event.get()
@@ -544,11 +547,14 @@ class LevelSelectScreen:
             
             #Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect.Rect...
             #Dibuja las lineas entre los niveles, y sus variantes, segun cual y cuantos jefes se han derrotado
+           
             screen.blit(fondo,(0,0))
             pygame.draw.rect(screen,'#000000',pygame.Rect(450,200,20,400))
             pygame.draw.rect(screen,'#000000',pygame.Rect(170,485,20,50))
             pygame.draw.rect(screen,'#000000',pygame.Rect(730,485,20,50))
             pygame.draw.rect(screen,'#000000',pygame.Rect(170,485,560,20))
+
+            #Seccion de Serpico
             pygame.draw.rect(screen,'#000000',pygame.Rect(140,535,80,65))
             if(self.flag_serpico == True):
                 pygame.draw.rect(screen,(255,0,0),pygame.Rect(145,540,70,65),5)
@@ -557,6 +563,8 @@ class LevelSelectScreen:
                  pygame.draw.rect(screen,(247,236,36),pygame.Rect(145,540,70,65),5)
             pygame.draw.rect(screen,icon_back_color,icon_serpico_rect)
             screen.blit(icon_serpico,icon_serpico_rect)
+
+            #Seccion de Espina
             pygame.draw.rect(screen,'#000000',pygame.Rect(420,535,80,65))
             if(self.flag_espina == True):
                 pygame.draw.rect(screen,(255,0,0),pygame.Rect(425,540,70,65),5)
@@ -565,6 +573,8 @@ class LevelSelectScreen:
                 pygame.draw.rect(screen,(247,236,36),pygame.Rect(425,540,70,65),5)
             pygame.draw.rect(screen,icon_back_color,icon_espina_rect)
             screen.blit(icon_espina,icon_espina_rect)
+            
+            #Seccion de Corvus
             pygame.draw.rect(screen,'#000000',pygame.Rect(700,535,80,65))
             if(self.flag_corvus == True):
                 pygame.draw.rect(screen,(255,0,0),pygame.Rect(705,540,70,65),5)
@@ -573,6 +583,8 @@ class LevelSelectScreen:
                 pygame.draw.rect(screen,(247,236,36),pygame.Rect(705,540,70,65),5)
             pygame.draw.rect(screen,icon_back_color,icon_corvus_rect)
             screen.blit(icon_corvus,icon_corvus_rect)
+            
+            #Seccion de Galaad
             pygame.draw.rect(screen,'#000000',pygame.Rect(420,260,80,65))
             if(self.flag_galaad == True):
                 pygame.draw.rect(screen,(255,0,0),pygame.Rect(425,265,70,65),5)
@@ -581,6 +593,8 @@ class LevelSelectScreen:
                 pygame.draw.rect(screen,(247,236,36),pygame.Rect(425,265,70,65),5)
             pygame.draw.rect(screen,icon_back_color,icon_galaad_rect)
             screen.blit(icon_galaad,icon_galaad_rect)
+            
+            #Seccion del Misionero
             pygame.draw.rect(screen,'#000000',pygame.Rect(420,35,80,65))
             pygame.draw.rect(screen,(247,236,36),pygame.Rect(425,40,70,65),5)
             pygame.draw.rect(screen,icon_back_color,icon_misionero_rect)
@@ -603,14 +617,17 @@ class LevelSelectScreen:
             but_serpico.draw(screen,True,self.flag_serpico)
             but_espina.draw(screen,True,self.flag_espina)
             but_corvus.draw(screen,True,self.flag_corvus)
+
             if(self.jefesderrotados >= 3):
                 but_galaad.draw(screen,True,self.flag_galaad)
             else:
                 but_galaad.draw(screen,False,self.flag_galaad)
+
             if(self.jefesderrotados >= 4):
                 but_misionero.draw(screen,True,self.flag_misionero)
             else:
                 but_misionero.draw(screen,False,self.flag_misionero)
+            
             but_menu.draw(screen,True,False)
 
             if self._ExitMode == True:
@@ -618,7 +635,8 @@ class LevelSelectScreen:
 
             pygame.display.update()
             clock.tick(30)
-
+            
+        print(self._ExitMode)
         return stageSelec
 
 class CharSelectScreen:
@@ -824,13 +842,3 @@ class Instruct:
 
             pygame.display.update()
             clock.tick(30)
-
-'''
-import Characters
-
-M1 = Characters.AtkDmnManifest(1)
-
-WinScreen = WScreen(SCREEN,M1)
-
-print(WinScreen.runMenu())
-'''
