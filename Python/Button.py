@@ -17,7 +17,7 @@ class Button:
         self.background_img = pygame.image.load("./Assets/BckGrnd/paperallborder.png").convert()
         self.background_img = pygame.transform.scale(self.background_img, (width - 10 , height - 10))
         self.background_rect = self.background_img.get_rect(center = self.border_rect.center)
-        
+
         #Texto por encima (centrado) del Rect anterior
         self.font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 25)
         self.text_text = self.font.render(text,True,'#000000')
@@ -61,5 +61,44 @@ class Button:
                 #Muestra mensaje si el jefe no esta desbloqueado
                 mensaje_rect = pygame.Rect(mouse_pos[0] - 350, mouse_pos[1] - 50, 350, 50)
                 self.popup(screen,"Derrota a todos los Jefes anteriores",mensaje_rect)
+        else:
+            self.border_color = '#000000'
+
+class GlosarioButton(Button):
+    def __init__(self,img,text,width,height,pos):
+
+        #Para pasar a otra pantalla
+        self.clicked = False
+        self.text = text
+        self.img = img
+
+        #Rect principal (borde)
+        self.border_rect = pygame.Rect(pos,(width+10,height+10))
+        self.border_color = '#000000'
+
+        #Imagen dentro del Rect anterior
+        self.background_img = pygame.image.load("./Assets/BckGrnd/paperallborder.png").convert()
+        self.background_img = pygame.transform.scale(self.background_img, (width,height))
+        self.background_rect = self.background_img.get_rect(center = self.border_rect.center)
+
+        #Imagen del boton
+        self.img_scale = pygame.transform.scale(self.img, (width - 5, height-35))
+        self.img_rect = self.img_scale.get_rect(centerx = self.background_rect.centerx,top = self.background_rect.top + 5)
+
+        #Texto por debajo de la imagen
+        self.font = pygame.font.Font("./Assets/Fonts/Seagram_tfb.ttf", 20)
+        self.text_text = self.font.render(self.text,True,'#000000')
+        self.text_rect = self.text_text.get_rect(centerx = self.background_rect.centerx,top = self.img_rect.bottom)
+
+    def draw(self,screen):
+        pygame.draw.rect(screen,self.border_color,self.border_rect,5)
+        screen.blit(self.background_img,self.background_rect)
+        screen.blit(self.img_scale,self.img_rect)
+        screen.blit(self.text_text,self.text_rect)
+        mouse_pos = pygame.mouse.get_pos()
+        if self.border_rect.collidepoint(mouse_pos):
+            self.border_color = (247,236,36)
+            if pygame.mouse.get_pressed()[0]:
+                self.clicked = True
         else:
             self.border_color = '#000000'

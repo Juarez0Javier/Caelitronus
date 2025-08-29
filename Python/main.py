@@ -10,6 +10,7 @@ import Menus
 import Characters
 import Levels
 import Save
+import Glosario
 
 FONTPATH = r"Assets\\Fonts\\Seagram_tfb.ttf"
 
@@ -20,7 +21,7 @@ class Game:
         # Configuración Global
         self.WIDTH, self.HEIGHT = 920, 750  # Tamaño de la ventana
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        pygame.display.set_caption("Caeltronos")
+        pygame.display.set_caption("Caelitronus")
         self.clock = pygame.time.Clock()
 
         # Colores usados en la interfaz
@@ -336,9 +337,10 @@ class Game:
             menu_items_data = [
                 ("COMENZAR PARTIDA", "CINEMATICA_VIDEO", 0),
                 ("INSTRUCCIONES", "INSTRUCCIONES", 60),
-                ("AJUSTES", "AJUSTES", 120),
-                ("CREDITOS", "CREDITOS", 180),
-                ("SALIR", "CONFIRM_QUIT", 240)
+                ("GLOSARIO", "GLOSARIO", 120),
+                ("AJUSTES", "AJUSTES", 180),
+                ("CREDITOS", "CREDITOS", 240),
+                ("SALIR", "CONFIRM_QUIT", 300)
             ]
             self.menu_items = []
             for text, action, y_offset in menu_items_data:
@@ -503,6 +505,17 @@ class Game:
                     self.last_screen_surface = self.screen.copy()
                     instrMenu = Menus.Instruct(self.screen)
                     instrMenu.runMenu()
+                elif next_screen_name == "GLOSARIO":
+                    self.last_screen_surface = self.screen.copy()
+                    glos = Glosario.Glosario(self.screen)
+                    run = True
+                    while run:
+                        boton = glos.runGlosario()
+                        if (boton == False):
+                            run = False
+                        else:
+                            det = Glosario.Detalle(self.screen)
+                            det.runDetalle(boton)
                 elif next_screen_name == "AJUSTES":
                     self.last_screen_surface = self.screen.copy() # Guardar la pantalla actual antes de ir a ajustes
                     self.current_screen = self.AjustesScreen(self.screen, self.clock, self.background_image, self.config, self)
