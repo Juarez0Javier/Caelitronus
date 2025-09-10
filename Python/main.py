@@ -5,6 +5,7 @@ import os
 import time
 import copy
 from moviepy import VideoFileClip
+import cv2 # Importar OpenCV
 
 import Menus
 import Characters
@@ -114,7 +115,61 @@ class Game:
         if current: lines.append(current)
         return [font.render(line, True, color) for line in lines]
 
-    def _reproducir_cinematica(self):
+    def _reproducir_video_intro(self):
+        pygame.mixer.music.stop()  # Detiene la música del juego
+
+        video_path = r"D:\juegos\Caelitronus\Assets\Movie\prologo.mp4" # Asegúrate de que esta ruta sea correcta
+
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened():
+            print("Error: no se pudo abrir el video de introducción.")
+            return "MENU" # Vuelve al menú si el video no se puede abrir
+
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        if fps == 0:
+            fps = 30
+        frame_delay = int(1000 / fps)
+
+        # Ajustar tamaño del video a la ventana del juego
+        resize_width, resize_height = self.WIDTH, self.HEIGHT
+
+        running_video = True
+        while running_video:
+            ret, frame = cap.read()
+            if not ret:
+                break  # Termina si el video se acabó
+
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = cv2.resize(frame, (resize_width, resize_height))
+            frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+
+            self.screen.blit(frame_surface, (0, 0))
+            pygame.display.flip()
+
+            pygame.time.delay(frame_delay)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running_video = False
+                    cap.release()
+                    return "QUIT"
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    running_video = False
+                    cap.release()
+                    return "MENU" # Permite saltar el video con ESC
+
+        cap.release()
+        self.screen.fill((0, 0, 0)) # Limpia la pantalla después del video
+        pygame.display.flip()
+        pygame.time.wait(1000) # Pequeña pausa antes de continuar
+
+        # Reinicia la música del juego después del video
+        pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
+        pygame.mixer.music.play(-1)
+
+        return "CONTINUE_GAME" # Indica que el video terminó y se debe continuar con el juego
+
+    def _reproducir_cinematica(self): # Este método ya no se usará para la intro principal
         pygame.mixer.music.stop()  # Detiene la música
 
         try:
@@ -164,7 +219,7 @@ class Game:
         M1 = Save.plyr_load()
         if M1 == None:
             M1 = getattr(Characters,charSel.runMenu() + "DmnManifest")(1)
-            self._reproducir_cinematica()
+            # self._reproducir_cinematica() # Esta línea se elimina o se ajusta si hay otra cinemática
         
         #Correr Menu de Seleccion de Nivel
         while True:
@@ -526,13 +581,20 @@ class Game:
                     self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después de créditos
 
                 elif next_screen_name == "CINEMATICA_VIDEO":
+                    # Primero reproduce el video de introducción
+                    video_result = self._reproducir_video_intro()
 
-                    result = self._correr_juego()
-
-                    if result == "QUIT":
+                    if video_result == "QUIT":
                         running = False
-                    else:
-                        self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú si la cinemática termina o falla
+                    elif video_result == "MENU":
+                        self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self)
+                    elif video_result == "CONTINUE_GAME":
+                        # Si el video terminó, entonces corre la lógica del juego
+                        game_result = self._correr_juego()
+                        if game_result == "QUIT":
+                            running = False
+                        else:
+                            self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después del juego
                 elif next_screen_name == "CONFIRM_QUIT":
                     self.last_screen_surface = self.screen.copy() # Guardar la pantalla actual antes de la confirmación
                     self.current_screen = self.ConfirmQuitScreen(self.screen, self.clock, self.last_screen_surface, self)
