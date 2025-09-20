@@ -4,14 +4,15 @@ import json
 import os
 import time
 import copy
-from moviepy import VideoFileClip
-import cv2 # Importar OpenCV
+from moviepy import VideoFileClip #reproducir
+import cv2 # Importar OpenCV reproducir
 
 import Menus
 import Characters
 import Levels
 import Save
 import Glosario
+import creditos 
 
 FONTPATH = r"Assets\\Fonts\\Seagram_tfb.ttf"
 
@@ -104,7 +105,7 @@ class Game:
 
     def _render_multiline_text(self, text, font, color, max_width):
         words = text.split(' ')
-        lines, current = [], ""
+        lines, current = [], []
         for word in words:
             test_line = current + (" " if current else "") + word
             if font.render(test_line, True, color).get_width() <= max_width:
@@ -116,64 +117,108 @@ class Game:
         return [font.render(line, True, color) for line in lines]
 
     def _reproducir_video_intro(self):
-        pygame.mixer.music.stop()  # Detiene la música del juego
+     pygame.mixer.music.stop()  # Detiene la música del juego
 
-        video_path = r"D:\juegos\Caelitronus\Assets\Movie\prologo.mp4" # Asegúrate de que esta ruta sea correcta
+     video_path = r"Assets\\Movie\\prologo.mov"
+     audio_path = r"Assets\\Movie\\prologo.wav"
 
-        cap = cv2.VideoCapture(video_path)
-        if not cap.isOpened():
-            print("Error: no se pudo abrir el video de introducción.")
-            return "MENU" # Vuelve al menú si el video no se puede abrir
+     cap = cv2.VideoCapture(video_path)
+     if not cap.isOpened():
+        print("Error: no se pudo abrir el video de introducción.")
+        return "MENU"  # Vuelve al menú si el video no se puede abrir
 
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        if fps == 0:
-            fps = 30
-        frame_delay = int(1000 / fps)
+     # Cargar audio
+     try:
+        audio_sound = pygame.mixer.Sound(audio_path)
+     except pygame.error as e:
+        print(f"Error cargando el audio de introducción: {e}")
+        audio_sound = None
 
-        # Ajustar tamaño del video a la ventana del juego
-        resize_width, resize_height = self.WIDTH, self.HEIGHT
+     fps = cap.get(cv2.CAP_PROP_FPS)
+     if fps == 0:
+        fps = 30
+     frame_duration_ms = 1000 / fps
 
-        running_video = True
-        while running_video:
-            ret, frame = cap.read()
-            if not ret:
-                break  # Termina si el video se acabó
+     resize_width, resize_height = self.WIDTH, self.HEIGHT
 
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = cv2.resize(frame, (resize_width, resize_height))
-            frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
-
-            self.screen.blit(frame_surface, (0, 0))
-            pygame.display.flip()
-
-            pygame.time.delay(frame_delay)
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running_video = False
-                    cap.release()
-                    return "QUIT"
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    running_video = False
-                    cap.release()
-                    return "MENU" # Permite saltar el video con ESC
-
+     # Leer el primer frame antes de iniciar el audio
+     ret, frame = cap.read()
+     if not ret:
         cap.release()
-        self.screen.fill((0, 0, 0)) # Limpia la pantalla después del video
+        return "MENU"
+
+     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+     frame = cv2.resize(frame, (resize_width, resize_height))
+     frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+
+     # Iniciar reproducción del audio justo antes de mostrar el primer frame
+     if audio_sound:
+        channel = pygame.mixer.Channel(0)
+        channel.set_volume(self.config["musica"])
+        channel.play(audio_sound)
+
+     # Mostrar el primer frame
+     self.screen.blit(frame_surface, (0, 0))
+     pygame.display.flip()
+
+     start_time = pygame.time.get_ticks()
+     frame_count = 1  # Ya mostramos el primer frame
+
+     running_video = True
+     while running_video:
+        # Calcular el tiempo que debe transcurrir para el siguiente frame
+        expected_time = start_time + frame_count * frame_duration_ms
+        now = pygame.time.get_ticks()
+        delay = expected_time - now
+        if delay > 0:
+            pygame.time.delay(int(delay))
+
+        ret, frame = cap.read()
+        if not ret:
+            break  # Termina si el video se acabó
+
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.resize(frame, (resize_width, resize_height))
+        frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+
+        self.screen.blit(frame_surface, (0, 0))
         pygame.display.flip()
-        pygame.time.wait(1000) # Pequeña pausa antes de continuar
 
-        # Reinicia la música del juego después del video
-        pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
-        pygame.mixer.music.play(-1)
+        frame_count += 1
 
-        return "CONTINUE_GAME" # Indica que el video terminó y se debe continuar con el juego
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running_video = False
+                cap.release()
+                if audio_sound:
+                    channel.stop()
+                return "QUIT"
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                running_video = False
+                cap.release()
+                if audio_sound:
+                    channel.stop()
+                return "MENU"
+
+     cap.release()
+     if audio_sound:
+        channel.stop()
+     self.screen.fill((0, 0, 0))
+     pygame.display.flip()
+     pygame.time.wait(1000)
+
+     # Reiniciar música de fondo
+     pygame.mixer.music.load(r"Assets\\Music\\Ruins.wav")
+     pygame.mixer.music.play(-1)
+ 
+     return "CONTINUE_GAME"
+
 
     def _reproducir_cinematica(self): # Este método ya no se usará para la intro principal
         pygame.mixer.music.stop()  # Detiene la música
 
         try:
-            clip = VideoFileClip(r"Assets\\Movie\\Prologo.mp4")
+            clip = VideoFileClip(r"Assets\\Movie\\Prologo.mov")
             clip = clip.resize(self.WIDTH, self.HEIGHT)
             fps = clip.fps
             # duration = clip.duration # No se usa
@@ -218,8 +263,15 @@ class Game:
         #Cargar Jugador
         M1 = Save.plyr_load()
         if M1 == None:
+            # Si no hay jugador guardado, reproducir la cinemática de introducción
+            video_result = self._reproducir_video_intro()
+            if video_result == "QUIT":
+                return "QUIT" # Salir del juego si el usuario lo decide durante la cinemática
+            elif video_result == "MENU":
+                return "MENU" # Volver al menú si el usuario lo decide durante la cinemática
+            
+            # Si el video terminó o fue omitido para continuar, permitir la selección de personaje
             M1 = getattr(Characters,charSel.runMenu() + "DmnManifest")(1)
-            # self._reproducir_cinematica() # Esta línea se elimina o se ajusta si hay otra cinemática
         
         #Correr Menu de Seleccion de Nivel
         while True:
@@ -321,8 +373,6 @@ class Game:
 
             if selRun == "Miss":
                 lvSel.flag_misionero = True
-                crdScreen = Menus.Creditos(self.screen)
-                crdScreen.runMenu()
                 break
 
             if selRun == "Back":
@@ -394,7 +444,7 @@ class Game:
                 ("INSTRUCCIONES", "INSTRUCCIONES", 60),
                 ("GLOSARIO", "GLOSARIO", 120),
                 ("AJUSTES", "AJUSTES", 180),
-                ("CREDITOS", "CREDITOS", 240),
+                ("CREDITOS", "CREDITOS", 240), # Mantener esta línea
                 ("SALIR", "CONFIRM_QUIT", 300)
             ]
             self.menu_items = []
@@ -574,27 +624,19 @@ class Game:
                 elif next_screen_name == "AJUSTES":
                     self.last_screen_surface = self.screen.copy() # Guardar la pantalla actual antes de ir a ajustes
                     self.current_screen = self.AjustesScreen(self.screen, self.clock, self.background_image, self.config, self)
-                elif next_screen_name == "CREDITOS":
-                    crdScreen = Menus.Creditos(self.screen)
+                elif next_screen_name == "CREDITOS": # ¡Aquí es donde cambiamos la llamada!
+                    self.last_screen_surface = self.screen.copy()
+                    crdScreen = creditos.CreditosScreen(self.screen) # Usar la nueva clase del nuevo archivo
                     crdScreen.runMenu()
-                    ##print("Mostrando créditos..."); time.sleep(2)
                     self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después de créditos
 
                 elif next_screen_name == "CINEMATICA_VIDEO":
-                    # Primero reproduce el video de introducción
-                    video_result = self._reproducir_video_intro()
-
-                    if video_result == "QUIT":
+                    # La lógica de si reproducir la cinemática o no se ha movido a _correr_juego
+                    game_result = self._correr_juego()
+                    if game_result == "QUIT":
                         running = False
-                    elif video_result == "MENU":
-                        self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self)
-                    elif video_result == "CONTINUE_GAME":
-                        # Si el video terminó, entonces corre la lógica del juego
-                        game_result = self._correr_juego()
-                        if game_result == "QUIT":
-                            running = False
-                        else:
-                            self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después del juego
+                    else:
+                        self.current_screen = self.MenuScreen(self.screen, self.clock, self.background_image, self.font_renderer_menu, self) # Volver al menú después del juego
                 elif next_screen_name == "CONFIRM_QUIT":
                     self.last_screen_surface = self.screen.copy() # Guardar la pantalla actual antes de la confirmación
                     self.current_screen = self.ConfirmQuitScreen(self.screen, self.clock, self.last_screen_surface, self)
