@@ -12,11 +12,10 @@ extends Control
 @onready var label_final = $LabelFinal
 
 const FONT_NORMAL := 56
-const FONT_HOVER := 40
+const FONT_HOVER := 46
 const COLOR_NORMAL := Color("#f8f5cb")
 const COLOR_HOVER := Color("#afad95")
 
-var estado := 0
 var esperando_input := false
 
 func _ready():
@@ -42,27 +41,16 @@ func _on_hover_exit(btn: Button):
 	btn.scale = Vector2.ONE
 
 func _on_btnsi_pressed():
-	estado += 1
-	saturar_musica()
+	fondo.modulate = Color.BLACK
+	cuadro.visible = false
+	musica.stop()
 
-	match estado:
-		1:
-			texto.text = "seguro????????"
-			btnsi.scale = Vector2(0.7, 0.7)
-			btnno.scale = Vector2(1.2, 1.2)
-			fondo.modulate = Color("#200000")
+	label_final.text = "no eres digno de luchar por en
+	el trono marica"
+	label_final.visible = true
 
-		2:
-			fondo.modulate = Color.BLACK
-			cuadro.visible = false
-			musica.stop()
-
-			label_final.text = "no eres digno de luchar por en 
-			el conclave marica"
-			label_final.visible = true
-
-			await get_tree().create_timer(4.0).timeout
-			get_tree().quit()
+	await get_tree().create_timer(3.0).timeout
+	get_tree().quit()
 
 func _on_btnno_pressed():
 	cuadro.visible = false
@@ -78,9 +66,6 @@ func saturar_musica():
 	var vol := AudioServer.get_bus_volume_db(bus)
 	AudioServer.set_bus_volume_db(bus, vol + 4)
 
-# -------------------------
-# VOLVER AL MENU
-# -------------------------
 func _input(event):
 	if esperando_input and (
 		event.is_action_pressed("ui_accept")

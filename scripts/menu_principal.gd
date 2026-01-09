@@ -66,7 +66,7 @@ func _on_btncontinuar_pressed():
 func _on_bntcomenzar_pressed():
 	if FileAccess.file_exists("user://save.dat"):
 		DirAccess.remove_absolute("user://save.dat")
-	get_tree().change_scene_to_file("res://scenes/juego.tscn")
+	get_tree().change_scene_to_file("res://scenes/cinematica_inicio.tscn")
 
 func _on_bntajustes_pressed():
 	get_tree().change_scene_to_file("res://scenes/ajustes.tscn")
