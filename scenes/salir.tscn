@@ -23,8 +23,8 @@ grow_vertical = 2
 script = ExtResource("1_ocyn2")
 
 [node name="fondo" type="TextureRect" parent="."]
-modulate = Color(0.67543423, 0.6591436, 0.67000407, 1)
-self_modulate = Color(0.67543423, 0.67543423, 0.67543423, 1)
+modulate = Color(0.36817428, 0.3282616, 0.3961132, 1)
+self_modulate = Color(0.5997847, 0.48450378, 0.46885246, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -84,6 +84,7 @@ theme_override_constants/separation = 150
 
 [node name="btnsi" type="Button" parent="HBox"]
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("4_7vr8x")
 theme_override_font_sizes/font_size = 56
 text = "si"
@@ -91,6 +92,7 @@ flat = true
 
 [node name="btnno" type="Button" parent="HBox"]
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("4_7vr8x")
 theme_override_font_sizes/font_size = 56
 text = "no"
@@ -98,6 +100,8 @@ flat = true
 
 [node name="MusicaSalir" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_cgkft")
+volume_db = 12.0
+pitch_scale = 0.41
 autoplay = true
 bus = &"Music"
 
@@ -107,7 +111,7 @@ volume_db = -1.0
 bus = &"SFX"
 
 [node name="TimerCerrar" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 3.0
 
 [node name="LabelFinal" type="Label" parent="."]
 layout_mode = 1
