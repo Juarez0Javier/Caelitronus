@@ -13,6 +13,5 @@ func _on_video_finished():
 	get_tree().change_scene_to_file("res://scenes/juego.tscn")
 
 func _input(event):
-	# Saltear con espacio o click
 	if event.is_action_pressed("ui_accept") or event is InputEventMouseButton:
 		get_tree().change_scene_to_file("res://scenes/juego.tscn")
