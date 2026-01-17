@@ -129,6 +129,15 @@ Juarez"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Link" type="Button" parent="Desarrolladores/Javier" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
+
 [node name="Matias" type="TextureRect" parent="Desarrolladores"]
 custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
@@ -157,6 +166,15 @@ text = "Matias
 Diaz"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Link" type="Button" parent="Desarrolladores/Matias" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Adrian" type="TextureRect" parent="Desarrolladores"]
 custom_minimum_size = Vector2(208, 256)
@@ -187,6 +205,15 @@ Briosso"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Link" type="Button" parent="Desarrolladores/Adrian" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
+
 [node name="Matute" type="TextureRect" parent="Desarrolladores"]
 custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
@@ -214,6 +241,15 @@ theme_override_font_sizes/font_size = 32
 text = "Matute"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Link" type="Button" parent="Desarrolladores/Matute" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Uriel" type="TextureRect" parent="Desarrolladores"]
 custom_minimum_size = Vector2(208, 0)
@@ -244,7 +280,17 @@ Lara"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Link" type="Button" parent="Desarrolladores/Uriel" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
+
 [node name="Voces" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_top = 310.0
 offset_right = 1152.0
@@ -281,6 +327,15 @@ Fiori"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Link" type="Button" parent="Voces/Anto" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
+
 [node name="Lucio" type="TextureRect" parent="Voces"]
 custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
@@ -308,6 +363,15 @@ theme_override_font_sizes/font_size = 32
 text = "Lucio Verdier"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Link" type="Button" parent="Voces/Lucio" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Thiago" type="TextureRect" parent="Voces"]
 custom_minimum_size = Vector2(208, 256)
@@ -338,6 +402,15 @@ Ferraro"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Link" type="Button" parent="Voces/Thiago" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
+
 [node name="Joaquin" type="TextureRect" parent="Voces"]
 custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
@@ -365,6 +438,15 @@ theme_override_font_sizes/font_size = 32
 text = "Matute"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Link" type="Button" parent="Voces/Joaquin" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Uriel" type="TextureRect" parent="Voces"]
 custom_minimum_size = Vector2(208, 0)
@@ -395,6 +477,15 @@ Iglesias"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Link" type="Button" parent="Voces/Uriel" groups=["LinkPersonal"]]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 213.0
+offset_bottom = 293.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
+
 [node name="Atras" type="Button" parent="."]
 layout_mode = 0
 offset_left = 10.0
@@ -403,7 +494,6 @@ offset_right = 158.0
 offset_bottom = 78.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
-script = ExtResource("5_2ove7")
 
 [node name="Fondo" type="TextureRect" parent="Atras"]
 layout_mode = 0
@@ -425,11 +515,6 @@ theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 40
 text = "Atras"
 horizontal_alignment = 1
-
-[node name="HoverSound" type="AudioStreamPlayer" parent="Atras"]
-stream = ExtResource("11_n1vwi")
-volume_db = -1.0
-bus = &"SFX"
 
 [node name="Links" type="Button" parent="."]
 layout_mode = 0
@@ -494,8 +579,23 @@ volume_db = -3.0
 autoplay = true
 bus = &"Music"
 
+[node name="HoverSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_n1vwi")
+volume_db = -1.0
+bus = &"SFX"
+
+[connection signal="mouse_entered" from="Desarrolladores/Javier/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Desarrolladores/Matias/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Desarrolladores/Adrian/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Desarrolladores/Matute/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Desarrolladores/Uriel/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Voces/Anto/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Voces/Lucio/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Voces/Thiago/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Voces/Joaquin/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Voces/Uriel/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Atras" to="." method="_on_link_mouse_entered"]
 [connection signal="pressed" from="Atras" to="." method="_on_atras_pressed"]
-[connection signal="pressed" from="Atras" to="Atras" method="_on_pressed"]
 [connection signal="pressed" from="Links" to="." method="_on_links_pressed"]
 [connection signal="pressed" from="ButtonDer" to="." method="_on_button_der_pressed"]
 [connection signal="pressed" from="ButtonIzq" to="." method="_on_button_izq_pressed"]
