@@ -1,22 +1,23 @@
-[gd_scene load_steps=20 format=3 uid="uid://cntg2uoiu5u5x"]
+[gd_scene load_steps=21 format=3 uid="uid://cntg2uoiu5u5x"]
 
-[ext_resource type="Script" uid="uid://xcxlc3h4s55u" path="res://scripts/creditos.gd" id="1_idjxt"]
+[ext_resource type="Script" uid="uid://bft701nfh11r4" path="res://scripts/creditos.gd" id="1_idjxt"]
 [ext_resource type="Texture2D" uid="uid://buu016yjlw7su" path="res://assets/BckGrnd/Nivel.png" id="1_spoww"]
 [ext_resource type="FontFile" uid="uid://cpv7bwckc7nqu" path="res://assets/Fonts/Seagram_tfb.ttf" id="2_ul0vb"]
 [ext_resource type="Texture2D" uid="uid://c8m4k5tnnhfda" path="res://assets/BckGrnd/paperallborder.png" id="3_idjxt"]
-[ext_resource type="Texture2D" uid="uid://d0bgtqglubdak" path="res://assets/credit/Javier.png" id="4_ufadv"]
+[ext_resource type="Texture2D" uid="uid://bneqv0dwag2ma" path="res://assets/credit/Javier.png" id="4_ufadv"]
 [ext_resource type="Script" uid="uid://b8yohj6agvbay" path="res://scripts/btnvolver.gd" id="5_2ove7"]
-[ext_resource type="Texture2D" uid="uid://c2mdfwxgep28x" path="res://assets/credit/matias.png" id="6_3ghxt"]
-[ext_resource type="Texture2D" uid="uid://l7jtp66nor1v" path="res://assets/credit/adrian.png" id="7_n1vwi"]
-[ext_resource type="Texture2D" uid="uid://c4y15pwgydo8n" path="res://assets/credit/matu.png" id="8_ouidq"]
-[ext_resource type="Texture2D" uid="uid://cnhs7tbwyb3uo" path="res://assets/credit/uri.png" id="9_206h8"]
+[ext_resource type="Texture2D" uid="uid://c6l7la6cvbqe6" path="res://assets/credit/matias.png" id="6_3ghxt"]
+[ext_resource type="Texture2D" uid="uid://l7jtp66nor1v" path="res://assets/credit/adrian.png" id="7_06cy4"]
+[ext_resource type="Texture2D" uid="uid://cjhr53v2r30e" path="res://assets/credit/matu.png" id="8_ouidq"]
+[ext_resource type="Texture2D" uid="uid://cnhs7tbwyb3uo" path="res://assets/credit/uri.png" id="9_5dhh5"]
 [ext_resource type="AudioStream" uid="uid://b42nd1ocqfu1s" path="res://assets/Sounds/Fantasy_Game_Weapons_Wood Shield_1_Block_Defend_Buckler_Deflect.wav" id="11_n1vwi"]
-[ext_resource type="Texture2D" uid="uid://dslqu3vgvkyhw" path="res://assets/credit/anto.png" id="12_86gda"]
-[ext_resource type="Texture2D" uid="uid://c02h76kj5qa4r" path="res://assets/credit/lucio.png" id="13_lo4rr"]
-[ext_resource type="Texture2D" uid="uid://c0w13ae4d3kf3" path="res://assets/credit/thiago.png" id="14_06cy4"]
-[ext_resource type="Texture2D" uid="uid://bxve1ki2wx5dn" path="res://assets/credit/juaco.png" id="15_5dhh5"]
+[ext_resource type="Texture2D" uid="uid://83ok324g7k5k" path="res://assets/credit/anto.png" id="12_86gda"]
+[ext_resource type="Texture2D" uid="uid://cyyn2ww3kst4u" path="res://assets/credit/lucio.png" id="13_lo4rr"]
+[ext_resource type="Texture2D" uid="uid://bifdgvhgfwo3i" path="res://assets/credit/thiago.png" id="14_06cy4"]
+[ext_resource type="Texture2D" uid="uid://buujdn5qaymwc" path="res://assets/credit/juaco.png" id="15_5dhh5"]
 [ext_resource type="Texture2D" uid="uid://dnlj1wukc7ad3" path="res://assets/Icons/der.png" id="16_06cy4"]
 [ext_resource type="Texture2D" uid="uid://0v8cge6fmk2k" path="res://assets/Icons/izq.png" id="17_5dhh5"]
+[ext_resource type="AudioStream" uid="uid://b3x4xja0k3xl7" path="res://assets/Music/Ruins.wav" id="18_5dhh5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrn2f"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -48,6 +49,7 @@ anchors_preset = 0
 script = ExtResource("1_idjxt")
 
 [node name="Fondo" type="TextureRect" parent="."]
+modulate = Color(0.90413505, 0.76640046, 0.667267, 1)
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -58,7 +60,7 @@ expand_mode = 1
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 100.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.37096417, 0.25877044, 0.002510452, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 40
 text = "CREDITOS"
@@ -70,7 +72,7 @@ layout_mode = 0
 offset_top = 100.0
 offset_right = 1152.0
 offset_bottom = 205.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.37254903, 0.25882354, 0.003921569, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 36
 text = "Caelitonus - Trono Celestial
@@ -83,7 +85,7 @@ layout_mode = 0
 offset_top = 200.0
 offset_right = 1152.0
 offset_bottom = 300.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.37254903, 0.25882354, 0.003921569, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 34
 text = "DESARROLLADORES"
@@ -107,22 +109,23 @@ expand_mode = 1
 [node name="TextureRect" type="TextureRect" parent="Desarrolladores/Javier"]
 layout_mode = 0
 offset_left = 4.0
-offset_top = 8.0
-offset_right = 504.0
-offset_bottom = 508.0
+offset_top = 63.999992
+offset_right = 506.0
+offset_bottom = 601.49994
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("4_ufadv")
 
 [node name="Label" type="Label" parent="Desarrolladores/Javier"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = -20.0
+offset_top = 1.0
+offset_right = 220.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Javier Juarez"
+theme_override_font_sizes/font_size = 32
+text = "Javier
+Juarez"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -134,23 +137,24 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Desarrolladores/Matias"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 504.0
-offset_bottom = 508.0
+offset_left = -20.999998
+offset_top = 44.000015
+offset_right = 538.99994
+offset_bottom = 634.99994
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("6_3ghxt")
 
 [node name="Label" type="Label" parent="Desarrolladores/Matias"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 1.0
+offset_top = 11.0
+offset_right = 197.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Matias Diaz"
+theme_override_font_sizes/font_size = 32
+text = "Matias 
+Diaz"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -162,23 +166,24 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Desarrolladores/Adrian"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 504.0
-offset_bottom = 508.0
+offset_left = 3.0
+offset_top = 80.99999
+offset_right = 503.0
+offset_bottom = 581.0
 scale = Vector2(0.4, 0.4)
-texture = ExtResource("7_n1vwi")
+texture = ExtResource("7_06cy4")
 
 [node name="Label" type="Label" parent="Desarrolladores/Adrian"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 2.0
+offset_top = 11.0
+offset_right = 198.0
+offset_bottom = 96.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Adrian Briosso"
+theme_override_font_sizes/font_size = 32
+text = "Adrian 
+Briosso"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -190,22 +195,22 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Desarrolladores/Matute"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 504.0
-offset_bottom = 508.0
+offset_left = 6.0
+offset_top = 51.000015
+offset_right = 506.0
+offset_bottom = 628.49994
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("8_ouidq")
 
 [node name="Label" type="Label" parent="Desarrolladores/Matute"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 11.0
+offset_top = 5.0
+offset_right = 207.0
+offset_bottom = 69.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Matute"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -218,28 +223,28 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Desarrolladores/Uriel"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 504.0
-offset_bottom = 508.0
+offset_left = 6.0
+offset_top = 76.99999
+offset_right = 506.0
+offset_bottom = 577.0
 scale = Vector2(0.4, 0.4)
-texture = ExtResource("9_206h8")
+texture = ExtResource("9_5dhh5")
 
 [node name="Label" type="Label" parent="Desarrolladores/Uriel"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 210.0
+offset_bottom = 93.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Uriel Lara"
+theme_override_font_sizes/font_size = 32
+text = "Uriel 
+Lara"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Voces" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_top = 310.0
 offset_right = 1152.0
@@ -255,23 +260,24 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Voces/Anto"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 504.0
-offset_bottom = 508.0
+offset_left = -19.999998
+offset_top = 67.000015
+offset_right = 539.99994
+offset_bottom = 601.99994
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("12_86gda")
 
 [node name="Label" type="Label" parent="Voces/Anto"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = -3.0
+offset_top = 7.0
+offset_right = 193.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Anto Fiori"
+theme_override_font_sizes/font_size = 32
+text = "Anto 
+Fiori"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -283,22 +289,22 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Voces/Lucio"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 510.0
-offset_bottom = 585.0
+offset_left = 5.0
+offset_top = 65.0
+offset_right = 537.43243
+offset_bottom = 642.0
 scale = Vector2(0.37, 0.37)
 texture = ExtResource("13_lo4rr")
 
 [node name="Label" type="Label" parent="Voces/Lucio"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 199.0
+offset_bottom = 66.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Lucio Verdier"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -311,23 +317,24 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Voces/Thiago"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 8.0
-offset_right = 504.0
-offset_bottom = 508.0
+offset_left = 19.0
+offset_top = 61.999996
+offset_right = 519.0
+offset_bottom = 639.0
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("14_06cy4")
 
 [node name="Label" type="Label" parent="Voces/Thiago"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 206.0
+offset_bottom = 69.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Thiago Ferraro"
+theme_override_font_sizes/font_size = 32
+text = "Thiago 
+Ferraro"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -339,23 +346,23 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Voces/Joaquin"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = -24.0
-offset_right = 510.0
-offset_bottom = 642.0
+offset_left = 4.0
+offset_top = 46.999996
+offset_right = 536.4325
+offset_bottom = 675.1622
 scale = Vector2(0.37, 0.37)
-texture = ExtResource("15_5dhh5")
+texture = ExtResource("8_ouidq")
 
 [node name="Label" type="Label" parent="Voces/Joaquin"]
 layout_mode = 0
 offset_left = 6.0
-offset_top = 212.0
+offset_top = -2.0
 offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Joaquin Iglesias"
+theme_override_font_sizes/font_size = 32
+text = "Matute"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -367,23 +374,24 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="Voces/Uriel"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 10.0
-offset_right = 504.0
-offset_bottom = 510.0
+offset_left = 9.0
+offset_top = 14.0
+offset_right = 509.0
+offset_bottom = 680.0
 scale = Vector2(0.4, 0.4)
-texture = ExtResource("8_ouidq")
+texture = ExtResource("15_5dhh5")
 
 [node name="Label" type="Label" parent="Voces/Uriel"]
 layout_mode = 0
-offset_left = 6.0
-offset_top = 212.0
-offset_right = 202.0
-offset_bottom = 276.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_left = 9.0
+offset_top = 4.0
+offset_right = 205.0
+offset_bottom = 89.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Matute"
+theme_override_font_sizes/font_size = 32
+text = "Joaquin 
+Iglesias"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -428,7 +436,7 @@ layout_mode = 0
 offset_left = 950.0
 offset_top = 10.0
 offset_right = 1142.0
-offset_bottom = 88.0
+offset_bottom = 122.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 script = ExtResource("5_2ove7")
@@ -437,8 +445,8 @@ script = ExtResource("5_2ove7")
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
-offset_right = 187.0
-offset_bottom = 73.0
+offset_right = 188.0
+offset_bottom = 108.0
 texture = ExtResource("3_idjxt")
 expand_mode = 1
 
@@ -446,13 +454,13 @@ expand_mode = 1
 layout_mode = 0
 offset_left = 6.0
 offset_top = 4.0
-offset_right = 186.0
-offset_bottom = 73.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+offset_right = 188.0
+offset_bottom = 109.0
+theme_override_colors/font_color = Color(0.627451, 0.52156866, 0.105882354, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 24
-text = "Links de 
-Servetesio Studio"
+theme_override_font_sizes/font_size = 40
+text = "Servetesio 
+Studio"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -480,8 +488,14 @@ offset_bottom = 282.0
 icon = ExtResource("17_5dhh5")
 flat = true
 
-[connection signal="pressed" from="Atras" to="Atras" method="_on_pressed"]
+[node name="musica" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_5dhh5")
+volume_db = -3.0
+autoplay = true
+bus = &"Music"
+
 [connection signal="pressed" from="Atras" to="." method="_on_atras_pressed"]
+[connection signal="pressed" from="Atras" to="Atras" method="_on_pressed"]
 [connection signal="pressed" from="Links" to="." method="_on_links_pressed"]
 [connection signal="pressed" from="ButtonDer" to="." method="_on_button_der_pressed"]
 [connection signal="pressed" from="ButtonIzq" to="." method="_on_button_izq_pressed"]
