@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://b8yohj6agvbay" path="res://scripts/btnvolver.gd" id="5_2ove7"]
 [ext_resource type="Texture2D" uid="uid://c6l7la6cvbqe6" path="res://assets/credit/matias.png" id="6_3ghxt"]
 [ext_resource type="Texture2D" uid="uid://l7jtp66nor1v" path="res://assets/credit/adrian.png" id="7_06cy4"]
-[ext_resource type="Texture2D" uid="uid://cjhr53v2r30e" path="res://assets/credit/matu.png" id="8_ouidq"]
+[ext_resource type="Texture2D" uid="uid://bl0flil3itppl" path="res://assets/credit/matu.png" id="8_ouidq"]
 [ext_resource type="Texture2D" uid="uid://cnhs7tbwyb3uo" path="res://assets/credit/uri.png" id="9_5dhh5"]
 [ext_resource type="AudioStream" uid="uid://b42nd1ocqfu1s" path="res://assets/Sounds/Fantasy_Game_Weapons_Wood Shield_1_Block_Defend_Buckler_Deflect.wav" id="11_n1vwi"]
 [ext_resource type="Texture2D" uid="uid://83ok324g7k5k" path="res://assets/credit/anto.png" id="12_86gda"]
@@ -60,9 +60,9 @@ expand_mode = 1
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 100.0
-theme_override_colors/font_color = Color(0.37096417, 0.25877044, 0.002510452, 1)
+theme_override_colors/font_color = Color(0.9995722, 0.8720149, 0.66100925, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 50
 text = "CREDITOS"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -72,7 +72,7 @@ layout_mode = 0
 offset_top = 100.0
 offset_right = 1152.0
 offset_bottom = 205.0
-theme_override_colors/font_color = Color(0.37254903, 0.25882354, 0.003921569, 1)
+theme_override_colors/font_color = Color(1, 0.87058824, 0.6627451, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 36
 text = "Caelitonus - Trono Celestial
@@ -85,7 +85,7 @@ layout_mode = 0
 offset_top = 200.0
 offset_right = 1152.0
 offset_bottom = 300.0
-theme_override_colors/font_color = Color(0.37254903, 0.25882354, 0.003921569, 1)
+theme_override_colors/font_color = Color(1, 0.87058824, 0.6627451, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 34
 text = "DESARROLLADORES"
@@ -135,6 +135,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -173,6 +174,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -211,6 +213,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -248,6 +251,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -286,6 +290,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -333,6 +338,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -370,6 +376,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -408,6 +415,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -445,6 +453,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -457,9 +466,9 @@ expand_mode = 1
 [node name="TextureRect" type="TextureRect" parent="Voces/Uriel"]
 layout_mode = 0
 offset_left = 9.0
-offset_top = 14.0
+offset_top = 80.4
 offset_right = 509.0
-offset_bottom = 680.0
+offset_bottom = 580.4
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("15_5dhh5")
 
@@ -483,6 +492,7 @@ offset_left = -5.0
 offset_top = -5.0
 offset_right = 213.0
 offset_bottom = 293.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
@@ -530,8 +540,8 @@ script = ExtResource("5_2ove7")
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
-offset_right = 188.0
-offset_bottom = 108.0
+offset_right = 187.0
+offset_bottom = 107.0
 texture = ExtResource("3_idjxt")
 expand_mode = 1
 
@@ -560,6 +570,7 @@ offset_left = 888.0
 offset_top = 210.0
 offset_right = 960.0
 offset_bottom = 282.0
+focus_mode = 0
 icon = ExtResource("16_06cy4")
 flat = true
 
@@ -570,6 +581,7 @@ offset_left = 192.0
 offset_top = 210.0
 offset_right = 264.0
 offset_bottom = 282.0
+focus_mode = 0
 icon = ExtResource("17_5dhh5")
 flat = true
 
