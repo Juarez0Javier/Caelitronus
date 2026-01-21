@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cntg2uoiu5u5x"]
+[gd_scene load_steps=36 format=3 uid="uid://cntg2uoiu5u5x"]
 
 [ext_resource type="Script" uid="uid://bft701nfh11r4" path="res://scripts/creditos.gd" id="1_idjxt"]
 [ext_resource type="Texture2D" uid="uid://buu016yjlw7su" path="res://assets/BckGrnd/Nivel.png" id="1_spoww"]
@@ -31,6 +31,18 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8cmxa"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.14509805, 0.7058824, 0.14117648, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ghxt"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 5
@@ -38,6 +50,174 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0.8923443, 0.80483663, 0.14891264, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_onbuc"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvgel"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wt48b"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.12156863, 0.88235295, 0.7764706, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xg8qp"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rugb1"]
+bg_color = Color(0.6, 0.6, 0.6, 0.011764706)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.15686275, 0.26666668, 0.6, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f2a5c"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.12156863, 0.88235295, 0.7764706, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bs8hc"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ppa0q"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dhh5"]
+bg_color = Color(0.6, 0.6, 0.6, 0.003921569)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0006938975, 0.00069389783, 0.00069389667, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vhsq"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.7841144, 0, 0.1278002, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_als81"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.89411765, 0.8039216, 0.14901961, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5vbh"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sw4pk"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1uep5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.89411765, 0.8039216, 0.14901961, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -61,6 +241,7 @@ layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 100.0
 theme_override_colors/font_color = Color(0.9995722, 0.8720149, 0.66100925, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 50
 text = "CREDITOS"
@@ -73,6 +254,7 @@ offset_top = 100.0
 offset_right = 1152.0
 offset_bottom = 205.0
 theme_override_colors/font_color = Color(1, 0.87058824, 0.6627451, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9843137)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 36
 text = "Caelitonus - Trono Celestial
@@ -86,6 +268,7 @@ offset_top = 200.0
 offset_right = 1152.0
 offset_bottom = 300.0
 theme_override_colors/font_color = Color(1, 0.87058824, 0.6627451, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_ul0vb")
 theme_override_font_sizes/font_size = 34
 text = "DESARROLLADORES"
@@ -93,6 +276,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Desarrolladores" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_top = 310.0
 offset_right = 1152.0
@@ -137,6 +321,7 @@ offset_right = 213.0
 offset_bottom = 293.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8cmxa")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Matias" type="TextureRect" parent="Desarrolladores"]
@@ -176,6 +361,7 @@ offset_right = 213.0
 offset_bottom = 293.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_onbuc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Adrian" type="TextureRect" parent="Desarrolladores"]
@@ -215,6 +401,7 @@ offset_right = 213.0
 offset_bottom = 293.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xvgel")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Matute" type="TextureRect" parent="Desarrolladores"]
@@ -253,6 +440,7 @@ offset_right = 213.0
 offset_bottom = 293.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wt48b")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Uriel" type="TextureRect" parent="Desarrolladores"]
@@ -292,10 +480,10 @@ offset_right = 213.0
 offset_bottom = 293.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xg8qp")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Voces" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_top = 310.0
 offset_right = 1152.0
@@ -340,6 +528,7 @@ offset_right = 213.0
 offset_bottom = 293.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rugb1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Lucio" type="TextureRect" parent="Voces"]
@@ -419,13 +608,13 @@ focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
-[node name="Joaquin" type="TextureRect" parent="Voces"]
+[node name="matute" type="TextureRect" parent="Voces"]
 custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
 texture = ExtResource("3_idjxt")
 expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="Voces/Joaquin"]
+[node name="TextureRect" type="TextureRect" parent="Voces/matute"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 46.999996
@@ -434,7 +623,7 @@ offset_bottom = 675.1622
 scale = Vector2(0.37, 0.37)
 texture = ExtResource("8_ouidq")
 
-[node name="Label" type="Label" parent="Voces/Joaquin"]
+[node name="Label" type="Label" parent="Voces/matute"]
 layout_mode = 0
 offset_left = 6.0
 offset_top = -2.0
@@ -447,7 +636,7 @@ text = "Matute"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Link" type="Button" parent="Voces/Joaquin" groups=["LinkPersonal"]]
+[node name="Link" type="Button" parent="Voces/matute" groups=["LinkPersonal"]]
 layout_mode = 0
 offset_left = -5.0
 offset_top = -5.0
@@ -455,15 +644,16 @@ offset_right = 213.0
 offset_bottom = 293.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_f2a5c")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
-[node name="Uriel" type="TextureRect" parent="Voces"]
+[node name="Joaquin" type="TextureRect" parent="Voces"]
 custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
 texture = ExtResource("3_idjxt")
 expand_mode = 1
 
-[node name="TextureRect" type="TextureRect" parent="Voces/Uriel"]
+[node name="TextureRect" type="TextureRect" parent="Voces/Joaquin"]
 layout_mode = 0
 offset_left = 9.0
 offset_top = 80.4
@@ -472,7 +662,7 @@ offset_bottom = 580.4
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("15_5dhh5")
 
-[node name="Label" type="Label" parent="Voces/Uriel"]
+[node name="Label" type="Label" parent="Voces/Joaquin"]
 layout_mode = 0
 offset_left = 9.0
 offset_top = 4.0
@@ -486,7 +676,7 @@ Iglesias"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Link" type="Button" parent="Voces/Uriel" groups=["LinkPersonal"]]
+[node name="Link" type="Button" parent="Voces/Joaquin" groups=["LinkPersonal"]]
 layout_mode = 0
 offset_left = -5.0
 offset_top = -5.0
@@ -502,7 +692,9 @@ offset_left = 10.0
 offset_top = 10.0
 offset_right = 158.0
 offset_bottom = 78.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bs8hc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Fondo" type="TextureRect" parent="Atras"]
@@ -532,7 +724,9 @@ offset_left = 950.0
 offset_top = 10.0
 offset_right = 1142.0
 offset_bottom = 122.0
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lrn2f")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ppa0q")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 script = ExtResource("5_2ove7")
 
@@ -568,11 +762,30 @@ bus = &"SFX"
 layout_mode = 0
 offset_left = 888.0
 offset_top = 210.0
-offset_right = 960.0
+offset_right = 968.0
 offset_bottom = 282.0
 focus_mode = 0
-icon = ExtResource("16_06cy4")
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxFlat_5dhh5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8vhsq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_als81")
+
+[node name="Fondo" type="TextureRect" parent="ButtonDer"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 75.0
+offset_bottom = 67.0
+texture = ExtResource("3_idjxt")
+expand_mode = 1
+
+[node name="Fondo2" type="TextureRect" parent="ButtonDer"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 71.0
+offset_bottom = 65.0
+texture = ExtResource("16_06cy4")
+expand_mode = 1
 
 [node name="ButtonIzq" type="Button" parent="."]
 visible = false
@@ -582,8 +795,27 @@ offset_top = 210.0
 offset_right = 264.0
 offset_bottom = 282.0
 focus_mode = 0
-icon = ExtResource("17_5dhh5")
-flat = true
+theme_override_styles/normal = SubResource("StyleBoxFlat_d5vbh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sw4pk")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1uep5")
+
+[node name="Fondo" type="TextureRect" parent="ButtonIzq"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 67.0
+offset_bottom = 67.0
+texture = ExtResource("3_idjxt")
+expand_mode = 1
+
+[node name="Fondo2" type="TextureRect" parent="ButtonIzq"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 68.0
+offset_bottom = 65.0
+texture = ExtResource("17_5dhh5")
+expand_mode = 1
 
 [node name="musica" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("18_5dhh5")
@@ -596,6 +828,11 @@ stream = ExtResource("11_n1vwi")
 volume_db = -1.0
 bus = &"SFX"
 
+[node name="HoverSound" type="AudioStreamPlayer" parent="HoverSound"]
+stream = ExtResource("11_n1vwi")
+volume_db = -1.0
+bus = &"SFX"
+
 [connection signal="mouse_entered" from="Desarrolladores/Javier/Link" to="." method="_on_link_mouse_entered"]
 [connection signal="mouse_entered" from="Desarrolladores/Matias/Link" to="." method="_on_link_mouse_entered"]
 [connection signal="mouse_entered" from="Desarrolladores/Adrian/Link" to="." method="_on_link_mouse_entered"]
@@ -604,8 +841,8 @@ bus = &"SFX"
 [connection signal="mouse_entered" from="Voces/Anto/Link" to="." method="_on_link_mouse_entered"]
 [connection signal="mouse_entered" from="Voces/Lucio/Link" to="." method="_on_link_mouse_entered"]
 [connection signal="mouse_entered" from="Voces/Thiago/Link" to="." method="_on_link_mouse_entered"]
+[connection signal="mouse_entered" from="Voces/matute/Link" to="." method="_on_link_mouse_entered"]
 [connection signal="mouse_entered" from="Voces/Joaquin/Link" to="." method="_on_link_mouse_entered"]
-[connection signal="mouse_entered" from="Voces/Uriel/Link" to="." method="_on_link_mouse_entered"]
 [connection signal="mouse_entered" from="Atras" to="." method="_on_link_mouse_entered"]
 [connection signal="pressed" from="Atras" to="." method="_on_atras_pressed"]
 [connection signal="pressed" from="Links" to="." method="_on_links_pressed"]

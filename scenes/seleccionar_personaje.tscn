@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cqn5eke30ryu"]
+[gd_scene load_steps=23 format=3 uid="uid://cqn5eke30ryu"]
 
 [ext_resource type="Texture2D" uid="uid://buu016yjlw7su" path="res://assets/BckGrnd/Nivel.png" id="1_8ajux"]
 [ext_resource type="Script" uid="uid://dv1po6ndd3wa6" path="res://scripts/seleccionar_personaje.gd" id="1_qf4rk"]
@@ -18,6 +18,18 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6hxcj"]
+bg_color = Color(0.015686275, 0.015686275, 0.015686275, 0.39607844)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -47,6 +59,18 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_568h8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pquok"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 5
@@ -66,6 +90,18 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r4h0o"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -95,6 +131,18 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tjg0h"]
+bg_color = Color(0.6, 0.6, 0.6, 0.023529412)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tun08"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 5
@@ -117,6 +165,7 @@ grow_vertical = 2
 script = ExtResource("1_qf4rk")
 
 [node name="Fondo" type="TextureRect" parent="."]
+modulate = Color(0.99999994, 0.8835174, 0.74313426, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.001
@@ -139,6 +188,7 @@ custom_minimum_size = Vector2(260, 460)
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_qf4rk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6hxcj")
 theme_override_styles/hover = SubResource("StyleBoxFlat_rfjjs")
 
 [node name="Fondo" type="TextureRect" parent="Personajes/PJ_pena"]
@@ -178,6 +228,7 @@ custom_minimum_size = Vector2(260, 460)
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_dr5ty")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_568h8")
 theme_override_styles/hover = SubResource("StyleBoxFlat_pquok")
 toggle_mode = true
 
@@ -218,6 +269,7 @@ custom_minimum_size = Vector2(260, 460)
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_gnysc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_r4h0o")
 theme_override_styles/hover = SubResource("StyleBoxFlat_yppg1")
 
 [node name="Fondo" type="TextureRect" parent="Personajes/PJ_ego"]
@@ -284,7 +336,8 @@ autowrap_mode = 2
 
 [node name="musica" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_rfjjs")
-volume_db = -3.0
+volume_db = 2.41
+pitch_scale = 0.98
 autoplay = true
 bus = &"Music"
 
@@ -301,6 +354,7 @@ offset_right = 991.784
 offset_bottom = 523.944
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_x6bg5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tjg0h")
 theme_override_styles/hover = SubResource("StyleBoxFlat_tun08")
 script = ExtResource("9_dr5ty")
 

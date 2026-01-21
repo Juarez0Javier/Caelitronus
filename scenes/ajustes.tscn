@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c2oyq3ropmkte"]
+[gd_scene load_steps=13 format=3 uid="uid://c2oyq3ropmkte"]
 
 [ext_resource type="Script" uid="uid://y4hv76jfdsq" path="res://scripts/ajustes.gd" id="1_7snau"]
 [ext_resource type="FontFile" uid="uid://cpv7bwckc7nqu" path="res://assets/Fonts/Seagram_tfb.ttf" id="2_dxi4a"]
@@ -17,6 +17,18 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nv4yc"]
+bg_color = Color(0.6, 0.6, 0.6, 0.011764706)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.78431374, 0, 0.12941177, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -75,6 +87,7 @@ theme_override_constants/separation = 15
 [node name="music" type="Label" parent="opciones"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.86315715, 0.84186804, 0.68762344, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_dxi4a")
 theme_override_font_sizes/font_size = 40
 text = "Musica"
@@ -83,11 +96,13 @@ horizontal_alignment = 1
 [node name="SliderMusica" type="HSlider" parent="opciones"]
 modulate = Color(0.7791886, 0.7833376, 0.51790667, 1)
 layout_mode = 2
+focus_mode = 0
 value = 50.0
 
 [node name="Efectos" type="Label" parent="opciones"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.86315715, 0.84186804, 0.68762344, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_dxi4a")
 theme_override_font_sizes/font_size = 40
 text = "Efectos"
@@ -124,6 +139,7 @@ offset_right = 11.783997
 offset_bottom = 9.943993
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_jg833")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nv4yc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_o5kyp")
 script = ExtResource("4_nv4yc")
 
