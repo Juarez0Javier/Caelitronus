@@ -1,9 +1,8 @@
 extends Control
 
-
-@onready var pj_pena = $Personajes/Pj_pena
-@onready var pj_ira = $Personajes/Pj_ira
-@onready var pj_ego = %Personajes/Pj_ego
+@onready var pj_pena = $Personajes/PJ_pena
+@onready var pj_ira = $Personajes/PJ_ira
+@onready var pj_ego = $Personajes/PJ_ego
 
 @onready var panel_info = $PanelInfo
 @onready var titulo = $PanelInfo/Titulo
@@ -11,17 +10,28 @@ extends Control
 
 @onready var btn_seleccionar = $BtnSeleccionar
 
+@onready var hover_sound = $HoverSound
+
 var personaje_actual: String = ""
 
 func _ready() -> void:
 	panel_info.visible = false
 	btn_seleccionar.disabled = true
 
-	pj_pena.pressed.connect(_on_pj_pena_pressed)
-	pj_ira.pressed.connect(_on_pj_ira_pressed)
-	pj_ego.pressed.connect(_on_pj_ego_pressed)
+	pj_pena.mouse_entered.connect(_on_hover)
+	pj_ira.mouse_entered.connect(_on_hover)
+	pj_ego.mouse_entered.connect(_on_hover)
+
+	#pj_pena.pressed.connect(_on_pj_pena_pressed)
+	#pj_ira.pressed.connect(_on_pj_ira_pressed)
+	#pj_ego.pressed.connect(_on_pj_ego_pressed)
 
 	btn_seleccionar.pressed.connect(_on_btn_seleccionar_pressed)
+
+func _on_hover() -> void:
+	if hover_sound.playing:
+		hover_sound.stop()
+	hover_sound.play()
 
 func _on_pj_pena_pressed() -> void:
 	seleccionar_personaje("pena")
