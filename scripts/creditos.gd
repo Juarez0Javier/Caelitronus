@@ -41,7 +41,7 @@ func _on_link_pressed(id) -> void:
 		"Javier":
 			OS.shell_open("https://www.linkedin.com/in/javier-david-juarez/")
 		"Matias":
-			OS.shell_open("https://linktr.ee/ServentesioStudios")
+			OS.shell_open("https://tredarnos.itch.io/")
 		"Adrian":
 			OS.shell_open("https://www.linkedin.com/in/adrianrobertobriosso/")
 		"Matute":
