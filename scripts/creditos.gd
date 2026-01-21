@@ -39,13 +39,13 @@ func _on_button_izq_pressed() -> void:
 func _on_link_pressed(id) -> void:
 	match id:
 		"Javier":
-			OS.shell_open("https://linktr.ee/ServentesioStudios")
+			OS.shell_open("https://www.linkedin.com/in/javier-david-juarez/")
 		"Matias":
 			OS.shell_open("https://linktr.ee/ServentesioStudios")
 		"Adrian":
-			OS.shell_open("https://linktr.ee/ServentesioStudios")
+			OS.shell_open("https://www.linkedin.com/in/adrianrobertobriosso/")
 		"Matute":
-			OS.shell_open("https://linktr.ee/ServentesioStudios")
+			OS.shell_open("https://linktr.ee/Matute.fk2")
 		"Uriel":
 			OS.shell_open("https://www.linkedin.com/in/urielara")
 		"Anto":
