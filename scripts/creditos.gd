@@ -1,26 +1,32 @@
 extends Control
 
+@onready var hover_sound = $HoverSound
 
 func _ready():
 	for button in get_tree().get_nodes_in_group("LinkPersonal"):
 		button.pressed.connect(_on_link_pressed.bind(button.get_parent().name))
 
+	# SOLO esto se agrega ↓
+	$ButtonIzq.mouse_entered.connect(_on_hover)
+	$ButtonDer.mouse_entered.connect(_on_hover)
+
+func _on_hover() -> void:
+	if hover_sound.playing:
+		hover_sound.stop()
+	hover_sound.play()
 
 func _on_atras_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/menu_principal.tscn")
 
-
 func _on_links_pressed() -> void:
 	OS.shell_open("https://linktr.ee/ServentesioStudios")
 
-
 func _on_button_der_pressed() -> void:
-	$Tipo.text = "ACTORES DE VOZ"
+	$Tipo.text = "ACTORES \nDE VOZ"
 	$ButtonDer.hide()
 	$Desarrolladores.hide()
 	$Voces.show()
 	$ButtonIzq.show()
-
 
 func _on_button_izq_pressed() -> void:
 	$Tipo.text = "DESARROLLADORES"
@@ -29,7 +35,7 @@ func _on_button_izq_pressed() -> void:
 	$ButtonDer.show()
 	$Desarrolladores.show()
 
-
+# ⚠️ ESTA FUNCIÓN NO SE TOCA
 func _on_link_pressed(id) -> void:
 	match id:
 		"Javier":
@@ -41,7 +47,7 @@ func _on_link_pressed(id) -> void:
 		"Matute":
 			OS.shell_open("https://linktr.ee/ServentesioStudios")
 		"Uriel":
-			OS.shell_open("https://linktr.ee/ServentesioStudios")
+			OS.shell_open("https://www.linkedin.com/in/urielara")
 		"Anto":
 			OS.shell_open("https://linktr.ee/ServentesioStudios")
 		"Lucio":
@@ -50,9 +56,6 @@ func _on_link_pressed(id) -> void:
 			OS.shell_open("https://linktr.ee/ServentesioStudios")
 		"Joaquin":
 			OS.shell_open("https://linktr.ee/ServentesioStudios")
-		"Uriel":
-			OS.shell_open("https://linktr.ee/ServentesioStudios")
 
-			
 func _on_link_mouse_entered() -> void:
-	$HoverSound.play()
+	hover_sound.play()
