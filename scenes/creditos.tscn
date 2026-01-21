@@ -61,7 +61,7 @@ border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.78431374, 0, 0.12941177, 1)
+border_color = Color(1, 0.38431373, 0, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -73,7 +73,7 @@ border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.78431374, 0, 0.12941177, 1)
+border_color = Color(0.6156863, 0, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -276,7 +276,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Desarrolladores" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_top = 310.0
 offset_right = 1152.0
@@ -484,6 +483,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_xg8qp")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ghxt")
 
 [node name="Voces" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_top = 310.0
 offset_right = 1152.0
